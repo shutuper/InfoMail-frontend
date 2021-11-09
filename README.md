@@ -1,4 +1,5 @@
-# InfomailFrontend
+# Infomail Frontend
+![InfoMail-logo](https://imgur.com/EyQPoMx.png)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.1.
 
