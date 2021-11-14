@@ -27,7 +27,7 @@ export class AuthenticationService {
   }
 
   tryToAuthenticate(userCredentials: User) {
-
+    console.log("Trying to Authenticate")
     this.http
       .post(`${this.apiServerUrl}/api/v1/authenticate`, userCredentials, {observe: 'response'})
       .subscribe({
