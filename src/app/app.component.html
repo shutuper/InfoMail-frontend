@@ -7,14 +7,14 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<div *ngIf="authService.hasAuthToken(); then user_page_content else welcome_page_content"></div>
+<div *ngIf="authService.hasAuthToken(); then main_page_content else welcome_page_content"></div>
 
 <ng-template #welcome_page_content>
   <app-welcome-page></app-welcome-page>
 </ng-template>
 
-<ng-template #user_page_content>
-  <app-email-form></app-email-form>
+<ng-template #main_page_content>
+  <app-main-page></app-main-page>
 </ng-template>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
