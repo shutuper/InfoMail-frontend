@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "./service/auth.service";
+import {AuthenticationService} from "./service/authentication.service";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import {AuthService} from "./service/auth.service";
 export class AppComponent implements OnInit {
   title = 'infomail-frontend';
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthenticationService) { }
 
   ngOnInit(): void {
     if(! this.authService.hasAuthToken()) {
