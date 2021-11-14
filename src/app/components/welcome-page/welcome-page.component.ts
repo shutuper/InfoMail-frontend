@@ -16,5 +16,12 @@ export class WelcomePageComponent implements OnInit {
 
   onLogin() {
 
+    const userCredentials: User = {
+      email: "myUser@gmail.com",
+      "password": "12345678"
+    }
+
+    this.authService.tryToAuthenticate(userCredentials);
+
   }
 }
