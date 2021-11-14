@@ -12,11 +12,13 @@ import {CalendarModule} from "primeng/calendar";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {InputTextModule} from "primeng/inputtext";
+import {WelcomePageComponent} from "./components/welcome-page/welcome-page.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmailFormComponent
+    EmailFormComponent,
+    WelcomePageComponent
   ],
   imports: [
     BrowserModule,
