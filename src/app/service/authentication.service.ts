@@ -42,4 +42,9 @@ export class AuthenticationService {
         }
       });
   }
+
+  logout(): void {
+    localStorage.removeItem("token");
+    console.log("Token removed from localStorage")
+  }
 }
