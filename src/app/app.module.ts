@@ -13,12 +13,14 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {InputTextModule} from "primeng/inputtext";
 import {WelcomePageComponent} from "./components/welcome-page/welcome-page.component";
+import {MainPageComponent} from './components/main-page/main-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmailFormComponent,
-    WelcomePageComponent
+    WelcomePageComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
