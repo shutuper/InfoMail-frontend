@@ -20,11 +20,9 @@ export class AuthenticationService {
     localStorage.setItem("token", token);
   }
 
-  getAuthToken(): string | null{
-    if(localStorage.getItem("token") !== null) {
-      throw "Token not found";
-    }
-    return localStorage.getItem("token");
+  getAuthToken(): string{
+    const tokenAtStorage = localStorage.getItem("token");
+    return tokenAtStorage !== null ? tokenAtStorage : '';
   }
 
   tryToAuthenticate(userCredentials: User) {
