@@ -7,7 +7,6 @@ import {AuthenticationService} from "./authentication.service";
 @Injectable({providedIn: 'root'})
 export class EmailService {
   private apiServerUrl = environment.apiBaseUrl;
-  public authorizationToken = environment.authorizationToken;
 
   constructor(
     private http: HttpClient,
