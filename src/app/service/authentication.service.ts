@@ -1,12 +1,10 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {User} from "../model/user";
-import {environment} from "../../environments/environment";
 import {UserService} from "./user.service";
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
-  private apiServerUrl = environment.apiBaseUrl
 
   constructor(
     private http: HttpClient, private userService: UserService
@@ -28,7 +26,7 @@ export class AuthenticationService {
   tryToAuthenticate(userCredentials: User) {
     console.log("Trying to Authenticate")
     this.http
-      .post(`${this.apiServerUrl}/api/v1/authenticate`, userCredentials, {observe: 'response'})
+      .post(`/api/v1/authenticate`, userCredentials, {observe: 'response'})
       .subscribe({
         next: (response: HttpResponse<any>) => {
           const token: string | null = response.headers.get('Authorization');
