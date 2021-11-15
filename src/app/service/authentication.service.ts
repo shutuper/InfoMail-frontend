@@ -47,6 +47,7 @@ export class AuthenticationService {
   logout(): void {
     localStorage.removeItem("token");
     console.log("Token removed from localStorage")
-    this.userService.userEmail = null;
+    console.log("Clean user email in userService")
+    this.userService.userEmail = '';
   }
 }

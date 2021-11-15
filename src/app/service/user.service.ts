@@ -2,14 +2,14 @@ import {Injectable} from "@angular/core";
 
 @Injectable({providedIn: 'root'})
 export class UserService {
-  private _userEmail: string | null = null;
+  private _userEmail: string = '';
 
-  get userEmail(): string | null {
+
+  get userEmail(): string {
     return this._userEmail;
   }
 
-  set userEmail(value: string | null) {
+  set userEmail(value: string) {
     this._userEmail = value;
   }
-
 }
