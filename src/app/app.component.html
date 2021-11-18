@@ -7,7 +7,7 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<div *ngIf="authService.hasAuthToken(); then main_page_content else welcome_page_content"></div>
+<div *ngIf="hasAuthToken(); then main_page_content else welcome_page_content"></div>
 
 <ng-template #welcome_page_content>
   <app-welcome-page></app-welcome-page>

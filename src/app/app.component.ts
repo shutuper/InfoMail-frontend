@@ -9,7 +9,11 @@ import {AuthenticationService} from "./service/authentication.service";
 export class AppComponent implements OnInit {
   title = 'infomail-frontend';
 
-  constructor(public authService: AuthenticationService) { }
+  constructor(private authService: AuthenticationService) { }
+
+  hasAuthToken(): boolean {
+    return this.authService.hasAuthToken();
+  }
 
   ngOnInit(): void {
     if(! this.authService.hasAuthToken()) {
