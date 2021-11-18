@@ -1,1 +1,11 @@
-<p>page-head works!</p>
+<p-menubar>
+  <ng-template pTemplate="start">
+    <p-button styleClass="p-button-text">
+      <p class="text-3xl w-10 m-0">InfoMail</p>
+    </p-button>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <p-button label="Log in" class="mr-2" styleClass="p-button-link"></p-button>
+    <button pButton pRipple type="button" label="Sign up" class="p-button-rounded"></button>
+  </ng-template>
+</p-menubar>

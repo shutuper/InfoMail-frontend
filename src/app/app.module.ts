@@ -15,6 +15,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {WelcomePageComponent} from "./components/welcome-page/welcome-page.component";
 import {MainPageComponent} from './components/main-page/main-page.component';
 import {PageHeadComponent} from './components/page-head/page-head.component';
+import {MenubarModule} from "primeng/menubar";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {PageHeadComponent} from './components/page-head/page-head.component';
     InputSwitchModule,
     CalendarModule,
     InputTextareaModule,
-    InputTextModule
+    InputTextModule,
+    MenubarModule
 
   ],
   providers: [],
