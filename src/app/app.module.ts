@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {AppComponent} from './app.component';
 import {EmailFormComponent} from "./components/emailForm/email-form.component";
@@ -17,6 +17,10 @@ import {MainPageComponent} from './components/main-page/main-page.component';
 import {PageHeadComponent} from './components/page-head/page-head.component';
 import {MenubarModule} from "primeng/menubar";
 import {LogInFormComponent} from './components/log-in-form/log-in-form.component';
+import {ApiInterceptor} from "./service/api.interceptor";
+import {AuthenticationService} from "./service/authentication.service";
+import {EmailService} from "./service/email.service";
+import {UserService} from "./service/user.service";
 
 @NgModule({
   declarations: [
@@ -43,7 +47,16 @@ import {LogInFormComponent} from './components/log-in-form/log-in-form.component
     MenubarModule
 
   ],
-  providers: [],
+  providers: [
+    AuthenticationService,
+    EmailService,
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
