@@ -16,6 +16,7 @@ import {WelcomePageComponent} from "./components/welcome-page/welcome-page.compo
 import {MainPageComponent} from './components/main-page/main-page.component';
 import {PageHeadComponent} from './components/page-head/page-head.component';
 import {MenubarModule} from "primeng/menubar";
+import {LogInFormComponent} from './components/log-in-form/log-in-form.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {MenubarModule} from "primeng/menubar";
     EmailFormComponent,
     WelcomePageComponent,
     MainPageComponent,
-    PageHeadComponent
+    PageHeadComponent,
+    LogInFormComponent
   ],
   imports: [
     BrowserModule,
