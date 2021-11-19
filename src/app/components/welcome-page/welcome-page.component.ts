@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from "../../model/user";
-import {AuthenticationService} from "../../service/authentication.service";
 
 @Component({
   selector: 'app-welcome-page',
@@ -9,19 +7,9 @@ import {AuthenticationService} from "../../service/authentication.service";
 })
 export class WelcomePageComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
 
-  onLogin() {
-
-    const userCredentials: User = {
-      "email": "testUser2@gmail.com",
-      "password": "myPassword1222"
-    }
-
-    this.authService.tryToAuthenticate(userCredentials);
-
-  }
 }

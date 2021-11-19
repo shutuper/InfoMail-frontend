@@ -16,8 +16,9 @@ export class ApiInterceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       tap({
         error: (err: HttpErrorResponse) => {
-          if(err.status === 403) this.logout();
-          if(err.status === 503) this.openErrorPage("Can't connect to server");
+          console.log("errr", err)
+          if(err.status > 500) this.openErrorPage("Can't connect to server");
+          if(err.status > 400) this.logout();
         }
       })
     );
@@ -34,7 +35,7 @@ export class ApiInterceptor implements HttpInterceptor {
   }
 
   private openErrorPage(message: string) {
-    console.error(message)
+    console.log(message);
 
     console.log("Navigate to Error page");
     this.router.navigate(['error']);
