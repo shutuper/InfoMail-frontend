@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AppComponent} from './app.component';
 import {EmailFormComponent} from "./components/emailForm/email-form.component";
 import {ButtonModule} from "primeng/button";
@@ -21,6 +21,8 @@ import {UserService} from "./service/user.service";
 import {HomePageComponent} from './components/home-page/home-page.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {ErrorPageComponent} from './components/error-page/error-page.component';
+import {LoginFormComponent} from './components/login-form/login-form.component';
+import {PasswordModule} from "primeng/password";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import {ErrorPageComponent} from './components/error-page/error-page.component';
     EmailFormComponent,
     WelcomePageComponent,
     HomePageComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +39,7 @@ import {ErrorPageComponent} from './components/error-page/error-page.component';
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    ReactiveFormsModule,
 
     ButtonModule,
     DialogModule,
@@ -44,7 +48,8 @@ import {ErrorPageComponent} from './components/error-page/error-page.component';
     CalendarModule,
     InputTextareaModule,
     InputTextModule,
-    MenubarModule
+    MenubarModule,
+    PasswordModule
 
   ],
   providers: [
