@@ -1,7 +1,13 @@
-<p>{{this.userEmail}} welcome to Home Page</p>
-<div>
-  <p-button (click)="onLogout()" label="Logout"></p-button>
-</div>
-<div>
-  <app-email-form></app-email-form>
+<div class="surface-50">
+  <div class="flex justify-content-between flex-wrap">
+    <div class="flex align-items-center justify-content-center">
+      <p-button styleClass="p-button-text">
+        <p class="text-3xl w-10 my-0">InfoMail</p>
+      </p-button>
+    </div>
+    <div class="flex align-items-center justify-content-center">
+      <p class="text-primary font-normal mr-2">{{this.userEmail}}</p>
+      <p-button (click)="onLogout()" label="Logout" class="mr-2" styleClass="p-button-link"></p-button>
+    </div>
+  </div>
 </div>
