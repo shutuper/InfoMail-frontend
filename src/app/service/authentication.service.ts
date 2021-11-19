@@ -2,36 +2,15 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {User} from "../model/user";
 import {Observable} from "rxjs";
-import {Router} from "@angular/router";
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
 
-  constructor(
-    private http: HttpClient, private router: Router
-  ){}
+  constructor(private http: HttpClient){}
 
   public hasAuthToken(): boolean {
     const tokenAtStorage = localStorage.getItem("token");
     return tokenAtStorage !== null && tokenAtStorage !== '';
-  }
-
-  public checkIsAuthTokenActual(): void {
-    if(! this.hasAuthToken()) {
-      console.log("Navigate to welcome page");
-      this.router.navigate(['welcome']);
-      return;
-    }
-
-    this.sendTestRequest().subscribe({
-      error: (err: HttpErrorResponse) => {
-        if(err.status == 504) console.log("Can't connect to server", err);
-        if(err.status == 403) {
-          console.log("Can't authenticate", err);
-          this.logout();
-        }
-      }
-    });
   }
 
   private setAuthToken(token: string): void {
@@ -54,7 +33,7 @@ export class AuthenticationService {
           else {
             this.setAuthToken(token);
 
-            this.router.navigate(['home']);
+            //this.router.navigateByUrl('')
             console.log("Navigate to home page")
           }
         },
@@ -75,8 +54,5 @@ export class AuthenticationService {
   public logout(): void {
     console.log("Remove token from localStorage");
     localStorage.removeItem("token");
-
-    console.log("Navigate to welcome page");
-    this.router.navigate(['welcome']);
   }
 }
