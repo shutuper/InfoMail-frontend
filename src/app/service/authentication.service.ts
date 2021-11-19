@@ -2,12 +2,13 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {User} from "../model/user";
 import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient, private router: Router
   ){}
 
   public hasAuthToken(): boolean {
@@ -40,7 +41,10 @@ export class AuthenticationService {
   }
 
   public logout(): void {
+    console.log("Remove token from localStorage");
     localStorage.removeItem("token");
-    console.log("Token removed from localStorage")
+
+    console.log("Navigate to welcome page");
+    this.router.navigate(['welcome']);
   }
 }
