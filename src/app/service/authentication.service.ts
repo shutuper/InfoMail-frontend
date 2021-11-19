@@ -1,13 +1,13 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {User} from "../model/user";
-import {UserService} from "./user.service";
+import {Observable} from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
 
   constructor(
-    private http: HttpClient, private userService: UserService
+    private http: HttpClient
   ){}
 
   public hasAuthToken(): boolean {
@@ -18,34 +18,29 @@ export class AuthenticationService {
     localStorage.setItem("token", token);
   }
 
-  getAuthToken(): string{
+  public getAuthToken(): string {
     const tokenAtStorage = localStorage.getItem("token");
     return tokenAtStorage !== null ? tokenAtStorage : '';
   }
 
-  tryToAuthenticate(userCredentials: User) {
+  public tryToAuthenticate(userCredentials: User) {
     console.log("Trying to Authenticate")
-    this.http
-      .post(`/api/v1/authenticate`, userCredentials, {observe: 'response'})
-      .subscribe({
-        next: (response: HttpResponse<any>) => {
-          const token: string | null = response.headers.get('Authorization');
+    this.sendUserCredentials(userCredentials).subscribe({
+        next: (res) => {
+          const token: string | null = res.headers.get('Authorization');
           if (token === null) {console.error("Token not exists");}
           else {this.setAuthToken(token);}
         },
-        error: (e) => console.error("Credentials Bad"),
-        complete: () => {
-          console.log("Auth success, token added to localStorage")
-          console.log("Setup user email in userService")
-          this.userService.userEmail = userCredentials.email
-        }
+        error: (e) => console.error("error when tryToAuthenticate", e)
       });
   }
 
-  logout(): void {
+  private sendUserCredentials(userCredentials: User): Observable<HttpResponse<any>> {
+    return this.http.post(`/api/v1/authenticate`, userCredentials, {observe: 'response'});
+  }
+
+  public logout(): void {
     localStorage.removeItem("token");
     console.log("Token removed from localStorage")
-    console.log("Clean user email in userService")
-    this.userService.userEmail = '';
   }
 }
