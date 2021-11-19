@@ -22,6 +22,7 @@ import {EmailService} from "./service/email.service";
 import {UserService} from "./service/user.service";
 import {HomePageComponent} from './components/home-page/home-page.component';
 import {AppRoutingModule} from "./app-routing.module";
+import {ErrorPageComponent} from './components/error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {AppRoutingModule} from "./app-routing.module";
     WelcomePageComponent,
     PageHeadComponent,
     LogInFormComponent,
-    HomePageComponent
+    HomePageComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,
