@@ -48,10 +48,19 @@ export class AuthenticationService {
     this.sendUserCredentials(userCredentials).subscribe({
         next: (res) => {
           const token: string | null = res.headers.get('Authorization');
-          if (token === null) {console.error("Token not exists");}
-          else {this.setAuthToken(token);}
+
+          if (token === null) {
+            console.error("Token not exits in response");}
+          else {
+            this.setAuthToken(token);
+
+            this.router.navigate(['home']);
+            console.log("Navigate to home page")
+          }
         },
-        error: (e) => console.error("error when tryToAuthenticate", e)
+        error: (err: HttpErrorResponse) => {
+          console.error("error when try to authenticate", err)
+        }
       });
   }
 
