@@ -21,6 +21,7 @@ import {ApiInterceptor} from "./service/api.interceptor";
 import {AuthenticationService} from "./service/authentication.service";
 import {EmailService} from "./service/email.service";
 import {UserService} from "./service/user.service";
+import {HomePageComponent} from './components/home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {UserService} from "./service/user.service";
     WelcomePageComponent,
     MainPageComponent,
     PageHeadComponent,
-    LogInFormComponent
+    LogInFormComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
