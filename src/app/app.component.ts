@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from "./service/authentication.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -10,18 +9,9 @@ import {Router} from "@angular/router";
 export class AppComponent implements OnInit {
   title = 'infomail-frontend';
 
-  constructor(private authService: AuthenticationService, private router: Router) { }
-
-  hasAuthToken(): boolean {
-    return this.authService.hasAuthToken();
-  }
+  constructor(private authService: AuthenticationService) { }
 
   ngOnInit(): void {
-    if(! this.authService.hasAuthToken()) {
-      console.log("Not Authorization user")
-      this.router.navigate(['welcome']);
-    }
-
-    this.router.navigate(['home']);
+    this.authService.checkIsAuthTokenActual()
   }
 }
