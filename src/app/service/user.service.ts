@@ -1,15 +1,15 @@
 import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {User} from "../model/user";
+import {Observable} from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class UserService {
-  private _userEmail: string = '';
 
+  constructor(private http: HttpClient){}
 
-  get userEmail(): string {
-    return this._userEmail;
+  getUsersEmail(): Observable<User>{
+    return this.http.get<User>(`/api/v1/users/email`);
   }
 
-  set userEmail(value: string) {
-    this._userEmail = value;
-  }
 }
