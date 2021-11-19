@@ -47,10 +47,6 @@ export class AuthenticationService {
     return this.http.post(`/api/v1/authenticate`, userCredentials, {observe: 'response'});
   }
 
-  public sendTestRequest(): Observable<any> {
-    return this.http.get('api/v1/registration/sayHi', {observe: 'response'});
-  }
-
   public logout(): void {
     console.log("Remove token from localStorage");
     localStorage.removeItem("token");
