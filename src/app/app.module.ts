@@ -22,6 +22,7 @@ import {AuthenticationService} from "./service/authentication.service";
 import {EmailService} from "./service/email.service";
 import {UserService} from "./service/user.service";
 import {HomePageComponent} from './components/home-page/home-page.component';
+import {AppRoutingModule} from "./app-routing.module";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {HomePageComponent} from './components/home-page/home-page.component';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
 
     ButtonModule,
     DialogModule,
