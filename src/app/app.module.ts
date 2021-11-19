@@ -13,7 +13,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {InputTextModule} from "primeng/inputtext";
 import {WelcomePageComponent} from "./components/welcome-page/welcome-page.component";
-import {MainPageComponent} from './components/main-page/main-page.component';
 import {PageHeadComponent} from './components/page-head/page-head.component';
 import {MenubarModule} from "primeng/menubar";
 import {LogInFormComponent} from './components/log-in-form/log-in-form.component';
@@ -29,7 +28,6 @@ import {AppRoutingModule} from "./app-routing.module";
     AppComponent,
     EmailFormComponent,
     WelcomePageComponent,
-    MainPageComponent,
     PageHeadComponent,
     LogInFormComponent,
     HomePageComponent
