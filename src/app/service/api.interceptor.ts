@@ -15,11 +15,7 @@ export class ApiInterceptor implements HttpInterceptor {
       });
       return next.handle(authReq).pipe(
         tap({
-          error: (e) => {
-            console.log(e);
-            console.log("Authorization Token is Bad, auto logout")
-            this.authService.logout();
-          }
+          error: (e) => console.log("error when intercept", e)
         })
       );
     }
