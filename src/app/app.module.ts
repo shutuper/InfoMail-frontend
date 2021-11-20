@@ -23,6 +23,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {ErrorPageComponent} from './components/error-page/error-page.component';
 import {LoginFormComponent} from './components/login-form/login-form.component';
 import {PasswordModule} from "primeng/password";
+import {RippleModule} from "primeng/ripple";
 
 @NgModule({
   declarations: [
@@ -33,25 +34,26 @@ import {PasswordModule} from "primeng/password";
     ErrorPageComponent,
     LoginFormComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
 
-    ButtonModule,
-    DialogModule,
-    ChipsModule,
-    InputSwitchModule,
-    CalendarModule,
-    InputTextareaModule,
-    InputTextModule,
-    MenubarModule,
-    PasswordModule
+        ButtonModule,
+        DialogModule,
+        ChipsModule,
+        InputSwitchModule,
+        CalendarModule,
+        InputTextareaModule,
+        InputTextModule,
+        MenubarModule,
+        PasswordModule,
+        RippleModule
 
-  ],
+    ],
   providers: [
     AuthenticationService,
     EmailService,

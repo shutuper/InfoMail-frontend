@@ -14,7 +14,8 @@ export class LoginFormComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
 
-  constructor(private authService: AuthenticationService, private router: Router) { }
+  constructor(private authService: AuthenticationService, private router: Router) {
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -34,6 +35,10 @@ export class LoginFormComponent implements OnInit {
     this.tryToAuthenticate(user);
   }
 
+  showValidity(controleName: string) {
+    return this.form.controls[controleName].invalid && this.form.controls[controleName].dirty;
+  }
+
   public tryToAuthenticate(userCredentials: User) {
     console.log("Trying to Authenticate")
 
@@ -42,14 +47,16 @@ export class LoginFormComponent implements OnInit {
         const token: string | null = res.headers.get('Authorization');
         if (token !== null) {
           this.authService.setAuthToken(token);
+
+          console.log("User is authenticated");
           this.router.navigate(['']);
-        }
-        else this.openErrorPage("Token not exits in response");
+
+        } else this.openErrorPage("Token not exits in response");
       },
       error: (err: HttpErrorResponse) => {
         console.log("errr", err)
-        if(err.status > 500) this.openErrorPage("Can't connect to server");
-        if(err.status > 400) this.form.reset();
+        if (err.status > 500) this.openErrorPage("Can't connect to server");
+        if (err.status > 400) this.form.reset();
       }
     });
   }
