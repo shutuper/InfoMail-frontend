@@ -24,6 +24,7 @@ import {ErrorPageComponent} from './components/error-page/error-page.component';
 import {LoginFormComponent} from './components/login-form/login-form.component';
 import {PasswordModule} from "primeng/password";
 import {RippleModule} from "primeng/ripple";
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {RippleModule} from "primeng/ripple";
     WelcomePageComponent,
     HomePageComponent,
     ErrorPageComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    HeaderComponent
   ],
     imports: [
         BrowserModule,
