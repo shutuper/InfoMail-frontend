@@ -24,7 +24,8 @@ import {ErrorPageComponent} from './components/error-page/error-page.component';
 import {LoginFormComponent} from './components/login-form/login-form.component';
 import {PasswordModule} from "primeng/password";
 import {RippleModule} from "primeng/ripple";
-import { HeaderComponent } from './components/header/header.component';
+import {HeaderComponent} from './components/header/header.component';
+import {AuthGuard} from "./service/auth-guard.service";
 
 @NgModule({
   declarations: [
@@ -36,30 +37,31 @@ import { HeaderComponent } from './components/header/header.component';
     LoginFormComponent,
     HeaderComponent
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
 
-        ButtonModule,
-        DialogModule,
-        ChipsModule,
-        InputSwitchModule,
-        CalendarModule,
-        InputTextareaModule,
-        InputTextModule,
-        MenubarModule,
-        PasswordModule,
-        RippleModule
+    ButtonModule,
+    DialogModule,
+    ChipsModule,
+    InputSwitchModule,
+    CalendarModule,
+    InputTextareaModule,
+    InputTextModule,
+    MenubarModule,
+    PasswordModule,
+    RippleModule
 
-    ],
+  ],
   providers: [
     AuthenticationService,
     EmailService,
     UserService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
@@ -68,4 +70,5 @@ import { HeaderComponent } from './components/header/header.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

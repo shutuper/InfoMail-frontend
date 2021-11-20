@@ -2,3 +2,8 @@
 * {
   font-family: Segoe UI;
 }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
