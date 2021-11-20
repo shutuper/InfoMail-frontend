@@ -2,5 +2,15 @@
   class="grid card fluid px-2 pt-2 pb-3 text-3xl bg-primary-reverse">
   <div class="col-2">
   <a class="m-0 cursor-pointer hover:text-primary text-white block no-underline" routerLink="/">Infomail</a></div>
-<div class="col-1 col-offset-9 align-items-center text-center text-xl bg-primary" routerLink="/welcome">Log(in/out)</div>
+
+  <div *ngIf="isUserAuthenticate(); then user_authenticate else user_not_authenticate"></div>
+  <ng-template #user_authenticate>
+
+  </ng-template>
+  <ng-template #user_not_authenticate>
+    <div class="col-2 col-offset-8 align-items-center">
+      <button pButton pRipple type="button" label="Log in" class="p-button-text mr-2" routerLink="/welcome"></button>
+      <button pButton pRipple type="button" label="Sign up" class="p-button-rounded"></button>
+    </div>
+  </ng-template>
 </header>
