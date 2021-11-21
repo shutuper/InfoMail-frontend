@@ -21,6 +21,7 @@ export class RegistrationFormComponent implements OnInit {
     this.form = new FormGroup({
       email: new FormControl(''),
       password: new FormControl(''),
+      password2: new FormControl(''),
     })
   }
 
@@ -37,6 +38,12 @@ export class RegistrationFormComponent implements OnInit {
 
   showValidity(controleName: string) {
     return this.form.controls[controleName].invalid && this.form.controls[controleName].dirty;
+  }
+
+  isPasswordMismatch() {
+    const password: string = this.form.controls['password'].value;
+    const password2: string = this.form.controls['password2'].value;
+    return password != password2;
   }
 
   public tryToAuthenticate(userCredentials: User) {
@@ -64,9 +71,5 @@ export class RegistrationFormComponent implements OnInit {
 
     console.log("Navigate to Error page");
     this.router.navigate(['error']);
-  }
-
-  checkPasswordsSame(control: FormControl): void {
-
   }
 }

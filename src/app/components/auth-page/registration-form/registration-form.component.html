@@ -19,6 +19,16 @@
         <small [hidden]="!showValidity('password')" id="password-help" class="p-error text-sm  mt-2">
           Password is not correct min length - 8, max - 24</small>
       </div>
+      <div class="mt-2 p-2"><label for="password2" class="block w-100 bg-primary mb-2">Confirm password:</label>
+        <p-password
+          type="password" id="password2" formControlName="password2" [feedback]="false" [toggleMask]="true" required maxlength="24"
+                    minlength="8" aria-describedby="password2-help"
+                    pInputText [ngClass]="{'w-full mt-2': true,
+                     'ng-invalid ng-dirty': isPasswordMismatch()}"></p-password>
+        <br>
+        <small [hidden]="!isPasswordMismatch()" id="password2-help" class="p-error text-sm  mt-2">
+          Password mismatch</small>
+      </div>
 
       <button pButton pRipple [disabled]="form.invalid" label="Sign In" type="submit" icon="pi pi-user"
               class="w-full mt-4"></button>
