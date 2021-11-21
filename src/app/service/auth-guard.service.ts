@@ -9,6 +9,7 @@ import {
 } from "@angular/router";
 import {map, Observable} from "rxjs";
 import {AuthenticationService} from "./authentication.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
