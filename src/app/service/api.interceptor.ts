@@ -19,7 +19,7 @@ export class ApiInterceptor implements HttpInterceptor {
           console.log("intercept errr", err)
           if(err.status > 500) this.openErrorPage("Can't connect to server");
           if(err.status === 404) this.openErrorPage("Can't find page");
-          if(err.status === 401) this.logout();
+          // if(err.status === 401) this.logout();
         }
       })
     );
