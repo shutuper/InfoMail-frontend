@@ -66,4 +66,7 @@ export class RegistrationFormComponent implements OnInit {
     this.router.navigate(['error']);
   }
 
+  checkPasswordsSame(control: FormControl): void {
+
+  }
 }
