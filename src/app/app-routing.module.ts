@@ -9,6 +9,7 @@ import {HistoryComponent} from "./components/home-page/history/history.component
 import {TemplatesComponent} from "./components/home-page/templates/templates.component";
 import {AuthPageComponent} from "./components/auth-page/auth-page.component";
 import {LoginFormComponent} from "./components/login-form/login-form.component";
+import {RegistrationFormComponent} from "./components/auth-page/registration-form/registration-form.component";
 
 const routes: Routes = [
   {path: 'welcome', component: WelcomePageComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
     children: [
       {path: '', pathMatch: 'full', redirectTo: 'login'},
       {path: 'login', component: LoginFormComponent},
+      {path: 'registration', component: RegistrationFormComponent},
     ]
   },
   {

@@ -44,6 +44,7 @@ import {HistoryComponent} from './components/home-page/history/history.component
 import {TasksComponent} from './components/home-page/tasks/tasks.component';
 import {TemplatesComponent} from './components/home-page/templates/templates.component';
 import {AuthPageComponent} from './components/auth-page/auth-page.component';
+import {RegistrationFormComponent} from './components/auth-page/registration-form/registration-form.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {AuthPageComponent} from './components/auth-page/auth-page.component';
     HistoryComponent,
     TasksComponent,
     TemplatesComponent,
-    AuthPageComponent
+    AuthPageComponent,
+    RegistrationFormComponent
   ],
   imports: [
     BrowserModule,
