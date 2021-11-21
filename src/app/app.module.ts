@@ -21,7 +21,7 @@ import {UserService} from "./service/user.service";
 import {HomePageComponent} from './components/home-page/home-page.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {ErrorPageComponent} from './components/error-page/error-page.component';
-import {LoginFormComponent} from './components/login-form/login-form.component';
+import {LoginFormComponent} from './components/auth-page/login-form/login-form.component';
 import {PasswordModule} from "primeng/password";
 import {RippleModule} from "primeng/ripple";
 import {HeaderComponent} from './components/header/header.component';
