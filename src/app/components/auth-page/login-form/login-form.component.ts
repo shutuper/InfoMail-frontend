@@ -12,6 +12,8 @@ import {Router} from "@angular/router";
 })
 export class LoginFormComponent implements OnInit {
 
+  isLoginOrPasswordIncorrect: boolean = false;
+
   form: FormGroup = new FormGroup({});
 
   constructor(private authService: AuthenticationService, private router: Router) {
@@ -49,12 +51,14 @@ export class LoginFormComponent implements OnInit {
           this.authService.setAuthToken(token);
 
           console.log("User is authenticated");
+          console.log("Navigate to home page");
           this.router.navigate(['']);
 
         } else this.openErrorPage("Token not exits in response");
       },
       error: (err: HttpErrorResponse) => {
-        if (err.status === 401) this.form.reset();
+        console.log("Error when tryToAuthenticate", err);
+        if (err.status === 401) this.isLoginOrPasswordIncorrect = true;
       }
     });
   }
