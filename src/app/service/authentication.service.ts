@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse, HttpHeaderResponse, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpResponse} from "@angular/common/http";
 import {User} from "../model/user";
-import {catchError, map, Observable, Subscription, tap} from "rxjs";
+import {Observable, tap} from "rxjs";
 import {Router} from "@angular/router";
 
 @Injectable({providedIn: 'root'})
@@ -35,6 +35,7 @@ export class AuthenticationService {
     return this.http.get<boolean>('api/v1/users').pipe(tap(res => {
       let mes = res ? this.permitted : this.forbidden;
       console.log(mes);
+      if(! res) this.router.navigateByUrl('welcome');
     }));
   }
 
