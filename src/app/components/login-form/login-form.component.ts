@@ -54,9 +54,7 @@ export class LoginFormComponent implements OnInit {
         } else this.openErrorPage("Token not exits in response");
       },
       error: (err: HttpErrorResponse) => {
-        console.log("errr", err)
-        if (err.status > 500) this.openErrorPage("Can't connect to server");
-        if (err.status > 400) this.form.reset();
+        if (err.status === 401) this.form.reset();
       }
     });
   }
