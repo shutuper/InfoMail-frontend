@@ -7,3 +7,6 @@ html, body {
   margin: 0;
   padding: 0;
 }
+.default-background {
+  background-color: #1e1e1e;
+}

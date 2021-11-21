@@ -26,6 +26,10 @@ import {PasswordModule} from "primeng/password";
 import {RippleModule} from "primeng/ripple";
 import {HeaderComponent} from './components/header/header.component';
 import {AuthGuard} from "./service/auth-guard.service";
+import { MenuComponent } from './components/home-page/menu/menu.component';
+import { HistoryComponent } from './components/home-page/history/history.component';
+import { TasksComponent } from './components/home-page/tasks/tasks.component';
+import { TemplatesComponent } from './components/home-page/templates/templates.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,11 @@ import {AuthGuard} from "./service/auth-guard.service";
     HomePageComponent,
     ErrorPageComponent,
     LoginFormComponent,
-    HeaderComponent
+    HeaderComponent,
+    MenuComponent,
+    HistoryComponent,
+    TasksComponent,
+    TemplatesComponent
   ],
   imports: [
     BrowserModule,
