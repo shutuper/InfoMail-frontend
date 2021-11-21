@@ -7,10 +7,19 @@ import {AuthGuard} from "./service/auth-guard.service";
 import {TasksComponent} from "./components/home-page/tasks/tasks.component";
 import {HistoryComponent} from "./components/home-page/history/history.component";
 import {TemplatesComponent} from "./components/home-page/templates/templates.component";
+import {AuthPageComponent} from "./components/auth-page/auth-page.component";
+import {LoginFormComponent} from "./components/login-form/login-form.component";
 
 const routes: Routes = [
   {path: 'welcome', component: WelcomePageComponent},
   {path: 'error', component: ErrorPageComponent},
+  {
+    path: 'auth', component: AuthPageComponent,
+    children: [
+      {path: '', pathMatch: 'full', redirectTo: 'login'},
+      {path: 'login', component: LoginFormComponent},
+    ]
+  },
   {
     path: '', component: HomePageComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard],
     children: [

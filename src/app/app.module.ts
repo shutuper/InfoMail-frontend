@@ -26,10 +26,6 @@ import {PasswordModule} from "primeng/password";
 import {RippleModule} from "primeng/ripple";
 import {HeaderComponent} from './components/header/header.component';
 import {AuthGuard} from "./service/auth-guard.service";
-import {MenuComponent} from './components/home-page/menu/menu.component';
-import {HistoryComponent} from './components/home-page/history/history.component';
-import {TasksComponent} from './components/home-page/tasks/tasks.component';
-import {TemplatesComponent} from './components/home-page/templates/templates.component';
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {InputNumberModule} from "primeng/inputnumber";
 import {RadioButtonModule} from "primeng/radiobutton";
@@ -43,6 +39,11 @@ import {HistoryService} from "./service/history.service";
 import {TableService} from "primeng/table";
 import {MultiSelectModule} from "primeng/multiselect";
 import {CheckboxModule} from "primeng/checkbox";
+import {MenuComponent} from './components/home-page/menu/menu.component';
+import {HistoryComponent} from './components/home-page/history/history.component';
+import {TasksComponent} from './components/home-page/tasks/tasks.component';
+import {TemplatesComponent} from './components/home-page/templates/templates.component';
+import {AuthPageComponent} from './components/auth-page/auth-page.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import {CheckboxModule} from "primeng/checkbox";
     MenuComponent,
     HistoryComponent,
     TasksComponent,
-    TemplatesComponent
+    TemplatesComponent,
+    AuthPageComponent
   ],
   imports: [
     BrowserModule,
