@@ -45,6 +45,7 @@ import {TasksComponent} from './components/home-page/tasks/tasks.component';
 import {TemplatesComponent} from './components/home-page/templates/templates.component';
 import {AuthPageComponent} from './components/auth-page/auth-page.component';
 import {RegistrationFormComponent} from './components/auth-page/registration-form/registration-form.component';
+import {RegistrationService} from "./service/registration.service";
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import {RegistrationFormComponent} from './components/auth-page/registration-for
   ],
   providers: [
     AuthenticationService,
+    RegistrationService,
     EmailService,
     UserService,
     AuthGuard,

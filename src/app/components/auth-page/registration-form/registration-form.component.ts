@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import {AuthenticationService} from "../../../service/authentication.service";
 import {Router} from "@angular/router";
 import {User} from "../../../model/user";
+import {RegistrationService} from "../../../service/registration.service";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
@@ -12,9 +12,14 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class RegistrationFormComponent implements OnInit {
 
+  isShowServerMessage: boolean = false;
+  serverMessage: string = '';
+
+  private FORM_NOT_VALID: string = 'The form fields are not valid!';
+
   form: FormGroup = new FormGroup({});
 
-  constructor(private authService: AuthenticationService, private router: Router) {
+  constructor(private regService: RegistrationService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -33,43 +38,48 @@ export class RegistrationFormComponent implements OnInit {
       password: this.form.value.password,
     }
 
-    this.tryToAuthenticate(user);
+    this.toRegister(user);
   }
 
-  showValidity(controleName: string) {
+  showValidity(controleName: string): boolean {
     return this.form.controls[controleName].invalid && this.form.controls[controleName].dirty;
   }
 
-  isPasswordMismatch() {
+  isPasswordMismatch(): boolean {
     const password: string = this.form.controls['password'].value;
     const password2: string = this.form.controls['password2'].value;
     return password != password2;
   }
 
-  public tryToAuthenticate(userCredentials: User) {
-    console.log("Trying to Authenticate")
-
-    this.authService.tryToAuthenticate(userCredentials).subscribe({
+  public toRegister(userCredentials: User) {
+    this.regService.toRegister(userCredentials).subscribe({
       next: (res) => {
-        const token: string | null = res.headers.get('Authorization');
-        if (token !== null) {
-          this.authService.setAuthToken(token);
-
-          console.log("User is authenticated");
-          this.router.navigate(['']);
-
-        } else this.openErrorPage("Token not exits in response");
+        console.log('toRegister res', res);
+        if(res.message != 'success') this.showServerMessage(res.message);
       },
       error: (err: HttpErrorResponse) => {
-        if (err.status === 401) this.form.reset();
+        console.log("Error when toRegister", err);
+        if(err.status == 400) this.showServerMessage(this.FORM_NOT_VALID)
       }
     });
   }
 
-  private openErrorPage(message: string) {
-    console.log(message);
-
-    console.log("Navigate to Error page");
-    this.router.navigate(['error']);
+  showServerMessage(message: string) {
+    this.serverMessage = message;
+    this.isShowServerMessage = true;
   }
+
+  // testRegistr() {
+  //   const user: User = {
+  //     email: "this.form.value.email",
+  //     password: "this.form.value.password",
+  //   }
+  //
+  //   // const user: User = {
+  //   //   email: "testUser2@gmail.com",
+  //   //   password: "myPassword1222",
+  //   // }
+  //
+  //   this.toRegister(user);
+  // }
 }

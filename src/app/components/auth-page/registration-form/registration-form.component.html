@@ -1,5 +1,12 @@
 <div class="p-4 w-full">
-  <div class="pl-2 cursor-pointer text-4xl text-primary block no-underline" >Registration</div>
+  <div class="pl-2">
+    <div class="cursor-pointer text-4xl text-primary block no-underline" >
+      Registration
+    </div>
+    <br>
+    <small [hidden]="! isShowServerMessage" class="p-error text-sm  mt-2">
+      {{serverMessage}}</small>
+  </div>
   <div>
     <form [formGroup]="form" class="font-bold text-2xl text-primary" (ngSubmit)="onSubmit()">
       <div class="mt-2 p-2">
@@ -30,8 +37,9 @@
           Password mismatch</small>
       </div>
 
-      <button pButton pRipple [disabled]="form.invalid" label="Sign In" type="submit" icon="pi pi-user"
+      <button pButton pRipple [disabled]="form.invalid" label="Sign up" type="submit" icon="pi pi-user"
               class="w-full mt-4"></button>
     </form>
   </div>
 </div>
+<!--<button pButton (click)="testRegistr()" pRipple label="test sign un" class="w-full mt-4"></button>-->
