@@ -56,6 +56,7 @@ export class RegistrationFormComponent implements OnInit {
       next: (res) => {
         console.log('toRegister res', res);
         if(res.message != 'success') this.showServerMessage(res.message);
+        this.openRegMessagePage();
       },
       error: (err: HttpErrorResponse) => {
         console.log("Error when toRegister", err);
@@ -69,17 +70,24 @@ export class RegistrationFormComponent implements OnInit {
     this.isShowServerMessage = true;
   }
 
+  private openRegMessagePage() {
+    console.log("Navigate to registration message");
+    this.router.navigateByUrl("auth/registration/message")
+  }
+
   // testRegistr() {
-  //   const user: User = {
-  //     email: "this.form.value.email",
-  //     password: "this.form.value.password",
-  //   }
+  //   // const user: User = {
+  //   //   email: "this.form.value.email",
+  //   //   password: "this.form.value.password",
+  //   // }
   //
   //   // const user: User = {
   //   //   email: "testUser2@gmail.com",
   //   //   password: "myPassword1222",
   //   // }
   //
-  //   this.toRegister(user);
+  //   // this.toRegister(user);
+  //
+  //   this.openRegMessagePage();
   // }
 }
