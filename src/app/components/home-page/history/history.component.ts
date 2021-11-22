@@ -23,9 +23,9 @@ export class HistoryComponent implements OnInit {
 
   checked: boolean = false;
 
+  first: number = 0;
 
   emails!: History[];
-
 
   email!: History;
 
@@ -52,17 +52,11 @@ export class HistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    setInterval(() => {
-      console.log(this.selectedEmails)
-    }, 10000)
     this.loading = true;
     this.historyService.getTotalNumberOfRows().subscribe(totalRecords => this.totalRecords = totalRecords);
     this.getCurrentHistoryPage(0, this.numberOfRows, 'id', -1);
   }
 
-  lol() {
-    this.selectedEmails = [];
-  }
 
   private getCurrentHistoryPage(page: number, rows: number, sortFiled: string, sortOrder: number) {
     this.historyService.getPaginatedHistory(page, rows, sortFiled, sortOrder).subscribe({
@@ -85,18 +79,18 @@ export class HistoryComponent implements OnInit {
   }
 
   loadEmails(event: LazyLoadEvent) {
-
     console.log(event);
     this.loading = true;
     if (event.rows !== undefined) {
-
       let page = (event.first === undefined ? 0 : event.first) / event.rows;
       let sortField = (event.sortField === undefined) ? 'id' : event.sortField;
       let sortOrder = (event.sortOrder === undefined) ? -1 : event.sortOrder;
-      if (this.firstLoad) {
+      this.first = event.first || 0;
+      if (this.firstLoad || (sortField === 'id')) {
         this.firstLoad = false;
         sortOrder = -1;
       }
+      window.scrollTo(0, 0);
       this.getCurrentHistoryPage(page, event.rows, sortField, sortOrder);
     }
   }

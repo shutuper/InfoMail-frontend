@@ -5,19 +5,13 @@
 
   <p-table #dt [value]="emails" [rows]="numberOfRows" [paginator]="true"
            [lazy]="true" (onLazyLoad)="loadEmails($event)" [totalRecords]="totalRecords"
-           [globalFilterFields]="['subject']" styleClass="p-datatable-striped"
+           [globalFilterFields]="['subject','dataTime']" styleClass="p-datatable-striped"
            [(selection)]="selectedEmails" [rowHover]="true" dataKey="id" [loading]="loading"
            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
            [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0 text-3xl">Emails history:</h5>
-        <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" #inputText
-                           (input)="dt.filterGlobal(inputText.value.toLowerCase(), 'contains')"
-                           placeholder="Search...">
-                </span>
         <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"
                 (click)="deleteSelectedEmails()" [disabled]="!selectedEmails || !selectedEmails.length"></button>
       </div>
@@ -27,7 +21,8 @@
         <th class="w-3rem">
           <p-checkbox [(ngModel)]="checked" [binary]="true" (onChange)="select()"></p-checkbox>
         </th>
-        <th class="w-30rem">Email subject</th>
+        <th class="w-30rem">Email subject
+        </th>
         <th pSortableColumn="status">Status
           <p-sortIcon field="status"></p-sortIcon>
         </th>
@@ -42,7 +37,7 @@
         <td>
           <p-tableCheckbox [value]="email"></p-tableCheckbox>
         </td>
-        <td>{{email.subject}}</td>
+        <td>{{(email.subject.length >= 65) ? ((email.subject | slice:0:64) + '...') : email.subject }}</td>
         <td>
           <p-tag styleClass="mr-2" [severity]="email.status?'primary':'danger'"
                  [value]="email.status?'SENT':'FAILED'"></p-tag>
