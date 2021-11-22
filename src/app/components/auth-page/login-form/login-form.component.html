@@ -1,32 +1,39 @@
 <div class="p-4 w-full">
-  <div class="pl-2">
-    <div class="pl-2 cursor-pointer text-4xl text-primary block no-underline" >Login</div>
-    <br>
-    <small [hidden]="! isLoginOrPasswordIncorrect" class="p-error text-sm  mt-2">
-      Login or password is incorrect</small>
-  </div>
-  <div>
-    <form [formGroup]="form" class="font-bold text-2xl text-primary" (ngSubmit)="onSubmit()">
-      <div class="mt-2 p-2">
-        <label for="email" class="block w-100 bg-primary">Email</label>
-        <input id="email" formControlName="email" type="text" aria-describedby="email-help" required email pInputText
-               [ngClass]="{'input w-full mt-2': true,
-                     'ng-invalid ng-dirty': showValidity('email')}">
-        <small [hidden]="!showValidity('email')" id="email-help" class="p-error text-sm  mt-2">Email is not correct</small>
-      </div>
-
-      <div class="mt-2 p-2"><label for="password" class="block w-100 bg-primary mb-2">Password:</label>
-        <p-password type="password" id="password" formControlName="password" [toggleMask]="true" required maxlength="24"
-                    minlength="8" aria-describedby="password-help"
-                    pInputText [ngClass]="{'w-full mt-2': true,
-                     'ng-invalid ng-dirty': showValidity('password')}"></p-password>
-        <br>
-        <small [hidden]="!showValidity('password')" id="password-help" class="p-error text-sm  mt-2">
-          Password is not correct min length - 8, max - 24</small>
-      </div>
-
-      <button pButton pRipple [disabled]="form.invalid" label="Sign In" type="submit" icon="pi pi-user"
-              class="w-full mt-4"></button>
-    </form>
-  </div>
+  <label for="reg-form" class="block text-4xl p-2">Login</label>
+  <small id="server-message" [hidden]="! isShowServerMessage" class="p-error font-bold text-sm  mt-2 pl-2">
+    {{serverMessage}}</small>
+  <form id="reg-form" [formGroup]="form" class="font-bold text-2xl text-primary" (ngSubmit)="onSubmit()">
+    <div id="form-cont-email" class="mt-2 p-2">
+      <label for="email" class="block w-100 bg-primary">Email</label>
+      <input id="email" formControlName="email" type="text"
+             [ngClass]="{
+          'input w-full mt-2': true,
+          'ng-invalid ng-dirty': showValidity('email')}"
+             aria-describedby="email-help"
+             required email pInputText>
+      <small id="email-help"
+             [hidden]="!showValidity('email')"
+             class="p-error text-sm  mt-2">Email is not correct</small>
+    </div>
+    <div id="form-cont-password" class="mt-2 p-2">
+      <label for="password" class="block w-100 bg-primary mb-2">Password:</label>
+      <p-password id="password" type="password" formControlName="password"
+                  [feedback]="false"
+                  [toggleMask]="true"
+                  [ngClass]="{'w-full mt-2': true,
+                     'ng-invalid ng-dirty': showValidity('password')}"
+                  required maxlength="24" minlength="8"
+                  aria-describedby="password-help"
+      ></p-password>
+      <br [hidden]="!showValidity('password')">
+      <small id="password-help"
+             [hidden]="!showValidity('password')"  class="p-error text-sm  mt-2">Password is not correct min length - 8, max - 24</small>
+    </div>
+    <button id="sign-up-button"
+            pButton pRipple label="Sign In" type="submit"
+            [disabled]="form.invalid"
+            icon="pi pi-user"
+            class="w-full mt-4">
+    </button>
+  </form>
 </div>
