@@ -12,7 +12,10 @@ import {Router} from "@angular/router";
 })
 export class LoginFormComponent implements OnInit {
 
-  isLoginOrPasswordIncorrect: boolean = false;
+  isShowServerMessage: boolean = false;
+  serverMessage: string = '';
+
+  private EMAIL_OR_PASSWORD_INCORRECT: string = 'Email or password is incorrect!';
 
   form: FormGroup = new FormGroup({});
 
@@ -58,7 +61,7 @@ export class LoginFormComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.log("Error when tryToAuthenticate", err);
-        if (err.status === 401) this.isLoginOrPasswordIncorrect = true;
+        if (err.status === 401) this.showServerMessage(this.EMAIL_OR_PASSWORD_INCORRECT);
       }
     });
   }
@@ -70,4 +73,8 @@ export class LoginFormComponent implements OnInit {
     this.router.navigate(['error']);
   }
 
+  showServerMessage(message: string) {
+    this.serverMessage = message;
+    this.isShowServerMessage = true;
+  }
 }
