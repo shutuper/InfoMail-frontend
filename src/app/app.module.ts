@@ -26,10 +26,23 @@ import {PasswordModule} from "primeng/password";
 import {RippleModule} from "primeng/ripple";
 import {HeaderComponent} from './components/header/header.component';
 import {AuthGuard} from "./service/auth-guard.service";
-import { MenuComponent } from './components/home-page/menu/menu.component';
-import { HistoryComponent } from './components/home-page/history/history.component';
-import { TasksComponent } from './components/home-page/tasks/tasks.component';
-import { TemplatesComponent } from './components/home-page/templates/templates.component';
+import {MenuComponent} from './components/home-page/menu/menu.component';
+import {HistoryComponent} from './components/home-page/history/history.component';
+import {TasksComponent} from './components/home-page/tasks/tasks.component';
+import {TemplatesComponent} from './components/home-page/templates/templates.component';
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {InputNumberModule} from "primeng/inputnumber";
+import {RadioButtonModule} from "primeng/radiobutton";
+import {TableModule} from "primeng/table";
+import {FileUploadModule} from "primeng/fileupload";
+import {ToolbarModule} from "primeng/toolbar";
+import {ToastModule} from "primeng/toast";
+import {TagModule} from "primeng/tag";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {HistoryService} from "./service/history.service";
+import {TableService} from "primeng/table";
+import {MultiSelectModule} from "primeng/multiselect";
+import {CheckboxModule} from "primeng/checkbox";
 
 @NgModule({
   declarations: [
@@ -52,7 +65,7 @@ import { TemplatesComponent } from './components/home-page/templates/templates.c
     BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-
+    MultiSelectModule,
     ButtonModule,
     DialogModule,
     ChipsModule,
@@ -62,7 +75,16 @@ import { TemplatesComponent } from './components/home-page/templates/templates.c
     InputTextModule,
     MenubarModule,
     PasswordModule,
-    RippleModule
+    RippleModule,
+    ConfirmDialogModule,
+    InputNumberModule,
+    RadioButtonModule,
+    TableModule,
+    FileUploadModule,
+    ToolbarModule,
+    ToastModule,
+    TagModule,
+    CheckboxModule
 
   ],
   providers: [
@@ -70,6 +92,10 @@ import { TemplatesComponent } from './components/home-page/templates/templates.c
     EmailService,
     UserService,
     AuthGuard,
+    MessageService,
+    ConfirmationService,
+    HistoryService,
+    TableService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,

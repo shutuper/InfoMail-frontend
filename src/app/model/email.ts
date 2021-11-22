@@ -1,4 +1,6 @@
-export interface Email{
+import {Timestamp} from "rxjs";
+
+export interface Email {
   recipients: Recipient[];
   emailTemplate: EmailTemplate;
   emailSchedule: EmailSchedule;
@@ -7,6 +9,13 @@ export interface Email{
 export interface Recipient {
   email: string;
   recipientType: RecipientType;
+}
+
+export interface History {
+  id: number;
+  dateTime: Date;
+  status: boolean;
+  subject: string;
 }
 
 export enum RecipientType {
