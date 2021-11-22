@@ -46,6 +46,7 @@ import {TemplatesComponent} from './components/home-page/templates/templates.com
 import {AuthPageComponent} from './components/auth-page/auth-page.component';
 import {RegistrationFormComponent} from './components/auth-page/registration-form/registration-form.component';
 import {RegistrationService} from "./service/registration.service";
+import {RegistrationMessageComponent} from './components/auth-page/registration-message/registration-message.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import {RegistrationService} from "./service/registration.service";
     TasksComponent,
     TemplatesComponent,
     AuthPageComponent,
-    RegistrationFormComponent
+    RegistrationFormComponent,
+    RegistrationMessageComponent
   ],
   imports: [
     BrowserModule,

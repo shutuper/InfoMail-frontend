@@ -10,6 +10,7 @@ import {TemplatesComponent} from "./components/home-page/templates/templates.com
 import {AuthPageComponent} from "./components/auth-page/auth-page.component";
 import {LoginFormComponent} from "./components/auth-page/login-form/login-form.component";
 import {RegistrationFormComponent} from "./components/auth-page/registration-form/registration-form.component";
+import {RegistrationMessageComponent} from "./components/auth-page/registration-message/registration-message.component";
 
 const routes: Routes = [
   {path: 'welcome', component: WelcomePageComponent},
@@ -20,6 +21,9 @@ const routes: Routes = [
       {path: '', pathMatch: 'full', redirectTo: 'login'},
       {path: 'login', component: LoginFormComponent},
       {path: 'registration', component: RegistrationFormComponent},
+      {path: 'registration/confirm', component: RegistrationMessageComponent},
+      {path: 'registration/reject', component: RegistrationMessageComponent},
+      {path: 'registration/message', component: RegistrationMessageComponent},
     ]
   },
   {
