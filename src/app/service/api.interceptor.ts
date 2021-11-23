@@ -19,7 +19,7 @@ export class ApiInterceptor implements HttpInterceptor {
           console.log("intercept errr", err)
           if(err.status > 500) this.openErrorPage("Can't connect to server");
           if(err.status === 404) this.openErrorPage("Can't find page");
-          // if(err.status === 401) this.logout();
+          if (err.status === 401 || err.status === 403) this.logout();
         }
       })
     );
@@ -27,12 +27,17 @@ export class ApiInterceptor implements HttpInterceptor {
 
   private logout(): void {
     this.authService.logout();
-    this.openWelcomePage();
+    this.openLoginPage();
   }
 
   private openWelcomePage() {
     console.log("Navigate to welcome page");
     this.router.navigate(['welcome']);
+  }
+
+  private openLoginPage() {
+    console.log("Navigate to login page");
+    this.router.navigate(['auth/login']);
   }
 
   private openErrorPage(message: string) {
