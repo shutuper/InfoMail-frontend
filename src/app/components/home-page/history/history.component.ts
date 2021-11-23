@@ -28,24 +28,17 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-
     this.historyService.getTotalNumberOfRows().subscribe(totalRecords => this.totalRecords = totalRecords);
 
     this.getCurrentHistoryPage(0, this.numberOfRows, 'id', -1);
   }
 
   selectOrUnselectAllEmails() {
-    if (this.isChecked)
-      this.selectedEmails = this.emails;
-    else
-      this.selectedEmails = [];
+    this.selectedEmails = this.isChecked ? this.emails : [];
   }
 
-  sliceLongString(str: string){
-    if (str.length>=65)
-      return str.slice(0,64).concat('...');
-    else
-      return str;
+  sliceLongString(str: string) {
+    return (str.length >= 65) ? str.slice(0, 64).concat('...') : str;
   }
 
   private getCurrentHistoryPage(page: number, rows: number, sortFiled: string, sortOrder: number) {
