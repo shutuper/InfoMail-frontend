@@ -47,6 +47,7 @@ import {AuthPageComponent} from './components/auth-page/auth-page.component';
 import {RegistrationFormComponent} from './components/auth-page/registration-form/registration-form.component';
 import {RegistrationService} from "./service/registration.service";
 import {RegistrationMessageComponent} from './components/auth-page/registration-message/registration-message.component';
+import {PopupMessageService} from "./service/utils/popup-message.service";
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import {RegistrationMessageComponent} from './components/auth-page/registration-
     ConfirmationService,
     HistoryService,
     TableService,
+    PopupMessageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,

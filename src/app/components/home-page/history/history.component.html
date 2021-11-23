@@ -1,60 +1,75 @@
-<p-toast></p-toast>
-
 <div class="card">
-
 
   <p-table #dt [value]="emails" [rows]="numberOfRows" [paginator]="true"
            [lazy]="true" (onLazyLoad)="loadEmails($event)" [totalRecords]="totalRecords"
-           [globalFilterFields]="['subject','dataTime']" styleClass="p-datatable-striped"
-           [(selection)]="selectedEmails" [rowHover]="true" dataKey="id" [loading]="loading"
-           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-           [showCurrentPageReport]="true">
+           styleClass="p-datatable-striped" [(selection)]="selectedEmails" [rowHover]="true"
+           dataKey="id" [loading]="loading" [showCurrentPageReport]="true"
+           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+<!--  Table captions  -->
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0 text-3xl">Emails history:</h5>
+
         <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"
                 (click)="deleteSelectedEmails()" [disabled]="!selectedEmails || !selectedEmails.length"></button>
       </div>
     </ng-template>
+
+<!--  Table header  -->
     <ng-template pTemplate="header">
       <tr class="w-100">
+
         <th class="w-3rem">
-          <p-checkbox [(ngModel)]="checked" [binary]="true" (onChange)="select()"></p-checkbox>
+          <p-checkbox [(ngModel)]="isChecked" [binary]="true" (onChange)="selectOrUnselectAllEmails()"></p-checkbox>
         </th>
-        <th class="w-30rem">Email subject
-        </th>
-        <th pSortableColumn="status">Status
-          <p-sortIcon field="status"></p-sortIcon>
-        </th>
-        <th pSortableColumn="dateTime">Sent at
-          <p-sortIcon field="dateTime"></p-sortIcon>
-        </th>
-        <th></th>
+
+        <th class="w-30rem">Email subject</th>
+
+        <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>
+
+        <th pSortableColumn="dateTime">Sent at<p-sortIcon field="dateTime"></p-sortIcon></th>
+
+        <th></th> <!-- Column for delete/repeat buttons -->
+
       </tr>
     </ng-template>
+
+<!--    Table body-->
     <ng-template pTemplate="body" let-email>
       <tr>
-        <td>
-          <p-tableCheckbox [value]="email"></p-tableCheckbox>
-        </td>
-        <td>{{(email.subject.length >= 65) ? ((email.subject | slice:0:64) + '...') : email.subject }}</td>
+
+        <td><p-tableCheckbox [value]="email"></p-tableCheckbox></td>
+
+        <td>{{sliceLongString(email.subject)}}</td>
+
         <td>
           <p-tag styleClass="mr-2" [severity]="email.status?'primary':'danger'"
                  [value]="email.status?'SENT':'FAILED'"></p-tag>
         </td>
+
         <td>{{email.dateTime | date: 'yy:MM:dd HH:mm'}}</td>
+
         <td>
           <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                   (click)="deleteEmailById(email.id)"></button>
         </td>
+
       </tr>
     </ng-template>
+
+<!--     Summary at the bottom of the table-->
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
         In total there are {{totalRecords ? totalRecords : 0}} emails.
       </div>
     </ng-template>
+
   </p-table>
 </div>
 
+<!-- Confirmation for delete/repeat actions -->
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<!-- Popup messages -->
+<p-toast></p-toast>
