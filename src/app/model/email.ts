@@ -1,5 +1,3 @@
-import {Timestamp} from "rxjs";
-
 export interface Email {
   recipients: Recipient[];
   emailTemplate: EmailTemplate;
@@ -25,6 +23,8 @@ export enum RecipientType {
 }
 
 export interface EmailTemplate {
+  id: number;
+  name: string;
   subject: string;
   body: string;
 }
