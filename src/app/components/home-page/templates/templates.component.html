@@ -1,14 +1,19 @@
+<p-toast></p-toast>
+
 <div class="card">
-  <p-table [value]="templates">
+  <p-table [value]="templates" [(selection)]="selectedTemplates">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0 text-3xl">My templates:</h5>
+
+        <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"
+                (click)="deleteSelectedTemplates()" [disabled]="!selectedTemplates || !selectedTemplates.length"></button>
       </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th class="w-3rem">
-          <p-checkbox [binary]="true"></p-checkbox>
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
         <th class="w-18rem">Name</th>
         <th>Subject</th>
@@ -17,14 +22,14 @@
     <ng-template pTemplate="body" let-template>
       <tr>
         <td>
-          <p-tableCheckbox></p-tableCheckbox>
+          <p-tableCheckbox [value]="template"></p-tableCheckbox>
         </td>
         <td>{{sliceText(template.name, 25)}}</td>
         <td>{{sliceText(template.subject, 90)}}</td>
         <td>
           <div class="flex justify-content-end">
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(template)"></button>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(template)"></button>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTemplate(template)"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTemplate(template)"></button>
           </div>
         </td>
       </tr>
