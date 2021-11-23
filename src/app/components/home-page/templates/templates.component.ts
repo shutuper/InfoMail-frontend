@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {EmailTemplate} from "../../../model/email";
+import {TemplateService} from "../../../service/template.service";
 
 @Component({
   selector: 'app-templates',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TemplatesComponent implements OnInit {
 
-  constructor() { }
+  templates: EmailTemplate[] = [];
+
+  constructor(private templateService: TemplateService) { }
 
   ngOnInit(): void {
+    this.getTemplates();
   }
 
+  getTemplates() {
+    this.templateService.getTemplates().subscribe(templates => this.templates = templates);
+  }
+
+
+  deleteProduct(template: EmailTemplate) {
+
+  }
+
+  editProduct(template: EmailTemplate) {
+
+  }
 }

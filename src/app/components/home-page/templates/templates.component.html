@@ -1,1 +1,25 @@
-<p>templates works!</p>
+<div class="card">
+  <p-table [value]="templates">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0 text-3xl">My templates:</h5>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Subject</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-template>
+      <tr>
+        <td>{{template.name}}</td>
+        <td>{{template.subject}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(template)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(template)"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
