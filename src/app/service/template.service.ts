@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {EmailTemplate} from "../model/email";
 import {Observable} from "rxjs";
 
@@ -32,7 +32,19 @@ export class TemplateService {
     return this.http.get<EmailTemplate[]>(`/api/v1/templates`);
   }
 
-  deleteEmailById(id: number) {
-    return this.http.delete(`/api/v1/history/${id}`);
+  deleteEmailTemplateById(id: number) {
+    return this.http.delete(`/api/v1/templates/${id}`);
+  }
+
+  deleteEmailTemplatesByIds(ids: number[]) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        ids
+      }
+    };
+    return this.http.delete('/api/v1/templates', options);
   }
 }
