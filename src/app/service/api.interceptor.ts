@@ -6,7 +6,8 @@ import {Router} from "@angular/router";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(private authService: AuthenticationService, private router: Router) {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     //put Authorization Token
@@ -17,8 +18,8 @@ export class ApiInterceptor implements HttpInterceptor {
       tap({
         error: (err: HttpErrorResponse) => {
           console.log("intercept errr", err)
-          if(err.status > 500) this.openErrorPage("Can't connect to server");
-          if(err.status === 404) this.openErrorPage("Can't find page");
+          if (err.status > 500) this.openErrorPage("Can't connect to server");
+          if (err.status === 404) this.openErrorPage("Can't find page");
           if (err.status === 401 || err.status === 403) this.logout();
         }
       })
