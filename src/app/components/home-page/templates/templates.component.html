@@ -7,17 +7,25 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th>Name</th>
+        <th class="w-3rem">
+          <p-checkbox [binary]="true"></p-checkbox>
+        </th>
+        <th class="w-18rem">Name</th>
         <th>Subject</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-template>
       <tr>
-        <td>{{template.name}}</td>
-        <td>{{template.subject}}</td>
         <td>
-          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(template)"></button>
-          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(template)"></button>
+          <p-tableCheckbox></p-tableCheckbox>
+        </td>
+        <td>{{sliceText(template.name, 25)}}</td>
+        <td>{{sliceText(template.subject, 90)}}</td>
+        <td>
+          <div class="flex justify-content-end">
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(template)"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(template)"></button>
+          </div>
         </td>
       </tr>
     </ng-template>
