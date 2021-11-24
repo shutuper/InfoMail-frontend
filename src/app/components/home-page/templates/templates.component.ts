@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {EmailTemplate} from "../../../model/email";
 import {TemplateService} from "../../../service/template.service";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
+import {ConfirmationService} from "primeng/api";
 
 @Component({
   selector: 'app-templates',
@@ -14,14 +15,21 @@ export class TemplatesComponent implements OnInit {
   template!: EmailTemplate;
   selectedTemplates: EmailTemplate[] = [];
 
-  constructor(private templateService: TemplateService, private popupMessageService: PopupMessageService) { }
+  constructor(
+    private templateService: TemplateService,
+    private popupMessageService: PopupMessageService,
+    private confirmationService: ConfirmationService
+  ) { }
 
   ngOnInit(): void {
     this.getTemplates();
   }
 
   getTemplates() {
-    this.templateService.getTemplates().subscribe(templates => this.templates = templates);
+    this.templateService.getTemplates().subscribe({
+      next: (templates) => this.templates = templates,
+      error:() => this.popupMessageService.showFailed("Couldn't load templates!")
+    });
   }
 
 
