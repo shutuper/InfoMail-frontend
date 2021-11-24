@@ -35,13 +35,20 @@ export class TemplatesComponent implements OnInit {
 
   deleteTemplate(template: EmailTemplate) {
     console.log("deleteTemplate: ", template);
-    this.templateService.deleteEmailTemplateById(template.id).subscribe({
-      next: () => {
-        this.popupMessageService.showSuccess('Template is deleted!');
-        this.templates = this.templates.filter(val => val.id !== template.id);
-      },
-      error: () => this.popupMessageService.showFailed('Template is not deleted!')
-    })
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete selected template?!',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.templateService.deleteEmailTemplateById(template.id).subscribe({
+          next: () => {
+            this.popupMessageService.showSuccess('Template is deleted!');
+            this.templates = this.templates.filter(val => val.id !== template.id);
+          },
+          error: () => this.popupMessageService.showFailed('Template is not deleted!')
+        });
+      }
+    });
   }
 
   editTemplate(template: EmailTemplate) {
@@ -55,17 +62,25 @@ export class TemplatesComponent implements OnInit {
   deleteSelectedTemplates() {
     console.log("deleteSelectedTemplates: ", this.selectedTemplates);
     let selected = this.selectedTemplates;
-    let ids = selected.map(x => x.id);  // get array of selected emails' ids
-    this.templateService.deleteEmailTemplatesByIds(ids).subscribe({
-      next: () => {
-        this.templates = this.templates.filter(val => !selected.includes(val));
-        this.selectedTemplates = [];
-        this.popupMessageService.showSuccess('Templates are deleted!');
-      },
-      error: () => {
-        this.selectedTemplates = [];
-        this.popupMessageService.showFailed("Couldn't delete selected templates!");
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete the selected templates?!',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        let ids = selected.map(x => x.id);  // get array of selected emails' ids
+        this.templateService.deleteEmailTemplatesByIds(ids).subscribe({
+          next: () => {
+            this.templates = this.templates.filter(val => !selected.includes(val));
+            this.selectedTemplates = [];
+            this.popupMessageService.showSuccess('Templates are deleted!');
+          },
+          error: () => {
+            this.selectedTemplates = [];
+            this.popupMessageService.showFailed("Couldn't delete selected templates!");
+          }
+        });
       }
     });
+
   }
 }

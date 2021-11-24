@@ -1,5 +1,3 @@
-<p-toast></p-toast>
-
 <div class="card">
   <p-table [value]="templates" [(selection)]="selectedTemplates">
     <ng-template pTemplate="caption">
@@ -36,3 +34,9 @@
     </ng-template>
   </p-table>
 </div>
+
+<!-- Confirmation for delete/repeat actions -->
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<!-- Popup messages -->
+<p-toast></p-toast>
