@@ -14,6 +14,9 @@ export class TemplateViewComponent implements OnInit {
   //show userEmail and sharingLink
   @Input() allowSharing: boolean = false;
 
+  //used when create and edit template where need field name
+  @Input() showEmptyName: boolean = false;
+
   @Input() template: EmailTemplate = {
     name: '',
     subject: '',

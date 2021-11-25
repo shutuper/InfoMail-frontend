@@ -21,6 +21,10 @@ export class TemplateService {
       .post<HttpResponse<any>>(`/api/v1/templates`, template).subscribe();
   }
 
+  addTemplate(template: EmailTemplate): Observable<EmailTemplate> {
+    return this.http.post<EmailTemplate>(`/api/v1/templates`, template);
+  }
+
   getTemplatesLol(): void {
     this.http
       .get<EmailTemplate[]>(`/api/v1/templates`).subscribe({
