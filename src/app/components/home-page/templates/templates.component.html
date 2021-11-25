@@ -3,9 +3,11 @@
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0 text-3xl">My templates:</h5>
-
-        <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"
-                (click)="deleteSelectedTemplates()" [disabled]="!selectedTemplates || !selectedTemplates.length"></button>
+        <div>
+          <button pButton pRipple class="mr-2" [label]="'Create'" icon="pi pi-file" (click)="openNewTemplateDialog()" ></button>
+          <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"
+                  (click)="deleteSelectedTemplates()" [disabled]="!selectedTemplates || !selectedTemplates.length"></button>
+        </div>
       </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -44,9 +46,9 @@
 <p-toast></p-toast>
 
 <!--Template dialog-->
-<p-dialog [(visible)]="isShowTemplateDialog" [style]="{width: '950px'}" header="{{isEditMod ? 'Edit template': 'Show template'}}" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="isShowTemplateDialog" [style]="{width: '950px'}" header="{{dialogHeader}}" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-    <app-template-view [allowSharing]="! isEditMod" [allowEdit]="isEditMod" [(template)]="editTemplate"></app-template-view>
+    <app-template-view [showEmptyName]="true" [allowSharing]="! isEditMod" [allowEdit]="isEditMod" [(template)]="editTemplate"></app-template-view>
   </ng-template>
 
   <ng-template pTemplate="footer">

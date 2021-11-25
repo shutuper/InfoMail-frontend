@@ -17,7 +17,7 @@ export class TemplatesComponent implements OnInit {
 
   //vars for template dialog
   isShowTemplateDialog: boolean = false;
-
+  dialogHeader: string = '';
   //vars for template view
   isEditMod: boolean = false;
   editTemplate: EmailTemplate = {} as EmailTemplate;
@@ -64,8 +64,18 @@ export class TemplatesComponent implements OnInit {
     this.editTemplate = {...template};
     this.editTemplateCopy = {...template};
     this.isEditMod = true;
+    this.dialogHeader = 'Edit template';
     this.isShowTemplateDialog = true;
     console.log("editTemplate: ", template);
+  }
+
+  openNewTemplateDialog() {
+    console.log('openViewTemplateDialog')
+    this.editTemplate = {} as EmailTemplate;
+    this.editTemplateCopy = {} as EmailTemplate;
+    this.isEditMod = true;
+    this.dialogHeader = 'Create new template';
+    this.isShowTemplateDialog = true;
   }
 
   openViewTemplateDialog(template: EmailTemplate) {
@@ -73,6 +83,7 @@ export class TemplatesComponent implements OnInit {
     this.editTemplate = {...template};
     this.isEditMod = false;
     this.isShowTemplateDialog = true;
+    this.dialogHeader = 'Show template';
     console.log("showTemplate: ", template);
   }
 
