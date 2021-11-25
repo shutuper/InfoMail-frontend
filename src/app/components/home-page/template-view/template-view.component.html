@@ -4,10 +4,10 @@
     <input type="text" pInputText id="template-owner" [disabled]="true" [(ngModel)]="template.userEmail">
   </div>
   <div class="col-6 col-offset-2">
-    <label for="sharingLink">SharingLink</label>
+    <label for="sharingLink">Sharing link</label>
     <div class="p-inputgroup">
       <input type="text" pInputText id="sharingLink" [disabled]="true" [(ngModel)]="template.sharingLink">
-      <button type="button" pButton pRipple label="Copy"></button>
+      <button type="button" pButton pRipple label="Copy" (click)="copySharingLink()"></button>
     </div>
   </div>
 </div>

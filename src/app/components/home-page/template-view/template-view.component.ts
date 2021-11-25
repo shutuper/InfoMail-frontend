@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EmailTemplate} from "../../../model/email";
+import {PopupMessageService} from "../../../service/utils/popup-message.service";
 
 @Component({
   selector: 'app-template-view',
@@ -20,9 +21,27 @@ export class TemplateViewComponent implements OnInit {
   } as EmailTemplate
   @Output() templateChange = new EventEmitter<EmailTemplate>()
 
-  constructor() { }
+  constructor(private popupMessageService: PopupMessageService) { }
 
   ngOnInit(): void {
   }
 
+  copySharingLink() {
+    if(this.template.sharingLink) {
+      let listener = (e: ClipboardEvent) => {
+        // @ts-ignore
+        e.clipboardData.setData('text/plain', (this.template.sharingLink));
+        e.preventDefault();
+      };
+
+      document.addEventListener('copy', listener);
+      document.execCommand('copy');
+      document.removeEventListener('copy', listener);
+
+      this.popupMessageService.showSuccess('Sharing link copied to clipboard!');
+      console.log("share link copied to clipboard");
+
+    } else this.popupMessageService.showFailed('Sharing link not found!');
+
+  }
 }
