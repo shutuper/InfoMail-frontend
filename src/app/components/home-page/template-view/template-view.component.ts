@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EmailTemplate} from "../../../model/email";
 
 @Component({
@@ -16,10 +16,20 @@ export class TemplateViewComponent implements OnInit {
     subject: '',
     body: '',
   } as EmailTemplate
+  @Output() templateChange = new EventEmitter<EmailTemplate>()
+  // @Output() onEditTemplate = new EventEmitter<EmailTemplate>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+
+  // saveChanges() {
+  //   this.onEditTemplate.emit(this.template);
+  // }
+
+  rollbackChanges() {
+
+  }
 }
