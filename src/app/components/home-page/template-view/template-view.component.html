@@ -1,0 +1,29 @@
+<div class="p-field">
+  <label for="template-name">Name</label>
+  <input type="text" id="template-name"
+         pInputText
+         placeholder="Template name"
+         [disabled]="! isEdit"
+         [(ngModel)]="template.name"
+         required autofocus />
+</div>
+<div class="p-field">
+  <label for="template-subject">Subject</label>
+  <input type="text" id="template-subject"
+         pInputText
+         placeholder="Template subject"
+         [disabled]="! isEdit"
+         [(ngModel)]="template.subject"
+         required autofocus />
+</div>
+<div class="p-field">
+  <label for="template-body">Body</label>
+  <textarea id="template-body"
+            pInputTextarea
+            placeholder="Template body"
+            [disabled]="! isEdit"
+            [(ngModel)]="template.body"
+            required rows="10" cols="20">
+  </textarea>
+</div>
+

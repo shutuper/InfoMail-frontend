@@ -29,14 +29,13 @@ import {AuthGuard} from "./service/auth-guard.service";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {InputNumberModule} from "primeng/inputnumber";
 import {RadioButtonModule} from "primeng/radiobutton";
-import {TableModule} from "primeng/table";
+import {TableModule, TableService} from "primeng/table";
 import {FileUploadModule} from "primeng/fileupload";
 import {ToolbarModule} from "primeng/toolbar";
 import {ToastModule} from "primeng/toast";
 import {TagModule} from "primeng/tag";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {HistoryService} from "./service/history.service";
-import {TableService} from "primeng/table";
 import {MultiSelectModule} from "primeng/multiselect";
 import {CheckboxModule} from "primeng/checkbox";
 import {MenuComponent} from './components/home-page/menu/menu.component';
@@ -48,6 +47,7 @@ import {RegistrationFormComponent} from './components/auth-page/registration-for
 import {RegistrationService} from "./service/registration.service";
 import {RegistrationMessageComponent} from './components/auth-page/registration-message/registration-message.component';
 import {PopupMessageService} from "./service/utils/popup-message.service";
+import {TemplateViewComponent} from './components/home-page/template-view/template-view.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +64,8 @@ import {PopupMessageService} from "./service/utils/popup-message.service";
     TemplatesComponent,
     AuthPageComponent,
     RegistrationFormComponent,
-    RegistrationMessageComponent
+    RegistrationMessageComponent,
+    TemplateViewComponent
   ],
   imports: [
     BrowserModule,
