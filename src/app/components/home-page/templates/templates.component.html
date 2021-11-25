@@ -22,11 +22,13 @@
         <td>
           <p-tableCheckbox [value]="template"></p-tableCheckbox>
         </td>
-        <td>{{sliceText(template.name, 25)}}</td>
+        <td>
+          <button pButton pRipple type="button" (click)="openViewTemplateDialog(template)" class="p-button-text">{{sliceText(template.name, 25)}}</button>
+        </td>
         <td>{{sliceText(template.subject, 90)}}</td>
         <td>
           <div class="flex justify-content-end">
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTemplate(template)"></button>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openEditTemplateDialog(template)"></button>
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTemplate(template)"></button>
           </div>
         </td>
@@ -40,3 +42,17 @@
 
 <!-- Popup messages -->
 <p-toast></p-toast>
+
+<!--Template dialog-->
+<p-dialog [(visible)]="isShowTemplateDialog" [style]="{width: '950px'}" header="{{isEditMod ? 'Edit template': 'Show template'}}" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <app-template-view [isEdit]="isEditMod" [(template)]="editTemplate"></app-template-view>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div *ngIf="isEditMod">
+      <button pButton pRipple label="Restore" icon="pi pi-times" class="p-button-text" (click)="restoreTemplate()"></button>
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateTemplate()"></button>
+    </div>
+  </ng-template>
+</p-dialog>

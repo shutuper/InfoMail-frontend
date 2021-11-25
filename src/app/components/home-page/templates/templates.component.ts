@@ -10,10 +10,18 @@ import {ConfirmationService} from "primeng/api";
   styleUrls: ['./templates.component.css']
 })
 export class TemplatesComponent implements OnInit {
-
+  //vars for table
   templates: EmailTemplate[] = [];
   template!: EmailTemplate;
   selectedTemplates: EmailTemplate[] = [];
+
+  //vars for template dialog
+  isShowTemplateDialog: boolean = false;
+
+  //vars for template view
+  isEditMod: boolean = false;
+  editTemplate: EmailTemplate = {} as EmailTemplate;
+  editTemplateCopy: EmailTemplate = {} as EmailTemplate;
 
   constructor(
     private templateService: TemplateService,
@@ -51,8 +59,21 @@ export class TemplatesComponent implements OnInit {
     });
   }
 
-  editTemplate(template: EmailTemplate) {
+  openEditTemplateDialog(template: EmailTemplate) {
+    console.log('openViewTemplateDialog')
+    this.editTemplate = {...template};
+    this.editTemplateCopy = {...template};
+    this.isEditMod = true;
+    this.isShowTemplateDialog = true;
     console.log("editTemplate: ", template);
+  }
+
+  openViewTemplateDialog(template: EmailTemplate) {
+    console.log('openViewTemplateDialog')
+    this.editTemplate = {...template};
+    this.isEditMod = false;
+    this.isShowTemplateDialog = true;
+    console.log("showTemplate: ", template);
   }
 
   sliceText(text: string, maxLength: number): string {
@@ -82,5 +103,19 @@ export class TemplatesComponent implements OnInit {
       }
     });
 
+  }
+
+  updateTemplate() {
+    console.log("updateTemplate", this.editTemplate);
+  }
+
+  restoreTemplate() {
+    console.log('restoreTemplate')
+    this.editTemplate = {...this.editTemplateCopy};
+
+    console.log('this.editTemplate', this.editTemplate)
+    console.log('this.editTemplateCopy', this.editTemplateCopy)
+
+    console.log("template restored")
   }
 }
