@@ -1,4 +1,4 @@
-<div class="grid" *ngIf="allowSharing">
+<div class="grid" *ngIf="allowSharing && template.userEmail && template.sharingLink">
   <div class="col-4">
     <label for="template-owner">Creator</label>
     <input type="text" pInputText id="template-owner" [disabled]="true" [(ngModel)]="template.userEmail">
@@ -11,7 +11,7 @@
     </div>
   </div>
 </div>
-<div class="p-field">
+<div class="p-field" *ngIf="template.name">
   <label for="template-name">Name</label>
   <input type="text" id="template-name"
          pInputText
