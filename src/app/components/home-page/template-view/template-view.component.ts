@@ -9,7 +9,9 @@ import {EmailTemplate} from "../../../model/email";
 export class TemplateViewComponent implements OnInit {
 
   //accept to edit values
-  @Input() isEdit: boolean = false;
+  @Input() allowEdit: boolean = false;
+  //show userEmail and sharingLink
+  @Input() allowSharing: boolean = false;
 
   @Input() template: EmailTemplate = {
     name: '',
@@ -17,19 +19,10 @@ export class TemplateViewComponent implements OnInit {
     body: '',
   } as EmailTemplate
   @Output() templateChange = new EventEmitter<EmailTemplate>()
-  // @Output() onEditTemplate = new EventEmitter<EmailTemplate>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-
-  // saveChanges() {
-  //   this.onEditTemplate.emit(this.template);
-  // }
-
-  rollbackChanges() {
-
-  }
 }

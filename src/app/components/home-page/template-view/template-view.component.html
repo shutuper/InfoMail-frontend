@@ -1,9 +1,22 @@
+<div class="grid" *ngIf="allowSharing">
+  <div class="col-4">
+    <label for="template-owner">Creator</label>
+    <input type="text" pInputText id="template-owner" [disabled]="true" [(ngModel)]="template.userEmail">
+  </div>
+  <div class="col-6 col-offset-2">
+    <label for="sharingLink">SharingLink</label>
+    <div class="p-inputgroup">
+      <input type="text" pInputText id="sharingLink" [disabled]="true" [(ngModel)]="template.sharingLink">
+      <button type="button" pButton pRipple label="Copy"></button>
+    </div>
+  </div>
+</div>
 <div class="p-field">
   <label for="template-name">Name</label>
   <input type="text" id="template-name"
          pInputText
          placeholder="Template name"
-         [disabled]="! isEdit"
+         [disabled]="! allowEdit"
          [(ngModel)]="template.name"
          required autofocus />
 </div>
@@ -12,7 +25,7 @@
   <input type="text" id="template-subject"
          pInputText
          placeholder="Template subject"
-         [disabled]="! isEdit"
+         [disabled]="! allowEdit"
          [(ngModel)]="template.subject"
          required autofocus />
 </div>
@@ -21,13 +34,8 @@
   <textarea id="template-body"
             pInputTextarea
             placeholder="Template body"
-            [disabled]="! isEdit"
+            [disabled]="! allowEdit"
             [(ngModel)]="template.body"
             required rows="10" cols="20">
   </textarea>
 </div>
-<!--<div [hidden]="! isEdit">-->
-<!--  <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveChanges()"></button>-->
-<!--  <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="rollbackChanges()"></button>-->
-<!--</div>-->
-

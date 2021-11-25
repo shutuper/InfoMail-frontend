@@ -46,7 +46,7 @@
 <!--Template dialog-->
 <p-dialog [(visible)]="isShowTemplateDialog" [style]="{width: '950px'}" header="{{isEditMod ? 'Edit template': 'Show template'}}" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-    <app-template-view [isEdit]="isEditMod" [(template)]="editTemplate"></app-template-view>
+    <app-template-view [allowSharing]="! isEditMod" [allowEdit]="isEditMod" [(template)]="editTemplate"></app-template-view>
   </ng-template>
 
   <ng-template pTemplate="footer">
