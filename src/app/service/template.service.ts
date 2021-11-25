@@ -13,11 +13,10 @@ export class TemplateService {
     const time: Date = new Date()
 
     const template: EmailTemplate = {
-      id: 0,
       name: "Name_" + time.getHours() + + time.getMinutes(),
       subject: "Subject_" + time.getHours() + + time.getMinutes(),
       body: "Body_" + time.getHours() + + time.getMinutes()
-    }
+    } as EmailTemplate
     this.http
       .post<HttpResponse<any>>(`/api/v1/templates`, template).subscribe();
   }

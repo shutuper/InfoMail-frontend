@@ -27,6 +27,8 @@ export interface EmailTemplate {
   name: string;
   subject: string;
   body: string;
+  userEmail: string;
+  sharingLink: string;
 }
 
 export interface EmailSchedule {
