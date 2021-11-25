@@ -41,24 +41,6 @@ export class TemplatesComponent implements OnInit {
   }
 
 
-  deleteTemplate(template: EmailTemplate) {
-    console.log("deleteTemplate: ", template);
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete selected template?!',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.templateService.deleteEmailTemplateById(template.id).subscribe({
-          next: () => {
-            this.popupMessageService.showSuccess('Template is deleted!');
-            this.templates = this.templates.filter(val => val.id !== template.id);
-          },
-          error: () => this.popupMessageService.showFailed('Template is not deleted!')
-        });
-      }
-    });
-  }
-
   openEditTemplateDialog(template: EmailTemplate) {
     console.log('openViewTemplateDialog')
     this.editTemplate = {...template};
@@ -91,6 +73,24 @@ export class TemplatesComponent implements OnInit {
     return (text.length >= maxLength) ? (text.slice(0, maxLength) + '...') : text;
   }
 
+  deleteTemplate(template: EmailTemplate) {
+    console.log("deleteTemplate: ", template);
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete selected template?!',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.templateService.deleteEmailTemplateById(template.id).subscribe({
+          next: () => {
+            this.templates = this.templates.filter(val => val.id !== template.id);
+            this.popupMessageService.showSuccess('Template is deleted!');
+          },
+          error: () => this.popupMessageService.showFailed('Template is not deleted!')
+        });
+      }
+    });
+  }
+
   deleteSelectedTemplates() {
     console.log("deleteSelectedTemplates: ", this.selectedTemplates);
     let selected = this.selectedTemplates;
@@ -116,8 +116,37 @@ export class TemplatesComponent implements OnInit {
 
   }
 
+  saveTemplate() {
+    if(this.editTemplate.id) return this.updateTemplate();
+
+    console.log("saveTemplate", this.editTemplate);
+
+    this.templateService.saveTemplate(this.editTemplate).subscribe({
+      next: (res) => {
+        this.templates = [...this.templates, res];
+        this.isShowTemplateDialog = false;
+        this.popupMessageService.showSuccess('Template successfully saved!');
+      },
+      error: () => this.popupMessageService.showFailed('Template is not saved!')
+    });
+  }
+
   updateTemplate() {
     console.log("updateTemplate", this.editTemplate);
+
+    this.templateService.saveTemplate(this.editTemplate).subscribe({
+      next: (res) => {
+        this.templates.map((template, index) => {
+          if (template.id == res.id){
+            this.templates[index] = res;
+          }
+        });
+        this.isShowTemplateDialog = false;
+        this.popupMessageService.showSuccess('Template successfully updated!');
+      },
+      error: () => this.popupMessageService.showFailed('Template is not updated!')
+    });
+
   }
 
   restoreTemplate() {
