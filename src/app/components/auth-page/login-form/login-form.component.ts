@@ -17,16 +17,15 @@ export class LoginFormComponent implements OnInit {
 
   private EMAIL_OR_PASSWORD_INCORRECT: string = 'Email or password is incorrect!';
 
-  form: FormGroup = new FormGroup({});
+  form: FormGroup = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl(''),
+  })
 
   constructor(private authService: AuthenticationService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      email: new FormControl(''),
-      password: new FormControl(''),
-    })
   }
 
   onSubmit() {

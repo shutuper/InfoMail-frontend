@@ -17,17 +17,16 @@ export class RegistrationFormComponent implements OnInit {
 
   private FORM_NOT_VALID: string = 'The form fields are not valid!';
 
-  form: FormGroup = new FormGroup({});
+  form: FormGroup = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl(''),
+    password2: new FormControl(''),
+  })
 
   constructor(private regService: RegistrationService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      email: new FormControl(''),
-      password: new FormControl(''),
-      password2: new FormControl(''),
-    })
   }
 
   onSubmit() {
