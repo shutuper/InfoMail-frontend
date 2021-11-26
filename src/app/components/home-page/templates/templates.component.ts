@@ -24,6 +24,8 @@ export class TemplatesComponent implements OnInit {
   editTemplate: EmailTemplate = {} as EmailTemplate;
   editTemplateCopy: EmailTemplate = {} as EmailTemplate;
 
+  SHARING_LINK: string = "http://localhost:4200/shared-templates/";
+
   constructor(
     private templateService: UserEmailTemplateService,
     private popupMessageService: PopupMessageService,
@@ -46,6 +48,8 @@ export class TemplatesComponent implements OnInit {
     console.log('getTemplateById', id)
     this.templateService.getTemplateById(id).subscribe({
       next: (template) => {
+        if(template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
+
         this.editTemplate = {...template};
         this.editTemplateCopy = {...template};
 
@@ -53,6 +57,10 @@ export class TemplatesComponent implements OnInit {
       },
       error:() => this.popupMessageService.showFailed("Couldn't load template!")
     });
+  }
+
+  setFullLink(sharingId: string) {
+    return this.SHARING_LINK + sharingId;
   }
 
   openEditTemplateDialog(template: EmailTemplate) {
