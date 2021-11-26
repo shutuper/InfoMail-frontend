@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {EmailTemplate} from "../../../model/email";
-import {TemplateService} from "../../../service/template.service";
+import {UserEmailTemplateService} from "../../../service/user-email-template.service";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
 import {ConfirmationService} from "primeng/api";
 
@@ -25,7 +25,7 @@ export class TemplatesComponent implements OnInit {
   editTemplateCopy: EmailTemplate = {} as EmailTemplate;
 
   constructor(
-    private templateService: TemplateService,
+    private templateService: UserEmailTemplateService,
     private popupMessageService: PopupMessageService,
     private confirmationService: ConfirmationService
   ) { }

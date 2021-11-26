@@ -4,7 +4,7 @@ import {EmailTemplate} from "../model/email";
 import {Observable} from "rxjs";
 
 @Injectable({providedIn: 'root'})
-export class TemplateService {
+export class UserEmailTemplateService {
 
   constructor(private http: HttpClient){}
 
@@ -18,29 +18,29 @@ export class TemplateService {
       body: "Body_" + time.getHours() + + time.getMinutes()
     } as EmailTemplate
     this.http
-      .post<HttpResponse<any>>(`/api/v1/templates`, template).subscribe();
+      .post<HttpResponse<any>>(`/api/v1/usertemplates`, template).subscribe();
   }
 
   saveTemplate(template: EmailTemplate): Observable<EmailTemplate> {
-    return this.http.post<EmailTemplate>(`/api/v1/templates`, template);
+    return this.http.post<EmailTemplate>(`/api/v1/usertemplates`, template);
   }
 
   getTemplatesLol(): void {
     this.http
-      .get<EmailTemplate[]>(`/api/v1/templates`).subscribe({
+      .get<EmailTemplate[]>(`/api/v1/usertemplates`).subscribe({
       next:(res) => res.forEach((e) => console.log(e))});
   }
 
   getTemplates(): Observable<EmailTemplate[]> {
-    return this.http.get<EmailTemplate[]>(`/api/v1/templates`);
+    return this.http.get<EmailTemplate[]>(`/api/v1/usertemplates`);
   }
 
   getTemplateById(id: number): Observable<EmailTemplate> {
-    return this.http.get<EmailTemplate>(`/api/v1/templates/${id}`);
+    return this.http.get<EmailTemplate>(`/api/v1/usertemplates/${id}`);
   }
 
   deleteEmailTemplateById(id: number) {
-    return this.http.delete(`/api/v1/templates/${id}`);
+    return this.http.delete(`/api/v1/usertemplates/${id}`);
   }
 
   deleteEmailTemplatesByIds(ids: number[]) {
@@ -52,6 +52,6 @@ export class TemplateService {
         ids
       }
     };
-    return this.http.delete('/api/v1/templates', options);
+    return this.http.delete('/api/v1/usertemplates', options);
   }
 }
