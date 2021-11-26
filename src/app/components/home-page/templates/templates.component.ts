@@ -150,12 +150,9 @@ export class TemplatesComponent implements OnInit {
   }
 
   isValidTemplate():boolean {
-    if(this.editTemplate.name === undefined) return false;
-    if(this.editTemplate.name === '') return false;
-    if(this.editTemplate.subject === undefined) return false;
-    if(this.editTemplate.subject === '') return false;
-    if(this.editTemplate.body === undefined) return false;
-    if(this.editTemplate.body === '') return false;
+    if(this.editTemplate.name === undefined || this.editTemplate.name === '') return false;
+    if(this.editTemplate.subject === undefined || this.editTemplate.subject === '') return false;
+    if(this.editTemplate.body === undefined || this.editTemplate.body === '') return false;
     return true;
   };
 

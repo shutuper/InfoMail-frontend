@@ -52,8 +52,7 @@ export class TemplateViewComponent implements OnInit {
   }
 
   isValidStroke(text: string | undefined): boolean {
-    if(text === undefined) return false;
-    if(text === '') return false;
+    if(text === undefined || text === '') return false;
     return true;
   }
 }
