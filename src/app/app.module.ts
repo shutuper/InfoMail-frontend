@@ -49,6 +49,7 @@ import {RegistrationMessageComponent} from './components/auth-page/registration-
 import {PopupMessageService} from "./service/utils/popup-message.service";
 import {TemplateViewComponent} from './components/home-page/template-view/template-view.component';
 import {UserEmailTemplateService} from "./service/user-email-template.service";
+import {EmailTemplateService} from "./service/email-template.service";
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import {UserEmailTemplateService} from "./service/user-email-template.service";
     TableService,
     PopupMessageService,
     UserEmailTemplateService,
+    EmailTemplateService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
