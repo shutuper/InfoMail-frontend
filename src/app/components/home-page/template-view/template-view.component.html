@@ -19,6 +19,9 @@
          [disabled]="! allowEdit"
          [(ngModel)]="template.name"
          required autofocus />
+  <br [hidden]="isValidStroke(template.name)">
+  <small id="template-name-help"
+         [hidden]="isValidStroke(template.name)" class="p-error font-bold text-sm  mt-2">{{NOT_VALID_STROKE}}</small>
 </div>
 <div class="p-field">
   <label for="template-subject">Subject</label>
@@ -28,6 +31,9 @@
          [disabled]="! allowEdit"
          [(ngModel)]="template.subject"
          required autofocus />
+  <br [hidden]="isValidStroke(template.subject)">
+  <small id="template-subject-help"
+         [hidden]="isValidStroke(template.subject)" class="p-error font-bold text-sm  mt-2">{{NOT_VALID_STROKE}}</small>
 </div>
 <div class="p-field">
   <label for="template-body">Body</label>
@@ -38,4 +44,7 @@
             [(ngModel)]="template.body"
             required rows="10" cols="20">
   </textarea>
+  <br [hidden]="isValidStroke(template.body)">
+  <small id="template-body-help"
+         [hidden]="isValidStroke(template.body)" class="p-error font-bold text-sm  mt-2">{{NOT_VALID_STROKE}}</small>
 </div>

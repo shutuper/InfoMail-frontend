@@ -24,6 +24,9 @@ export class TemplateViewComponent implements OnInit {
   } as EmailTemplate
   @Output() templateChange = new EventEmitter<EmailTemplate>()
 
+  //validation
+  NOT_VALID_STROKE: string = "Must not be empty!"
+
   constructor(private popupMessageService: PopupMessageService) { }
 
   ngOnInit(): void {
@@ -46,5 +49,11 @@ export class TemplateViewComponent implements OnInit {
 
     } else this.popupMessageService.showFailed('Sharing link not found!');
 
+  }
+
+  isValidStroke(text: string | undefined): boolean {
+    if(text === undefined) return false;
+    if(text === '') return false;
+    return true;
   }
 }

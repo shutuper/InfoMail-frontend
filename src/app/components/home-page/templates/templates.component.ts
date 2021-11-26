@@ -129,7 +129,12 @@ export class TemplatesComponent implements OnInit {
 
   }
 
-  saveTemplate() {
+  saveTemplate():void {
+    if(! this.isValidTemplate()) {
+      this.popupMessageService.showFailed('Template invalid!');
+      return;
+    }
+
     if(this.editTemplate.id) return this.updateTemplate();
 
     console.log("saveTemplate", this.editTemplate);
@@ -143,6 +148,16 @@ export class TemplatesComponent implements OnInit {
       error: () => this.popupMessageService.showFailed('Template is not saved!')
     });
   }
+
+  isValidTemplate():boolean {
+    if(this.editTemplate.name === undefined) return false;
+    if(this.editTemplate.name === '') return false;
+    if(this.editTemplate.subject === undefined) return false;
+    if(this.editTemplate.subject === '') return false;
+    if(this.editTemplate.body === undefined) return false;
+    if(this.editTemplate.body === '') return false;
+    return true;
+  };
 
   updateTemplate() {
     console.log("updateTemplate", this.editTemplate);
