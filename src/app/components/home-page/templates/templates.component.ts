@@ -14,6 +14,7 @@ export class TemplatesComponent implements OnInit {
   templates: EmailTemplate[] = [];
   template!: EmailTemplate;
   selectedTemplates: EmailTemplate[] = [];
+  isShowLoading: boolean = true; // show loading before templates loaded
 
   //vars for template dialog
   isShowTemplateDialog: boolean = false;
@@ -36,15 +37,27 @@ export class TemplatesComponent implements OnInit {
   getTemplates() {
     this.templateService.getTemplates().subscribe({
       next: (templates) => this.templates = templates,
-      error:() => this.popupMessageService.showFailed("Couldn't load templates!")
+      error:() => this.popupMessageService.showFailed("Couldn't load templates!"),
+      complete:() => this.isShowLoading = false
     });
   }
 
+  getTemplateById(id: number) {
+    console.log('getTemplateById', id)
+    this.templateService.getTemplateById(id).subscribe({
+      next: (template) => {
+        this.editTemplate = {...template};
+        this.editTemplateCopy = {...template};
+
+        this.updateBufferValue(template);
+      },
+      error:() => this.popupMessageService.showFailed("Couldn't load template!")
+    });
+  }
 
   openEditTemplateDialog(template: EmailTemplate) {
     console.log('openViewTemplateDialog')
-    this.editTemplate = {...template};
-    this.editTemplateCopy = {...template};
+    this.getTemplateById(template.id);
     this.isEditMod = true;
     this.dialogHeader = 'Edit template';
     this.isShowTemplateDialog = true;
@@ -62,7 +75,7 @@ export class TemplatesComponent implements OnInit {
 
   openViewTemplateDialog(template: EmailTemplate) {
     console.log('openViewTemplateDialog')
-    this.editTemplate = {...template};
+    this.getTemplateById(template.id);
     this.isEditMod = false;
     this.isShowTemplateDialog = true;
     this.dialogHeader = 'Show template';
@@ -122,8 +135,8 @@ export class TemplatesComponent implements OnInit {
     console.log("saveTemplate", this.editTemplate);
 
     this.templateService.saveTemplate(this.editTemplate).subscribe({
-      next: (res) => {
-        this.templates = [...this.templates, res];
+      next: (template) => {
+        this.templates = [...this.templates, template];
         this.isShowTemplateDialog = false;
         this.popupMessageService.showSuccess('Template successfully saved!');
       },
@@ -135,18 +148,23 @@ export class TemplatesComponent implements OnInit {
     console.log("updateTemplate", this.editTemplate);
 
     this.templateService.saveTemplate(this.editTemplate).subscribe({
-      next: (res) => {
-        this.templates.map((template, index) => {
-          if (template.id == res.id){
-            this.templates[index] = res;
-          }
-        });
+      next: (template) => {
+        this.updateBufferValue(template);
+
         this.isShowTemplateDialog = false;
         this.popupMessageService.showSuccess('Template successfully updated!');
       },
       error: () => this.popupMessageService.showFailed('Template is not updated!')
     });
 
+  }
+
+  updateBufferValue(template: EmailTemplate) {
+    this.templates.map((oldTemplate, index) => {
+      if (oldTemplate.id == template.id){
+        this.templates[index] = template;
+      }
+    });
   }
 
   restoreTemplate() {

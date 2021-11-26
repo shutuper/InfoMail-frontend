@@ -1,5 +1,5 @@
 <div class="card">
-  <p-table [value]="templates" [(selection)]="selectedTemplates">
+  <p-table [loading]="isShowLoading" [value]="templates" [(selection)]="selectedTemplates">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0 text-3xl">My templates:</h5>

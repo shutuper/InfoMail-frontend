@@ -35,6 +35,10 @@ export class TemplateService {
     return this.http.get<EmailTemplate[]>(`/api/v1/templates`);
   }
 
+  getTemplateById(id: number): Observable<EmailTemplate> {
+    return this.http.get<EmailTemplate>(`/api/v1/templates/${id}`);
+  }
+
   deleteEmailTemplateById(id: number) {
     return this.http.delete(`/api/v1/templates/${id}`);
   }
