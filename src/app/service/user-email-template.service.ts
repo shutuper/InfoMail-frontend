@@ -35,6 +35,10 @@ export class UserEmailTemplateService {
     return this.http.get<EmailTemplate[]>(`/api/v1/usertemplates`);
   }
 
+  getTemplateBySharingId(sharingId: string): Observable<EmailTemplate> {
+    return this.http.get<EmailTemplate>(`/api/v1/usertemplates/shared/${sharingId}`);
+  }
+
   getTemplateById(id: number): Observable<EmailTemplate> {
     return this.http.get<EmailTemplate>(`/api/v1/usertemplates/${id}`);
   }
