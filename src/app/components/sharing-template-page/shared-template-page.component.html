@@ -1,0 +1,22 @@
+<app-header></app-header>
+<main class="bg-primary-reverse">
+  <div class="fluid h-screen grid">
+
+    <div id="navbar" class="col-2 surface-100 m-0 p-1">
+    </div>
+
+    <div id="content" class="border-top-3 col-7 p-4 default-background">
+      <div class="p-4 w-full">
+        <label for="reg-form" class="block text-4xl p-2">Shared Template</label>
+        <p-card id="reg-form">
+          <app-template-view [(template)]="sharedTemplate" [allowSharing]="true"></app-template-view>
+          <ng-template pTemplate="footer">
+            <button pButton pRipple label="Add to my templates" icon="pi pi-check" class="p-button-text" (click)="saveTemplate()"></button>
+          </ng-template>
+        </p-card>
+      </div>
+
+    </div>
+
+  </div>
+</main>

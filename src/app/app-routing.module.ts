@@ -11,6 +11,7 @@ import {AuthPageComponent} from "./components/auth-page/auth-page.component";
 import {LoginFormComponent} from "./components/auth-page/login-form/login-form.component";
 import {RegistrationFormComponent} from "./components/auth-page/registration-form/registration-form.component";
 import {RegistrationMessageComponent} from "./components/auth-page/registration-message/registration-message.component";
+import {SharedTemplatePageComponent} from "./components/sharing-template-page/shared-template-page.component";
 
 const routes: Routes = [
   {path: 'welcome', component: WelcomePageComponent},
@@ -35,6 +36,7 @@ const routes: Routes = [
       {path: 'templates', component: TemplatesComponent}
     ]
   },
+  {path: 'shared-templates/:sharingId', component: SharedTemplatePageComponent},
   {path: '**', component: ErrorPageComponent}
 ];
 

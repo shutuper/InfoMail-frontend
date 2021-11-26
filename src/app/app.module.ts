@@ -50,6 +50,8 @@ import {PopupMessageService} from "./service/utils/popup-message.service";
 import {TemplateViewComponent} from './components/home-page/template-view/template-view.component';
 import {UserEmailTemplateService} from "./service/user-email-template.service";
 import {EmailTemplateService} from "./service/email-template.service";
+import {SharedTemplatePageComponent} from './components/sharing-template-page/shared-template-page.component';
+import {CardModule} from "primeng/card";
 
 @NgModule({
   declarations: [
@@ -67,7 +69,8 @@ import {EmailTemplateService} from "./service/email-template.service";
     AuthPageComponent,
     RegistrationFormComponent,
     RegistrationMessageComponent,
-    TemplateViewComponent
+    TemplateViewComponent,
+    SharedTemplatePageComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +98,8 @@ import {EmailTemplateService} from "./service/email-template.service";
     ToolbarModule,
     ToastModule,
     TagModule,
-    CheckboxModule
+    CheckboxModule,
+    CardModule
 
   ],
   providers: [
