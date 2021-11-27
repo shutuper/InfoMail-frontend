@@ -1,12 +1,15 @@
 <div class="card">
-  <p-table [loading]="isShowLoading" [value]="templates" [(selection)]="selectedTemplates">
+  <p-table [loading]="isShowLoading" [value]="templates" [(selection)]="selectedTemplates" [rows]="numberOfRows"
+           [paginator]="true">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0 text-3xl">My templates:</h5>
         <div>
-          <button pButton pRipple class="mr-2" [label]="'Create'" icon="pi pi-file" (click)="openNewTemplateDialog()" ></button>
+          <button pButton pRipple class="mr-2" [label]="'Create'" icon="pi pi-file"
+                  (click)="openNewTemplateDialog()"></button>
           <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"
-                  (click)="deleteSelectedTemplates()" [disabled]="!selectedTemplates || !selectedTemplates.length"></button>
+                  (click)="deleteSelectedTemplates()"
+                  [disabled]="!selectedTemplates || !selectedTemplates.length"></button>
         </div>
       </div>
     </ng-template>
@@ -16,7 +19,8 @@
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
         <th class="w-18rem">Name</th>
-        <th>Subject</th>
+        <th class="w-30rem">Subject</th>
+        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-template>
@@ -25,13 +29,16 @@
           <p-tableCheckbox [value]="template"></p-tableCheckbox>
         </td>
         <td>
-          <button pButton pRipple type="button" (click)="openViewTemplateDialog(template)" class="p-button-text">{{sliceText(template.name, 25)}}</button>
+          <button pButton pRipple type="button" (click)="openViewTemplateDialog(template)"
+                  class="p-button-text">{{sliceText(template.name, 25)}}</button>
         </td>
         <td>{{sliceText(template.subject, 90)}}</td>
         <td>
           <div class="flex justify-content-end">
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openEditTemplateDialog(template)"></button>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTemplate(template)"></button>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                    (click)="openEditTemplateDialog(template)"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                    (click)="deleteTemplate(template)"></button>
           </div>
         </td>
       </tr>
@@ -43,14 +50,17 @@
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 
 <!--Template dialog-->
-<p-dialog [(visible)]="isShowTemplateDialog" [style]="{width: '950px'}" header="{{dialogHeader}}" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="isShowTemplateDialog" [style]="{width: '950px'}" header="{{dialogHeader}}" [modal]="true"
+          styleClass="p-fluid">
   <ng-template pTemplate="content">
-    <app-template-view [showEmptyName]="true" [allowSharing]="! isEditMod" [allowEdit]="isEditMod" [(template)]="editTemplate"></app-template-view>
+    <app-template-view [showEmptyName]="true" [allowSharing]="! isEditMod" [allowEdit]="isEditMod"
+                       [(template)]="editTemplate"></app-template-view>
   </ng-template>
 
   <ng-template pTemplate="footer">
     <div *ngIf="isEditMod">
-      <button pButton pRipple label="Restore" icon="pi pi-times" class="p-button-text" (click)="restoreTemplate()"></button>
+      <button pButton pRipple label="Restore" icon="pi pi-times" class="p-button-text"
+              (click)="restoreTemplate()"></button>
       <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTemplate()"></button>
     </div>
   </ng-template>

@@ -19,7 +19,7 @@
            placeholder="Template name"
            [disabled]="! allowEdit"
            [(ngModel)]="template.name"
-           required autofocus />
+           required autofocus>
     <small id="template-name-help"
            [hidden]="isValidStroke(template.name)" class="p-error font-bold text-sm  mt-2">{{NOT_VALID_STROKE}}</small>
   </div>
@@ -30,9 +30,10 @@
            placeholder="Template subject"
            [disabled]="! allowEdit"
            [(ngModel)]="template.subject"
-           required autofocus />
+           required autofocus>
     <small id="template-subject-help"
-           [hidden]="isValidStroke(template.subject)" class="p-error font-bold text-sm  mt-2">{{NOT_VALID_STROKE}}</small>
+           [hidden]="isValidStroke(template.subject)"
+           class="p-error font-bold text-sm  mt-2">{{NOT_VALID_STROKE}}</small>
   </div>
   <div class="p-field">
     <label for="template-body">Body</label>

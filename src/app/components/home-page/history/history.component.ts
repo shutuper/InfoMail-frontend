@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ConfirmationService, LazyLoadEvent} from "primeng/api";
 import {HistoryService} from "../../../service/history.service";
-import {History} from "../../../model/email";
+import {EmailTemplate, History} from "../../../model/email";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
 
 @Component({
@@ -11,15 +11,14 @@ import {PopupMessageService} from "../../../service/utils/popup-message.service"
 })
 export class HistoryComponent implements OnInit {
 
-  numberOfRows: number = 15; // default number of table rows
-  totalRecords!: number;  // total number of emails in history
-  loading: boolean = false; // icon of loading before emails loaded
-  firstLoad: boolean = true; // marker for sorting by emails ids (for first load)
-  isChecked: boolean = false; // all emails selected
-  first: number = 0; // xz 3a4em yzhe ne nado naverno
-  emails!: History[]; // all emails on current page (lazy loaded)
-  selectedEmails: History[] = []; // emails selected by checkboxes
-
+  selectedEmails: History[] = [];   // emails selected by checkboxes
+  isChecked: boolean = false;      // is all emails selected
+  numberOfRows: number = 15;      // default number of table rows
+  totalRecords!: number;         // total number of emails in history
+  loading: boolean = false;     // icon of loading before actions completed
+  firstLoad: boolean = true;   // marker for sorting by emails Ids (for first load)
+  emails!: History[];         // all emails on current page (lazy loaded)
+  maxSubjectLength = 65;     // max subject length in table that is not sliced
 
   constructor(private popupMessageService: PopupMessageService,
               private confirmationService: ConfirmationService,
@@ -27,7 +26,7 @@ export class HistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loading = true;
+    this.beginLoading();
     this.historyService.getTotalNumberOfRows().subscribe(totalRecords => this.totalRecords = totalRecords);
 
     this.getCurrentHistoryPage(0, this.numberOfRows, 'id', -1);
@@ -37,22 +36,37 @@ export class HistoryComponent implements OnInit {
     this.selectedEmails = this.isChecked ? this.emails : [];
   }
 
-  sliceLongString(str: string) {
-    return (str.length >= 65) ? str.slice(0, 64).concat('...') : str;
+  sliceLongString(str: string, maxLength: number) {
+    return (str.length >= maxLength) ? str.slice(0, maxLength - 1).concat('...') : str;
+  }
+
+  retry(emailId: number, index: number) {
+    this.beginLoading();
+    this.historyService.retryFailed(emailId).subscribe({
+      next: (email: History) => {
+        this.emails.splice(index, 1, email);
+        this.finishLoading();
+        this.popupMessageService.showSuccess("Successfully resent!");
+      },
+      error: () => {
+        this.finishLoading();
+        this.popupMessageService.showFailed("Resending failed!");
+      }
+    });
   }
 
   private getCurrentHistoryPage(page: number, rows: number, sortFiled: string, sortOrder: number) {
     this.historyService.getPaginatedHistory(page, rows, sortFiled, sortOrder).subscribe({
       next: (emails: History[]) => {
         this.emails = emails;
-        this.loading = false;
+        this.finishLoading();
       },
       error: () => {
         setTimeout(() => {
           this.popupMessageService.showFailed("Couldn't load emails history!");
-          this.loading = false;
+          this.finishLoading();
           this.getCurrentHistoryPage(0, this.numberOfRows, 'id', -1);
-        }, 5000)  // if failed to load data, recursively try to load emails after 5 seconds
+        }, 5 * 1000)  // if failed to load data, recursively try to load emails after 5 seconds
       }
     });
   }
@@ -60,12 +74,11 @@ export class HistoryComponent implements OnInit {
   loadEmails(event: LazyLoadEvent) {  //loading emails after changing page/sorter
     console.log(event);
     if (event.rows) {
-      this.loading = true;
+      this.beginLoading();
 
       let page = ((!event.first) ? 0 : event.first) / event.rows;
       let sortField = (!event.sortField) ? 'id' : event.sortField;
       let sortOrder = (!event.sortOrder) ? -1 : event.sortOrder;
-      this.first = event.first || 0;
 
       if (this.firstLoad || (sortField === 'id')) {  //default sorting by emails ids
         this.firstLoad = false;
@@ -85,19 +98,23 @@ export class HistoryComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         let ids = selected.map(x => x.id);  // get array of selected emails' ids
+        this.beginLoading();
         this.historyService.deleteEmailsByIds(ids).subscribe({
 
             next: () => {
               this.emails = this.emails.filter(val => !selected.includes(val));
-              this.getCurrentHistoryPage(0, this.numberOfRows, 'id', -1);
+              if (this.emails.length <= 0)
+                this.ngOnInit();
 
               this.isChecked = false;
               this.totalRecords -= selected.length;
               this.selectedEmails = [];
+              this.finishLoading();
               this.popupMessageService.showSuccess('Products are deleted!');
             },
             error: () => {
               this.selectedEmails = [];
+              this.finishLoading();
               this.popupMessageService.showFailed("Couldn't delete selected emails!");
             }
           }
@@ -106,6 +123,13 @@ export class HistoryComponent implements OnInit {
     });
   }
 
+  private beginLoading() {
+    this.loading = true;
+  }
+
+  private finishLoading() {
+    this.loading = false;
+  }
 
   deleteEmailById(id: number) {
     this.confirmationService.confirm({
@@ -113,13 +137,21 @@ export class HistoryComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        this.beginLoading();
         this.historyService.deleteEmailById(id).subscribe({
           next: () => {
             this.popupMessageService.showSuccess('Email is deleted!');
             this.emails = this.emails.filter(val => val.id !== id);
             this.totalRecords--;
+            this.finishLoading();
+
+            if (this.emails.length <= 0)
+              this.ngOnInit();
           },
-          error: () => this.popupMessageService.showFailed('Email is not deleted!')
+          error: () => {
+            this.popupMessageService.showFailed('Email is not deleted!');
+            this.finishLoading();
+          }
         })
       }
     });

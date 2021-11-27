@@ -15,6 +15,7 @@ export class TemplatesComponent implements OnInit {
   template!: EmailTemplate;
   selectedTemplates: EmailTemplate[] = [];
   isShowLoading: boolean = true; // show loading before templates loaded
+  numberOfRows = 15;
 
   //vars for template dialog
   isShowTemplateDialog: boolean = false;
@@ -30,7 +31,8 @@ export class TemplatesComponent implements OnInit {
     private templateService: UserEmailTemplateService,
     private popupMessageService: PopupMessageService,
     private confirmationService: ConfirmationService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getTemplates();
@@ -39,8 +41,8 @@ export class TemplatesComponent implements OnInit {
   getTemplates() {
     this.templateService.getTemplates().subscribe({
       next: (templates) => this.templates = templates,
-      error:() => this.popupMessageService.showFailed("Couldn't load templates!"),
-      complete:() => this.isShowLoading = false
+      error: () => this.popupMessageService.showFailed("Couldn't load templates!"),
+      complete: () => this.isShowLoading = false
     });
   }
 
@@ -48,14 +50,14 @@ export class TemplatesComponent implements OnInit {
     console.log('getTemplateById', id)
     this.templateService.getTemplateById(id).subscribe({
       next: (template) => {
-        if(template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
+        if (template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
 
         this.editTemplate = {...template};
         this.editTemplateCopy = {...template};
 
         this.updateBufferValue(template);
       },
-      error:() => this.popupMessageService.showFailed("Couldn't load template!")
+      error: () => this.popupMessageService.showFailed("Couldn't load template!")
     });
   }
 
@@ -137,13 +139,13 @@ export class TemplatesComponent implements OnInit {
 
   }
 
-  saveTemplate():void {
-    if(! this.isValidTemplate()) {
+  saveTemplate(): void {
+    if (!this.isValidTemplate()) {
       this.popupMessageService.showFailed('Template invalid!');
       return;
     }
 
-    if(this.editTemplate.id) return this.updateTemplate();
+    if (this.editTemplate.id) return this.updateTemplate();
 
     console.log("saveTemplate", this.editTemplate);
 
@@ -157,11 +159,11 @@ export class TemplatesComponent implements OnInit {
     });
   }
 
-  isValidTemplate():boolean {
-    if(this.editTemplate.name === undefined || this.editTemplate.name === '') return false;
-    if(this.editTemplate.subject === undefined || this.editTemplate.subject === '') return false;
-    if(this.editTemplate.body === undefined || this.editTemplate.body === '') return false;
-    return true;
+  isValidTemplate(): boolean {
+    if (this.editTemplate.name === undefined || this.editTemplate.name === '') return false;
+    if (this.editTemplate.subject === undefined || this.editTemplate.subject === '') return false;
+    return !(this.editTemplate.body === undefined || this.editTemplate.body === '');
+
   };
 
   updateTemplate() {
@@ -181,7 +183,7 @@ export class TemplatesComponent implements OnInit {
 
   updateBufferValue(template: EmailTemplate) {
     this.templates.map((oldTemplate, index) => {
-      if (oldTemplate.id == template.id){
+      if (oldTemplate.id == template.id) {
         this.templates[index] = template;
       }
     });

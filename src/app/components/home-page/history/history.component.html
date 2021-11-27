@@ -6,7 +6,7 @@
            dataKey="id" [loading]="loading" [showCurrentPageReport]="true"
            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
 
-<!--  Table captions  -->
+    <!--  Table captions  -->
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0 text-3xl">Emails history:</h5>
@@ -16,7 +16,7 @@
       </div>
     </ng-template>
 
-<!--  Table header  -->
+    <!--  Table header  -->
     <ng-template pTemplate="header">
       <tr class="w-100">
 
@@ -26,22 +26,28 @@
 
         <th class="w-30rem">Email subject</th>
 
-        <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>
+        <th pSortableColumn="status">Status
+          <p-sortIcon field="status"></p-sortIcon>
+        </th>
 
-        <th pSortableColumn="dateTime">Sent at<p-sortIcon field="dateTime"></p-sortIcon></th>
+        <th pSortableColumn="dateTime">Sent at
+          <p-sortIcon field="dateTime"></p-sortIcon>
+        </th>
 
         <th></th> <!-- Column for delete/repeat buttons -->
 
       </tr>
     </ng-template>
 
-<!--    Table body-->
-    <ng-template pTemplate="body" let-email>
+    <!--    Table body-->
+    <ng-template pTemplate="body" let-email let-index="index">
       <tr>
 
-        <td><p-tableCheckbox [value]="email"></p-tableCheckbox></td>
+        <td>
+          <p-tableCheckbox [value]="email"></p-tableCheckbox>
+        </td>
 
-        <td>{{sliceLongString(email.subject)}}</td>
+        <td>{{sliceLongString(email.subject, maxSubjectLength)}}</td>
 
         <td>
           <p-tag styleClass="mr-2" [severity]="email.status?'primary':'danger'"
@@ -51,14 +57,18 @@
         <td>{{email.dateTime | date: 'yy:MM:dd HH:mm'}}</td>
 
         <td>
-          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                  (click)="deleteEmailById(email.id)"></button>
+          <div class="flex justify-content-end">
+            <button *ngIf="! email.status" pButton pRipple icon="pi pi-sync" class="p-button-rounded p-button-warning  mr-2"
+                    (click)="retry(email.id,index)"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                    (click)="deleteEmailById(email.id)"></button>
+          </div>
         </td>
 
       </tr>
     </ng-template>
 
-<!--     Summary at the bottom of the table-->
+    <!--     Summary at the bottom of the table-->
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
         In total there are {{totalRecords ? totalRecords : 0}} emails.

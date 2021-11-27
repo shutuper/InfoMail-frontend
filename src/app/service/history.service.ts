@@ -38,4 +38,8 @@ export class HistoryService {
     };
     return this.httpClient.delete('/api/v1/history', options);
   }
+
+  retryFailed(emailId: number) {
+    return this.httpClient.put<History>(`/api/v1/history/${emailId}`,null);
+  }
 }
