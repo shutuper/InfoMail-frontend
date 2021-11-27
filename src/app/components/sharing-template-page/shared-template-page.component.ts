@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {EmailTemplate} from "../../model/email";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {UserEmailTemplateService} from "../../service/user-email-template.service";
 import {PopupMessageService} from "../../service/utils/popup-message.service";
 
@@ -17,7 +17,8 @@ export class SharedTemplatePageComponent implements OnInit {
   constructor(
     private templateService: UserEmailTemplateService,
     private popupMessageService: PopupMessageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +48,19 @@ export class SharedTemplatePageComponent implements OnInit {
   }
 
   saveTemplate() {
+    console.log("saveTemplate", this.sharedTemplate);
 
+    this.templateService.saveSharedTemplate(this.sharedTemplate).subscribe({
+      next: () => {
+        this.popupMessageService.showSuccess('Template successfully added!');
+        this.openMyTemplates();
+      },
+      error: () => this.popupMessageService.showFailed('Template is not added!')
+    });
+  }
+
+  private openMyTemplates() {
+    console.log("Navigate to My templates page");
+    this.router.navigate(['templates']);
   }
 }

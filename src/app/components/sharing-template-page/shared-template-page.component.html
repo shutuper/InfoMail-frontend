@@ -11,7 +11,7 @@
         <p-card id="reg-form">
           <app-template-view [(template)]="sharedTemplate" [allowSharing]="true"></app-template-view>
           <ng-template pTemplate="footer">
-            <button pButton pRipple label="Add to my templates" icon="pi pi-check" class="p-button-text" (click)="saveTemplate()"></button>
+            <button pButton pRipple type="button" icon="pi pi-file" (click)="saveTemplate()" label="Add to templates" class="p-button-raised"></button>
           </ng-template>
         </p-card>
       </div>
