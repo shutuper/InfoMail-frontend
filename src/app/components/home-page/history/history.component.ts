@@ -110,14 +110,14 @@ export class HistoryComponent implements OnInit {
 
             next: () => {
               this.emails = this.emails.filter(val => !selected.includes(val));
-              if (this.emails.length <= 0)
-                this.ngOnInit();
-
               this.isChecked = false;
               this.totalRecords -= selected.length;
               this.selectedEmails = [];
               this.finishLoading();
               this.popupMessageService.showSuccess('Products are deleted!');
+
+              if (this.emails.length <= 0)
+                this.ngOnInit();
             },
             error: () => {
               this.selectedEmails = [];

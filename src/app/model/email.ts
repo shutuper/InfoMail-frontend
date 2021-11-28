@@ -27,7 +27,6 @@ export interface Template {
   subject: string;
 }
 
-
 export interface EmailTemplate extends Template {
   id: number;
   name: string;

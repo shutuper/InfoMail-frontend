@@ -58,6 +58,8 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {TabViewModule} from "primeng/tabview";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {DividerModule} from "primeng/divider";
+import { NewEmailComponent } from './components/home-page/new-email/new-email.component';
+import {ChipModule} from "primeng/chip";
 
 @NgModule({
   declarations: [
@@ -77,43 +79,45 @@ import {DividerModule} from "primeng/divider";
     RegistrationMessageComponent,
     TemplateViewComponent,
     SharedTemplatePageComponent,
-    EmailViewComponent
+    EmailViewComponent,
+    NewEmailComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    MultiSelectModule,
-    ButtonModule,
-    DialogModule,
-    ChipsModule,
-    InputSwitchModule,
-    CalendarModule,
-    InputTextareaModule,
-    InputTextModule,
-    MenubarModule,
-    PasswordModule,
-    RippleModule,
-    ConfirmDialogModule,
-    InputNumberModule,
-    RadioButtonModule,
-    TableModule,
-    FileUploadModule,
-    ToolbarModule,
-    ToastModule,
-    TagModule,
-    CheckboxModule,
-    CardModule,
-    ScrollTopModule,
-    ProgressSpinnerModule,
-    TabViewModule,
-    ScrollPanelModule,
-    DividerModule
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        MultiSelectModule,
+        ButtonModule,
+        DialogModule,
+        ChipsModule,
+        InputSwitchModule,
+        CalendarModule,
+        InputTextareaModule,
+        InputTextModule,
+        MenubarModule,
+        PasswordModule,
+        RippleModule,
+        ConfirmDialogModule,
+        InputNumberModule,
+        RadioButtonModule,
+        TableModule,
+        FileUploadModule,
+        ToolbarModule,
+        ToastModule,
+        TagModule,
+        CheckboxModule,
+        CardModule,
+        ScrollTopModule,
+        ProgressSpinnerModule,
+        TabViewModule,
+        ScrollPanelModule,
+        DividerModule,
+        ChipModule
 
-  ],
+    ],
   providers: [
     AuthenticationService,
     RegistrationService,

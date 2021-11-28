@@ -13,6 +13,7 @@ import {RegistrationFormComponent} from "./components/auth-page/registration-for
 import {RegistrationMessageComponent} from "./components/auth-page/registration-message/registration-message.component";
 import {SharedTemplatePageComponent} from "./components/sharing-template-page/shared-template-page.component";
 import {EmailViewComponent} from "./components/home-page/history/email-view/email-view.component";
+import {NewEmailComponent} from "./components/home-page/new-email/new-email.component";
 
 
 const routes: Routes = [
@@ -40,7 +41,8 @@ const routes: Routes = [
           {path: ':emailId', component: EmailViewComponent}
         ]
       },
-      {path: 'templates', component: TemplatesComponent}
+      {path: 'templates', component: TemplatesComponent},
+      {path: 'newEmail', component: NewEmailComponent}
     ]
   },
   {path: 'shared-templates/:sharingId', component: SharedTemplatePageComponent},

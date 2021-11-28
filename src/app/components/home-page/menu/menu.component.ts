@@ -9,6 +9,7 @@ import {ActivatedRoute, Route, Router} from "@angular/router";
 export class MenuComponent implements OnInit {
 
   sections: { name: string, url: string }[] = [
+    {name: 'NEW EMAIL', url: 'newEmail'},
     {name: 'Emails history', url: 'history'},
     {name: 'Scheduled tasks', url: 'tasks'},
     {name: 'My templates', url: 'templates'}
