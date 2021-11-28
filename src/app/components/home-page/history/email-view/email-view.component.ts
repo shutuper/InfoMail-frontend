@@ -86,10 +86,11 @@ export class EmailViewComponent implements OnInit {
   retry() {
     this.beginLoading();
     this.historyService.retryFailed(this.emailId).subscribe({
-      next: () => {
+      next: (email) => {
         this.popupMessageService.showSuccess("Successfully resent!");
+        this.emailWithTemplate.email = email;
         this.finishLoading();
-        this.ngOnInit();
+
       },
       error: () => {
         this.finishLoading();

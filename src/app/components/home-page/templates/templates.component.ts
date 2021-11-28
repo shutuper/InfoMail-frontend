@@ -89,7 +89,7 @@ export class TemplatesComponent implements OnInit {
     this.getTemplateById(template.id);
     this.isEditMod = false;
     this.isShowTemplateDialog = true;
-    this.dialogHeader = 'Show template';
+    this.dialogHeader = 'Email template';
     console.log("showTemplate: ", template);
   }
 
