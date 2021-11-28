@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ConfirmationService, LazyLoadEvent} from "primeng/api";
 import {HistoryService} from "../../../service/history.service";
-import {EmailTemplate, History} from "../../../model/email";
+import {ExecutedEmail} from "../../../model/email";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-history',
@@ -11,18 +12,20 @@ import {PopupMessageService} from "../../../service/utils/popup-message.service"
 })
 export class HistoryComponent implements OnInit {
 
-  selectedEmails: History[] = [];   // emails selected by checkboxes
+  selectedEmails: ExecutedEmail[] = [];   // emails selected by checkboxes
   isChecked: boolean = false;      // is all emails selected
   numberOfRows: number = 15;      // default number of table rows
   totalRecords!: number;         // total number of emails in history
   loading: boolean = false;     // icon of loading before actions completed
   firstLoad: boolean = true;   // marker for sorting by emails Ids (for first load)
-  emails!: History[];         // all emails on current page (lazy loaded)
+  emails!: ExecutedEmail[];         // all emails on current page (lazy loaded)
   maxSubjectLength = 65;     // max subject length in table that is not sliced
 
   constructor(private popupMessageService: PopupMessageService,
               private confirmationService: ConfirmationService,
-              private historyService: HistoryService) {
+              private historyService: HistoryService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -43,7 +46,7 @@ export class HistoryComponent implements OnInit {
   retry(emailId: number, index: number) {
     this.beginLoading();
     this.historyService.retryFailed(emailId).subscribe({
-      next: (email: History) => {
+      next: (email: ExecutedEmail) => {
         this.emails.splice(index, 1, email);
         this.finishLoading();
         this.popupMessageService.showSuccess("Successfully resent!");
@@ -57,7 +60,7 @@ export class HistoryComponent implements OnInit {
 
   private getCurrentHistoryPage(page: number, rows: number, sortFiled: string, sortOrder: number) {
     this.historyService.getPaginatedHistory(page, rows, sortFiled, sortOrder).subscribe({
-      next: (emails: History[]) => {
+      next: (emails: ExecutedEmail[]) => {
         this.emails = emails;
         this.finishLoading();
       },
@@ -69,6 +72,10 @@ export class HistoryComponent implements OnInit {
         }, 5 * 1000)  // if failed to load data, recursively try to load emails after 5 seconds
       }
     });
+  }
+
+  openEmailView(emailId: number) {
+    this.router.navigate([emailId], {relativeTo: this.route});
   }
 
   loadEmails(event: LazyLoadEvent) {  //loading emails after changing page/sorter

@@ -12,6 +12,8 @@ import {LoginFormComponent} from "./components/auth-page/login-form/login-form.c
 import {RegistrationFormComponent} from "./components/auth-page/registration-form/registration-form.component";
 import {RegistrationMessageComponent} from "./components/auth-page/registration-message/registration-message.component";
 import {SharedTemplatePageComponent} from "./components/sharing-template-page/shared-template-page.component";
+import {EmailViewComponent} from "./components/home-page/history/email-view/email-view.component";
+
 
 const routes: Routes = [
   {path: 'welcome', component: WelcomePageComponent},
@@ -32,7 +34,12 @@ const routes: Routes = [
     children: [
       {path: '', pathMatch: 'full', redirectTo: 'history'},
       {path: 'tasks', component: TasksComponent},
-      {path: 'history', component: HistoryComponent},
+      {
+        path: 'history', children: [
+          {path: '', component: HistoryComponent},
+          {path: ':emailId', component: EmailViewComponent}
+        ]
+      },
       {path: 'templates', component: TemplatesComponent}
     ]
   },

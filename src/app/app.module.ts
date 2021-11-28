@@ -52,6 +52,12 @@ import {UserEmailTemplateService} from "./service/user-email-template.service";
 import {EmailTemplateService} from "./service/email-template.service";
 import {SharedTemplatePageComponent} from './components/sharing-template-page/shared-template-page.component';
 import {CardModule} from "primeng/card";
+import { EmailViewComponent } from './components/home-page/history/email-view/email-view.component';
+import {ScrollTopModule} from "primeng/scrolltop";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {TabViewModule} from "primeng/tabview";
+import {ScrollPanelModule} from "primeng/scrollpanel";
+import {DividerModule} from "primeng/divider";
 
 @NgModule({
   declarations: [
@@ -70,7 +76,8 @@ import {CardModule} from "primeng/card";
     RegistrationFormComponent,
     RegistrationMessageComponent,
     TemplateViewComponent,
-    SharedTemplatePageComponent
+    SharedTemplatePageComponent,
+    EmailViewComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +106,12 @@ import {CardModule} from "primeng/card";
     ToastModule,
     TagModule,
     CheckboxModule,
-    CardModule
+    CardModule,
+    ScrollTopModule,
+    ProgressSpinnerModule,
+    TabViewModule,
+    ScrollPanelModule,
+    DividerModule
 
   ],
   providers: [

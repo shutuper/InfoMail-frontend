@@ -21,7 +21,8 @@ export class TemplateViewComponent implements OnInit {
     name: '',
     subject: '',
     body: '',
-  } as EmailTemplate
+  } as EmailTemplate;
+
   @Output() templateChange = new EventEmitter<EmailTemplate>()
 
   //validation
@@ -52,7 +53,7 @@ export class TemplateViewComponent implements OnInit {
   }
 
   isValidStroke(text: string | undefined): boolean {
-    if(text === undefined || text === '') return false;
-    return true;
+    return !(text === undefined || text === '');
+
   }
 }

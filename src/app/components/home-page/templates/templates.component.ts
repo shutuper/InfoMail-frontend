@@ -20,6 +20,7 @@ export class TemplatesComponent implements OnInit {
   //vars for template dialog
   isShowTemplateDialog: boolean = false;
   dialogHeader: string = '';
+
   //vars for template view
   isEditMod: boolean = false;
   editTemplate: EmailTemplate = {} as EmailTemplate;

@@ -1,8 +1,15 @@
+<!-- Confirmation for delete/repeat actions -->
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<p-scrollTop></p-scrollTop>
+
+<router-outlet></router-outlet>
+
 <div class="card">
 
   <p-table #dt [value]="emails" [rows]="numberOfRows" [paginator]="true"
            [lazy]="true" (onLazyLoad)="loadEmails($event)" [totalRecords]="totalRecords"
-           styleClass="p-datatable-striped" [(selection)]="selectedEmails" [rowHover]="true"
+           [(selection)]="selectedEmails" styleClass="p-datatable-striped" [rowHover]="true"
            dataKey="id" [loading]="loading" [showCurrentPageReport]="true"
            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
 
@@ -47,7 +54,10 @@
           <p-tableCheckbox [value]="email"></p-tableCheckbox>
         </td>
 
-        <td>{{sliceLongString(email.subject, maxSubjectLength)}}</td>
+        <td>
+          <button pButton pRipple type="button" (click)="openEmailView(email.id)"
+                  class="p-button-text">{{sliceLongString(email.subject, maxSubjectLength)}}</button>
+        </td>
 
         <td>
           <p-tag styleClass="mr-2" [severity]="email.status?'primary':'danger'"
@@ -58,7 +68,8 @@
 
         <td>
           <div class="flex justify-content-end">
-            <button *ngIf="! email.status" pButton pRipple icon="pi pi-sync" class="p-button-rounded p-button-warning  mr-2"
+            <button *ngIf="! email.status" pButton pRipple icon="pi pi-sync"
+                    class="p-button-rounded p-button-warning  mr-2"
                     (click)="retry(email.id,index)"></button>
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
                     (click)="deleteEmailById(email.id)"></button>
@@ -77,6 +88,3 @@
 
   </p-table>
 </div>
-
-<!-- Confirmation for delete/repeat actions -->
-<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

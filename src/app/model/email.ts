@@ -9,7 +9,7 @@ export interface Recipient {
   recipientType: RecipientType;
 }
 
-export interface History {
+export interface ExecutedEmail {
   id: number;
   dateTime: Date;
   status: boolean;
@@ -22,13 +22,23 @@ export enum RecipientType {
   BCC
 }
 
-export interface EmailTemplate {
+export interface Template {
+  body: string;
+  subject: string;
+}
+
+
+export interface EmailTemplate extends Template {
   id: number;
   name: string;
-  subject: string;
-  body: string;
   userEmail: string;
   sharingLink: string;
+}
+
+export interface EmailWithTemplate {
+  email: ExecutedEmail;
+  template: Template;
+  recipients: Recipient[];
 }
 
 export interface EmailSchedule {

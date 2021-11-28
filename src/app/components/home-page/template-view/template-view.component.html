@@ -1,4 +1,5 @@
 <div class="p-fluid">
+
   <div class="p-field grid" *ngIf="allowSharing && template.userEmail && template.sharingLink">
     <div class="col-4">
       <label for="template-owner">Creator</label>
@@ -12,6 +13,7 @@
       </div>
     </div>
   </div>
+
   <div class="p-field" *ngIf="template.name || showEmptyName">
     <label for="template-name">Name</label>
     <input type="text" id="template-name"
@@ -23,6 +25,7 @@
     <small id="template-name-help"
            [hidden]="isValidStroke(template.name)" class="p-error font-bold text-sm  mt-2">{{NOT_VALID_STROKE}}</small>
   </div>
+
   <div class="p-field">
     <label for="template-subject">Subject</label>
     <input type="text" id="template-subject"
@@ -35,8 +38,10 @@
            [hidden]="isValidStroke(template.subject)"
            class="p-error font-bold text-sm  mt-2">{{NOT_VALID_STROKE}}</small>
   </div>
+
   <div class="p-field">
     <label for="template-body">Body</label>
+
     <textarea id="template-body"
               pInputTextarea
               placeholder="Template body"
@@ -44,8 +49,10 @@
               [(ngModel)]="template.body"
               required rows="3" [autoResize]="true">
   </textarea>
+
     <br [hidden]="isValidStroke(template.body)">
     <small id="template-body-help"
            [hidden]="isValidStroke(template.body)" class="p-error font-bold text-sm  mt-2">{{NOT_VALID_STROKE}}</small>
   </div>
+
 </div>

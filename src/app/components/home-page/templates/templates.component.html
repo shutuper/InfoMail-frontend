@@ -1,6 +1,6 @@
 <div class="card">
   <p-table [loading]="isShowLoading" [value]="templates" [(selection)]="selectedTemplates" [rows]="numberOfRows"
-           [paginator]="true">
+           [paginator]="true" styleClass="p-datatable-striped" [rowHover]="true">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0 text-3xl">My templates:</h5>
@@ -65,3 +65,5 @@
     </div>
   </ng-template>
 </p-dialog>
+
+<p-scrollTop></p-scrollTop>

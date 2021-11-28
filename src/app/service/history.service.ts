@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {History} from "../model/email";
+import {EmailWithTemplate, ExecutedEmail} from "../model/email";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,16 @@ export class HistoryService {
     if (sortField === 'dateTime') sortField = 'logDateTime';
     let emailsPagination = new HttpParams()
       .set('page', page).set('rows', rows)
-      .set('sortField', sortField).set('sortOrder',sortOrder)
-    return this.httpClient.get<History[]>("/api/v1/history", {params: emailsPagination});
+      .set('sortField', sortField).set('sortOrder', sortOrder)
+    return this.httpClient.get<ExecutedEmail[]>("/api/v1/history", {params: emailsPagination});
   }
 
-  deleteEmailById(id: number) {
-    return this.httpClient.delete(`/api/v1/history/${id}`);
+  getEmailById(emailId: number): Observable<EmailWithTemplate> {
+    return this.httpClient.get<EmailWithTemplate>(`/api/v1/history/${emailId}`);
+  }
+
+  deleteEmailById(emailId: number) {
+    return this.httpClient.delete(`/api/v1/history/${emailId}`);
   }
 
   getTotalNumberOfRows() {
@@ -40,6 +45,6 @@ export class HistoryService {
   }
 
   retryFailed(emailId: number) {
-    return this.httpClient.put<History>(`/api/v1/history/${emailId}`,null);
+    return this.httpClient.put<ExecutedEmail>(`/api/v1/history/${emailId}`, null);
   }
 }
