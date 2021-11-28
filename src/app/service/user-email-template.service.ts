@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
 import {EmailTemplate} from "../model/email";
 import {Observable} from "rxjs";
 
@@ -31,10 +31,6 @@ export class UserEmailTemplateService {
       next:(res) => res.forEach((e) => console.log(e))});
   }
 
-  getTemplates(): Observable<EmailTemplate[]> {
-    return this.http.get<EmailTemplate[]>(`/api/v1/usertemplates`);
-  }
-
   getTemplateBySharingId(sharingId: string): Observable<EmailTemplate> {
     return this.http.get<EmailTemplate>(`/api/v1/usertemplates/shared/${sharingId}`);
   }
@@ -61,5 +57,16 @@ export class UserEmailTemplateService {
       }
     };
     return this.http.delete('/api/v1/usertemplates', options);
+  }
+
+  getTotalNumberOfRows(): Observable<number> {
+    return this.http.get<number>('/api/v1/usertemplates/total');
+  }
+
+  getPaginatedTemplates(page: number, rows: number, sortField: string, sortOrder: number) {
+    const templatesPagination = new HttpParams()
+      .set('page', page).set('rows', rows)
+      .set('sortField', sortField).set('sortOrder', sortOrder)
+    return this.http.get<EmailTemplate[]>("/api/v1/usertemplates", {params: templatesPagination});
   }
 }

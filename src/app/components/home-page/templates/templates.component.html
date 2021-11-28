@@ -1,6 +1,17 @@
 <div class="card">
-  <p-table [loading]="isShowLoading" [value]="templates" [(selection)]="selectedTemplates" [rows]="numberOfRows"
-           [paginator]="true" styleClass="p-datatable-striped" [rowHover]="true">
+  <p-table
+    dataKey="id"
+    [loading]="loading"
+    [value]="templates"
+    [(selection)]="selectedTemplates"
+    [rows]="numberOfRows"
+    [totalRecords]="totalRecords"
+    [paginator]="true"
+    [lazy]="true"
+    [rowHover]="true"
+    (onLazyLoad)="loadTemplates($event)"
+    styleClass="p-datatable-striped"
+  >
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0 text-3xl">My templates:</h5>
@@ -16,11 +27,13 @@
     <ng-template pTemplate="header">
       <tr>
         <th class="w-3rem">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          <p-checkbox [(ngModel)]="isChecked" [binary]="true" (onChange)="selectOrUnselectAllTemplates()"></p-checkbox>
         </th>
-        <th class="w-18rem">Name</th>
+        <th pSortableColumn="name" class="w-18rem">Name
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
         <th class="w-30rem">Subject</th>
-        <th></th>
+        <th></th><!-- Column for delete/edit buttons -->
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-template>
