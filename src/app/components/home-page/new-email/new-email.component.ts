@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EmailService} from "../../../service/email.service";
 import {NgForm} from "@angular/forms";
-import {Email, Recipient, RecipientType, RepeatType} from "../../../model/email";
-import {Chips} from "primeng/chips";
+import {Email, EmailSchedule, Recipient, RecipientType, RepeatType} from "../../../model/email";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
 
 @Component({
@@ -21,21 +20,27 @@ export class NewEmailComponent implements OnInit {
   constructor(private emailService: EmailService, private popupMessageService: PopupMessageService) {
   }
 
+  //for EmailEmailSchedule
+  emailSchedule: EmailSchedule = {sendNow: true} as EmailSchedule
+  isSendNow: boolean = true;
 
-  isScheduleFormHidden: boolean = true;
-  isEnableSchedule: boolean = false;
-
-  public switchScheduleFormHidden() {
-    this.isScheduleFormHidden = !this.isScheduleFormHidden;
+  switchScheduleFormHidden() {
+    this.isSendNow = !this.isSendNow;
   }
 
+  updateEmailShedule(schedule: EmailSchedule){
+    this.emailSchedule = schedule;
+    console.log('updateEmailShedule', this.emailSchedule)
+  }
 
   public onSendEmail(emailForm: NgForm): void {
     console.log('email form', emailForm.value);
 
     const email = this.parseForm(emailForm);
-    if (this.isScheduleFormHidden)
-      email.emailSchedule.sendNow = true;
+
+    email.emailSchedule = (this.isSendNow) ? {sendNow: true} as EmailSchedule : this.emailSchedule;
+    console.log("email.emailSchedule", email.emailSchedule)
+
     console.log('created email', email);
 
     this.emailService.sendEmail(email);
@@ -73,14 +78,13 @@ export class NewEmailComponent implements OnInit {
     } as Email;
 
     const recipientsTO = this.parseRecipients(emailForm.value.recipientsEmailsTO, RecipientType.TO);
-    email.recipients.concat(recipientsTO);
+    email.recipients.push(...recipientsTO);
 
     const recipientsCC = this.parseRecipients(emailForm.value.recipientsEmailsCC, RecipientType.CC);
-    email.recipients.concat(recipientsCC);
+    email.recipients.push(...recipientsCC);
 
     const recipientsBCC = this.parseRecipients(emailForm.value.recipientsEmailsBCC, RecipientType.BCC);
-    email.recipients.concat(recipientsBCC);
-
+    email.recipients.push(...recipientsBCC);
     return email;
   }
 
@@ -97,7 +101,6 @@ export class NewEmailComponent implements OnInit {
     }
     return recipients;
   }
-
 
   validateRecipientsTO() {
     this.recipientsTO = this.validateRecipients(this.recipientsTO);
