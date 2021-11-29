@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EmailService} from "../../../service/email.service";
-import {FormGroup, NgForm} from "@angular/forms";
-import {Email, EmailSchedule, Recipient, RecipientType, RepeatType} from "../../../model/email";
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {Email, Recipient, RecipientType, RepeatType} from "../../../model/email";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
 
 @Component({
@@ -16,39 +16,42 @@ export class NewEmailComponent implements OnInit {
   recipientsTO: string[] = [];
   recipientsCC: string[] = [];
   recipientsBCC: string[] = [];
+  isShowScheduleForm: boolean = false;
 
-  parentForm: FormGroup = new FormGroup({
-
+  emailForm: FormGroup = new FormGroup({
+    emailTemplate: new FormGroup({
+      body: new FormControl(''),
+      subject: new FormControl('')
+    }),
+    recipients: new FormGroup({
+      recipientsTO: new FormControl([], [Validators.email]),
+      recipientsCC: new FormControl([], Validators.email),
+      recipientsBCC: new FormControl([], Validators.email)
+    }),
+    isSendNotNowControl: new FormControl(this.isShowScheduleForm)
   });
 
   constructor(private emailService: EmailService, private popupMessageService: PopupMessageService) {
   }
 
-  //for EmailEmailSchedule
-  emailSchedule: EmailSchedule = {sendNow: true} as EmailSchedule
-  isSendNow: boolean = true;
-
-  switchScheduleFormHidden() {
-    this.isSendNow = !this.isSendNow;
+  switchShowScheduleForm() {
+    this.isShowScheduleForm = !this.isShowScheduleForm;
+    this.emailForm.patchValue({isSendNowControl: this.isShowScheduleForm});
   }
 
-  // updateEmailShedule(schedule: EmailSchedule){
-  //   this.emailSchedule = schedule;
-  //   console.log('updateEmailShedule', this.emailSchedule)
-  // }
 
-  public onSendEmail(emailForm: NgForm): void {
-    console.log('email form', emailForm.value);
+  public onSendEmail(): void {
+    console.log('emailForm', this.emailForm.value);
 
-    const email = this.parseForm(emailForm);
-
-    email.emailSchedule = (this.isSendNow) ? {sendNow: true} as EmailSchedule : this.emailSchedule;
-    console.log("email.emailSchedule", email.emailSchedule)
-
-    console.log('created email', email);
-
-    this.emailService.sendEmail(email);
-    emailForm.reset();
+    // const email = this.parseForm(emailForm);
+    //
+    // email.emailSchedule = (this.isSendNow) ? {sendNow: true} as EmailSchedule : this.emailSchedule;
+    // console.log("email.emailSchedule", email.emailSchedule)
+    //
+    // console.log('created email', email);
+    //
+    // this.emailService.sendEmail(email);
+    // emailForm.reset();
   }
 
   public parseRecipients(inputEmails: string[] | null, type: RecipientType): Recipient[] {
@@ -95,27 +98,19 @@ export class NewEmailComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  validateRecipients(recipients: string[]): string[] {
-    console.log(recipients);
-    let len = recipients.length;
+  validateRecipients(controleName: string) {
+    let recipients:string[] = this.emailForm.controls['recipients'].value[controleName];
+    console.log("validateRecipients recipients: ", recipients);
 
+    let len = recipients.length;
     if (!recipients[len - 1].match(this.emailRegex)) {
       recipients = recipients.slice(0, len - 1);
       this.popupMessageService.showFailed('Email is not valid!');
     }
-    return recipients;
-  }
 
-  validateRecipientsTO() {
-    this.recipientsTO = this.validateRecipients(this.recipientsTO);
-  }
-
-  validateRecipientsCC() {
-    this.recipientsCC = this.validateRecipients(this.recipientsCC);
-  }
-
-  validateRecipientsBCC() {
-    this.recipientsBCC = this.validateRecipients(this.recipientsBCC);
+    this.emailForm.patchValue({recipients: {
+      [controleName]: recipients
+    }});
   }
 
 }

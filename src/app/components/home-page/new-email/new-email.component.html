@@ -12,60 +12,63 @@
 
   <div class="dialog-body mt-3">
     <!--Email form-->
-    <form #emailForm="ngForm" (ngSubmit)="onSendEmail(emailForm)">
+    <form [formGroup]="emailForm" (ngSubmit)="onSendEmail()">
 
-      <div class="form-group">
-
+      <div formGroupName="recipients">
         <div class="fluid p-3 bg-primary-reverse">
           <div class="mb-2 ml-1"><i class="pi pi-user"></i> Recipients:</div>
 
           <p-tabView>
 
             <p-tabPanel header="TO">
-
               <p-scrollPanel class="select-all" [style]="{width: '100%', height: '90px'}">
-                <p-chips [(ngModel)]="recipientsTO" styleClass="p-3"
-                         (onAdd)="validateRecipientsTO()"
-                         name="recipientsEmailsTO">
-                </p-chips>
+                <p-chips styleClass="p-3"
+                         (onAdd)="validateRecipients('recipientsTO')"
+                         formControlName="recipientsTO"
+                         ></p-chips>
               </p-scrollPanel>
             </p-tabPanel>
 
             <p-tabPanel header="CC">
-              <p-scrollPanel class="select-all" [style]="{width: '100%', height: '100px'}">
-                <p-chips [(ngModel)]="recipientsCC"
-                         (onAdd)="validateRecipientsCC()"
-                         name="recipientsEmailsCC"></p-chips>
+              <p-scrollPanel class="select-all" [style]="{width: '100%', height: '90px'}">
+                <p-chips styleClass="p-3"
+                         (onAdd)="validateRecipients('recipientsCC')"
+                         formControlName="recipientsCC"
+                         email></p-chips>
               </p-scrollPanel>
             </p-tabPanel>
 
             <p-tabPanel header="BCC">
-              <p-scrollPanel class="select-all" [style]="{width: '100%', height: '100px'}">
-                <p-chips [(ngModel)]="recipientsBCC"
-                         (onAdd)="validateRecipientsBCC()"
-                         name="recipientsEmailsBCC"></p-chips>
+              <p-scrollPanel class="select-all" [style]="{width: '100%', height: '90px'}">
+                <p-chips styleClass="p-3"
+                         (onAdd)="validateRecipients('recipientsBCC')"
+                         formControlName="recipientsBCC"
+                         email></p-chips>
               </p-scrollPanel>
             </p-tabPanel>
 
           </p-tabView>
         </div>
+      </div>
 
-      </div>
-      <div class="form-group">
-        <h4>Email subject:</h4>
-        <textarea rows="2" cols="80" pInputTextarea ngModel name="emailSubject"></textarea>
-      </div>
-      <div class="form-group">
-        <h4>Email body:</h4>
-        <span class="p-float-label">
-          <textarea rows="5" cols="80" pInputTextarea ngModel name="emailBody"></textarea>
+      <div formGroupName="emailTemplate">
+        <div class="form-group">
+          <h4>Email subject:</h4>
+          <textarea rows="2" cols="80" pInputTextarea formControlName="subject"></textarea>
+        </div>
+        <div class="form-group">
+          <h4>Email body:</h4>
+          <span class="p-float-label">
+          <textarea rows="5" cols="80" pInputTextarea formControlName="body"></textarea>
         </span>
+        </div>
       </div>
+
       <div class="form-group">
         <h4>Enable schedule settings:</h4>
-        <p-inputSwitch (onChange)="switchScheduleFormHidden()"
-                       ngModel name="!isSendNow"></p-inputSwitch>
-        <app-schedule-form *ngIf="!isSendNow" (formGroupEE)="parentForm.setControl('schedule', $event)" ></app-schedule-form>
+        <p-inputSwitch (onChange)="switchShowScheduleForm()"
+                       formControlName ="isSendNotNowControl"></p-inputSwitch>
+        <app-schedule-form *ngIf="isShowScheduleForm" (formGroupEE)="emailForm.setControl('emailSchedule', $event)" ></app-schedule-form>
       </div>
 
       <!--Email form buttons -->
