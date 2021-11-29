@@ -15,7 +15,7 @@ export class TemplatesComponent implements OnInit {
   template!: EmailTemplate;
   selectedTemplates: EmailTemplate[] = [];
   loading: boolean = true;    // show loading before templates loaded
-  numberOfRows = 2;
+  numberOfRows = 10;
   totalRecords: number = 0;   // total number of templates in history
   firstLoad: boolean = true;  // marker for sorting by templates Ids (for first load)
   isChecked: boolean = false; // is all templates selected
