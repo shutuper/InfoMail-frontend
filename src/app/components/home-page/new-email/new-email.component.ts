@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {EmailService} from "../../../service/email.service";
-import {NgForm} from "@angular/forms";
+import {FormGroup, NgForm} from "@angular/forms";
 import {Email, EmailSchedule, Recipient, RecipientType, RepeatType} from "../../../model/email";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
 
@@ -17,6 +17,10 @@ export class NewEmailComponent implements OnInit {
   recipientsCC: string[] = [];
   recipientsBCC: string[] = [];
 
+  parentForm: FormGroup = new FormGroup({
+
+  });
+
   constructor(private emailService: EmailService, private popupMessageService: PopupMessageService) {
   }
 
@@ -28,10 +32,10 @@ export class NewEmailComponent implements OnInit {
     this.isSendNow = !this.isSendNow;
   }
 
-  updateEmailShedule(schedule: EmailSchedule){
-    this.emailSchedule = schedule;
-    console.log('updateEmailShedule', this.emailSchedule)
-  }
+  // updateEmailShedule(schedule: EmailSchedule){
+  //   this.emailSchedule = schedule;
+  //   console.log('updateEmailShedule', this.emailSchedule)
+  // }
 
   public onSendEmail(emailForm: NgForm): void {
     console.log('email form', emailForm.value);

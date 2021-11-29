@@ -65,7 +65,7 @@
         <h4>Enable schedule settings:</h4>
         <p-inputSwitch (onChange)="switchScheduleFormHidden()"
                        ngModel name="!isSendNow"></p-inputSwitch>
-        <app-schedule-form *ngIf="!isSendNow" (onChangeForm)="updateEmailShedule($event)"></app-schedule-form>
+        <app-schedule-form *ngIf="!isSendNow" (formGroupEE)="parentForm.setControl('schedule', $event)" ></app-schedule-form>
       </div>
 
       <!--Email form buttons -->
