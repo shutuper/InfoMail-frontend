@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {EmailSchedule, RepeatType} from "../../../../model/email";
+import {RepeatType} from "../../../../model/email";
 import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
@@ -9,7 +9,8 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class ScheduleFormComponent implements OnInit {
 
-  @Output() onChangeForm = new EventEmitter<EmailSchedule>();
+  @Output()
+  formGroupEE = new EventEmitter<FormGroup>();
 
   defRepeatAt: RepeatTypeLabel = {name: "Nothing", value: RepeatType.NOTHING}
   repeatTypeLabels:RepeatTypeLabel[] = [
@@ -21,7 +22,7 @@ export class ScheduleFormComponent implements OnInit {
     {name: "Every year", value: RepeatType.EVERY_YEAR},
   ]
 
-  emailScheduleForm: FormGroup = new FormGroup({
+  scheduleForm: FormGroup = new FormGroup({
     sendDateTime: new FormControl(''),
     repeatTypeLabel: new FormControl(this.defRepeatAt),
     endDate: new FormControl(''),
@@ -30,25 +31,12 @@ export class ScheduleFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  sendUpdateValue() {
-    this.onChangeForm.emit({
-      sendNow: false,
-      sendDateTime: this.emailScheduleForm.value.sendDateTime,
-      repeatAt: this.emailScheduleForm.value.repeatTypeLabel.value,
-      endDate: this.emailScheduleForm.value.endDate
-    } as EmailSchedule)
+    this.formGroupEE.emit(this.scheduleForm);
   }
 
   whenRepeatTypeChange() {
-    console.log("repeatTypeChange, repeatAt:", this.emailScheduleForm.value.repeatAt);
+    console.log("repeatTypeChange, repeatAt:", this.scheduleForm.value.repeatAt);
   }
-
-  onSubmit() {
-    this.sendUpdateValue();
-  }
-
 
 }
 
