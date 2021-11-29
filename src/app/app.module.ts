@@ -52,14 +52,17 @@ import {UserEmailTemplateService} from "./service/user-email-template.service";
 import {EmailTemplateService} from "./service/email-template.service";
 import {SharedTemplatePageComponent} from './components/sharing-template-page/shared-template-page.component';
 import {CardModule} from "primeng/card";
-import { EmailViewComponent } from './components/home-page/history/email-view/email-view.component';
+import {EmailViewComponent} from './components/home-page/history/email-view/email-view.component';
 import {ScrollTopModule} from "primeng/scrolltop";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {TabViewModule} from "primeng/tabview";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {DividerModule} from "primeng/divider";
-import { NewEmailComponent } from './components/home-page/new-email/new-email.component';
+import {NewEmailComponent} from './components/home-page/new-email/new-email.component';
 import {ChipModule} from "primeng/chip";
+import {ScheduleFormComponent} from './components/home-page/new-email/schedule-form/schedule-form.component';
+import {SelectButtonModule} from "primeng/selectbutton";
+import {DropdownModule} from "primeng/dropdown";
 
 @NgModule({
   declarations: [
@@ -80,7 +83,8 @@ import {ChipModule} from "primeng/chip";
     TemplateViewComponent,
     SharedTemplatePageComponent,
     EmailViewComponent,
-    NewEmailComponent
+    NewEmailComponent,
+    ScheduleFormComponent
   ],
     imports: [
         BrowserModule,
@@ -115,7 +119,9 @@ import {ChipModule} from "primeng/chip";
         TabViewModule,
         ScrollPanelModule,
         DividerModule,
-        ChipModule
+        ChipModule,
+        SelectButtonModule,
+        DropdownModule
 
     ],
   providers: [
