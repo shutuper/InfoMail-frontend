@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EmailService} from "../../../service/email.service";
-import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
-import {Email, Recipient, RecipientType, RepeatType} from "../../../model/email";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Email, EmailSchedule, Recipient, RecipientType} from "../../../model/email";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
 
 @Component({
@@ -16,7 +16,6 @@ export class NewEmailComponent implements OnInit {
   recipientsTO: string[] = [];
   recipientsCC: string[] = [];
   recipientsBCC: string[] = [];
-  isShowScheduleForm: boolean = false;
 
   emailForm: FormGroup = new FormGroup({
     emailTemplate: new FormGroup({
@@ -28,33 +27,32 @@ export class NewEmailComponent implements OnInit {
       recipientsCC: new FormControl([], Validators.email),
       recipientsBCC: new FormControl([], Validators.email)
     }),
-    isSendNotNowControl: new FormControl(this.isShowScheduleForm)
+    isSendNotNow: new FormControl(false)
   });
 
   constructor(private emailService: EmailService, private popupMessageService: PopupMessageService) {
   }
 
   switchShowScheduleForm() {
-    this.isShowScheduleForm = !this.isShowScheduleForm;
-    this.emailForm.patchValue({isSendNowControl: this.isShowScheduleForm});
+    this.emailForm.patchValue({isSendNowControl: !this.isShowScheduleForm()});
   }
 
+  isShowScheduleForm(): boolean {
+    let isSendNotNow = this.emailForm.controls['isSendNotNow'].value
+    return (isSendNotNow === null) ? false : isSendNotNow;
+  }
 
   public onSendEmail(): void {
     console.log('emailForm', this.emailForm.value);
 
-    // const email = this.parseForm(emailForm);
-    //
-    // email.emailSchedule = (this.isSendNow) ? {sendNow: true} as EmailSchedule : this.emailSchedule;
-    // console.log("email.emailSchedule", email.emailSchedule)
-    //
-    // console.log('created email', email);
-    //
-    // this.emailService.sendEmail(email);
-    // emailForm.reset();
+    const email: Email = this.parseForm();
+    console.log('parsed email', email);
+
+    this.emailService.sendEmail(email);
+    this.emailForm.reset();
   }
 
-  public parseRecipients(inputEmails: string[] | null, type: RecipientType): Recipient[] {
+  public convertToRecipients(inputEmails: string[] | null, type: RecipientType): Recipient[] {
     let recipients: Recipient[] = [];
     if (inputEmails === null)
       return recipients;
@@ -70,28 +68,50 @@ export class NewEmailComponent implements OnInit {
     return recipients;
   }
 
-  public parseForm(emailForm: NgForm): Email {
+  public parseEmailSchedule(): EmailSchedule {
+    if(!this.emailForm.controls['emailSchedule'] || this.emailForm.controls['isSendNotNow'].value === null) {
+      return { sendNow: true } as EmailSchedule;
+    }
 
-    const email = {
+    const emailScheduleControl = this.emailForm.controls['emailSchedule'].value;
+    const isSendNow: boolean = ! this.emailForm.controls['isSendNotNow'].value;
+
+    return {
+      sendNow: isSendNow,
+
+      sendDateTime: emailScheduleControl.sendDateTime,
+      endDate: emailScheduleControl.endDate,
+      repeatAt: emailScheduleControl.repeatAt,
+    } as EmailSchedule
+
+  }
+
+  public parseForm(): Email {
+
+    const emailTemplate = this.emailForm.controls['emailTemplate'].value;
+    const emailSchedule = this.parseEmailSchedule();
+
+    const email:Email = {
       emailTemplate: {
-        body: emailForm.value.emailBody,
-        subject: emailForm.value.emailSubject
+        body: emailTemplate.body,
+        subject: emailTemplate.subject
       },
-      emailSchedule: {
-        sendDateTime: emailForm.value.emailSendDate,
-        repeatAt: RepeatType.NOTHING
-      },
+      emailSchedule: emailSchedule,
       recipients: [] as Recipient[]
     } as Email;
 
-    const recipientsTO = this.parseRecipients(emailForm.value.recipientsEmailsTO, RecipientType.TO);
+    const recipientsToControl:string[] = this.emailForm.controls['recipients'].value['recipientsTO'];
+    const recipientsTO = this.convertToRecipients(recipientsToControl, RecipientType.TO);
     email.recipients.push(...recipientsTO);
 
-    const recipientsCC = this.parseRecipients(emailForm.value.recipientsEmailsCC, RecipientType.CC);
+    let recipientsCcControl:string[] = this.emailForm.controls['recipients'].value['recipientsCC'];
+    const recipientsCC = this.convertToRecipients(recipientsCcControl, RecipientType.CC);
     email.recipients.push(...recipientsCC);
 
-    const recipientsBCC = this.parseRecipients(emailForm.value.recipientsEmailsBCC, RecipientType.BCC);
+    let recipientsBccControl:string[] = this.emailForm.controls['recipients'].value['recipientsBCC'];
+    const recipientsBCC = this.convertToRecipients(recipientsBccControl, RecipientType.BCC);
     email.recipients.push(...recipientsBCC);
+
     return email;
   }
 
