@@ -25,7 +25,7 @@
                 <p-chips styleClass="p-3"
                          (onAdd)="validateRecipients('recipientsTO')"
                          formControlName="recipientsTO"
-                         ></p-chips>
+                ></p-chips>
               </p-scrollPanel>
             </p-tabPanel>
 
@@ -56,19 +56,27 @@
           <h4>Email subject:</h4>
           <textarea rows="2" cols="80" pInputTextarea formControlName="subject"></textarea>
         </div>
+
         <div class="form-group">
           <h4>Email body:</h4>
-          <span class="p-float-label">
-          <textarea rows="5" cols="80" pInputTextarea formControlName="body"></textarea>
-        </span>
+          <div class="p-field mt-4 bg-primary-reverse border-left-3 border-0">
+            <div class="p-7">
+              <div class="text-lg text-white default-background">
+                <angular-editor id="template-body" formControlName="body" placeholder="Enter text...">
+                </angular-editor>
+              </div>
+            </div>
+            <!--      <p>Value: {{emailWithTemplate.template.body}}</p>-->
+          </div>
         </div>
       </div>
 
       <div class="form-group">
         <h4>Enable schedule settings:</h4>
         <p-inputSwitch (onChange)="switchShowScheduleForm()"
-                       formControlName ="isSendNotNow"></p-inputSwitch>
-        <app-schedule-form *ngIf="isShowScheduleForm()" (formGroupEE)="emailForm.setControl('emailSchedule', $event)" ></app-schedule-form>
+                       formControlName="isSendNotNow"></p-inputSwitch>
+        <app-schedule-form *ngIf="isShowScheduleForm()"
+                           (formGroupEE)="emailForm.setControl('emailSchedule', $event)"></app-schedule-form>
       </div>
 
       <!--Email form buttons -->
