@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EmailTemplate} from "../../../model/email";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
+import {AngularEditorConfig} from "@kolkov/angular-editor";
 
 @Component({
   selector: 'app-template-view',
@@ -27,6 +28,19 @@ export class TemplateViewComponent implements OnInit {
 
   //validation
   NOT_VALID_STROKE: string = "Must not be empty!"
+
+  editConfig: AngularEditorConfig = {
+    showToolbar: true,
+    editable: true,
+    minHeight: '200px',
+    placeholder: "Template body"
+  }
+
+  readConfig: AngularEditorConfig = {
+    showToolbar: false,
+    editable: false,
+    minHeight: '200px',
+  }
 
   constructor(private popupMessageService: PopupMessageService) { }
 
