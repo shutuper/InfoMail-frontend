@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EmailService} from "../../../service/email.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Email, EmailSchedule, Recipient, RecipientType, TemplateAsOption} from "../../../model/email";
+import {Email, EmailSchedule, EmailTemplate, Recipient, RecipientType, TemplateAsOption} from "../../../model/email";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
 import {UserEmailTemplateService} from "../../../service/user-email-template.service";
 
@@ -15,15 +15,23 @@ export class NewEmailComponent implements OnInit {
   emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   usedExistedTemplate = false;
   showTemplatesOptions = false;
-  templatesAsOptions: TemplateAsOption[] = [] as TemplateAsOption[];
+  showContent = false;
+  isSelectNotEnabled = false;
+  selectedTemplate!: TemplateAsOption;
+  templatesAsOptions!: TemplateAsOption[];
+
+  selectedId: number = -1;
+  subject: string = {} as string;
+  body: string = {} as string;
+
 
   recipientsTO: string[] = [];
   recipientsCC: string[] = [];
   recipientsBCC: string[] = [];
 
+
   emailForm: FormGroup = new FormGroup({
     emailTemplate: new FormGroup({
-      id: new FormControl(''),
       body: new FormControl(''),
       subject: new FormControl('')
     }),
@@ -41,26 +49,62 @@ export class NewEmailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usedExistedTemplate = false;
+    this.beginLoading()
+    this.initialize();
+    this.emailForm.reset();
     this.userEmailTemplateService.getAllAsOptions().subscribe({
       next: (templates) => {
         this.templatesAsOptions = templates.sort(
           (a, b) => b.id - a.id); // desc order by id
+        console.log(templates)
         this.showTemplatesOptions = true;
+        this.finishLoading();
       },
       error: () => {
         this.showTemplatesOptions = false;
+        this.finishLoading();
       }
     })
   }
 
+  initialize() {
+    this.usedExistedTemplate = false;
+    this.showTemplatesOptions = false;
+    this.showContent = false;
+    this.isSelectNotEnabled = false;
+    this.selectedTemplate = {} as TemplateAsOption;
+    this.templatesAsOptions = [] as TemplateAsOption[];
+    this.selectedId = -1;
+    this.subject = {} as string;
+    this.body = {} as string;
+    this.recipientsTO = [];
+    this.recipientsCC = [];
+    this.recipientsBCC = [];
+
+  }
+
+  beginLoading() {
+    this.showContent = false;
+  }
+
+  finishLoading() {
+    this.showContent = true;
+  }
+
+  enableSelect() {
+    this.isSelectNotEnabled = false;
+  }
+
+  disableSelect() {
+    this.isSelectNotEnabled = true;
+  }
 
   switchShowScheduleForm() {
     this.emailForm.patchValue({isSendNowControl: !this.isShowScheduleForm()});
   }
 
   useExistedTemplate() {
-    this.usedExistedTemplate = !this.usedExistedTemplate;
+    return this.usedExistedTemplate = !this.usedExistedTemplate;
   }
 
   isShowScheduleForm(): boolean {
@@ -69,13 +113,22 @@ export class NewEmailComponent implements OnInit {
   }
 
   public onSendEmail(): void {
+    this.beginLoading()
     console.log('emailForm', this.emailForm.value);
 
     const email: Email = this.parseForm();
     console.log('parsed email', email);
 
-    this.emailService.sendEmail(email);
-    this.emailForm.reset();
+    this.emailService.sendEmail(email).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.ngOnInit();
+        this.popupMessageService.showSuccess('Created successfully!');
+      }, error: () => {
+        this.ngOnInit();
+        this.popupMessageService.showFailed('Email is not created!');
+      }
+    });
   }
 
   public convertToRecipients(inputEmails: string[] | null, type: RecipientType): Recipient[] {
@@ -112,19 +165,37 @@ export class NewEmailComponent implements OnInit {
 
   }
 
-  public parseForm(): Email {
+  private parseForm(): Email {
 
     const emailTemplate = this.emailForm.controls['emailTemplate'].value;
     const emailSchedule = this.parseEmailSchedule();
+    let parsedEmailTemplate;
 
-    const email: Email = {
-      emailTemplate: {
+    if (this.selectedId >= 0 && this.usedExistedTemplate) {
+      if ((this.subject !== emailTemplate.subject) || (this.body !== emailTemplate.body))
+        parsedEmailTemplate = {
+          body: emailTemplate.body,
+          subject: emailTemplate.subject
+        }
+      else
+        parsedEmailTemplate = {
+          id: this.selectedId
+        } as EmailTemplate
+    } else {
+      parsedEmailTemplate = {
         body: emailTemplate.body,
         subject: emailTemplate.subject
-      },
+      }
+    }
+
+    console.log(parsedEmailTemplate);
+
+    const email: Email = {
+      emailTemplate: parsedEmailTemplate,
       emailSchedule: emailSchedule,
       recipients: [] as Recipient[]
     } as Email;
+
 
     const recipientsToControl: string[] = this.emailForm.controls['recipients'].value['recipientsTO'];
     const recipientsTO = this.convertToRecipients(recipientsToControl, RecipientType.TO);
@@ -141,8 +212,8 @@ export class NewEmailComponent implements OnInit {
     return email;
   }
 
-  validateRecipients(controleName: string) {
-    let recipients: string[] = this.emailForm.controls['recipients'].value[controleName];
+  validateRecipients(controlName: string) {
+    let recipients: string[] = this.emailForm.controls['recipients'].value[controlName];
     console.log("validateRecipients recipients: ", recipients);
 
     let len = recipients.length;
@@ -153,9 +224,36 @@ export class NewEmailComponent implements OnInit {
 
     this.emailForm.patchValue({
       recipients: {
-        [controleName]: recipients
+        [controlName]: recipients
       }
     });
   }
 
+  changeTemplate(selectedId: number) {
+    this.disableSelect()
+    this.userEmailTemplateService.getTemplateById(selectedId).subscribe({
+      next: (template) => {
+        this.selectedId = selectedId;
+        this.subject = template.subject;
+        this.body = template.body;
+
+        this.emailForm.patchValue({
+          emailTemplate: {
+            ['subject']: this.subject
+          }
+        });
+        this.emailForm.patchValue({
+          emailTemplate: {
+            ['body']: this.body
+          }
+        });
+
+      },
+      error: () => {
+        this.popupMessageService.showFailed("Selected email isn't loaded!");
+
+      }, complete: () => this.enableSelect()
+
+    })
+  }
 }

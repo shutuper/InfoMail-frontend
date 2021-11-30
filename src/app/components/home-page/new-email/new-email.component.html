@@ -1,97 +1,129 @@
-<div class="text-xl p-fluid">
+<ng-template *ngIf="showContent; then content else progressSpinner"></ng-template>
 
-  <p-divider align="center">
-    <span class="p-tag text-xl">InfoMail</span>
-  </p-divider>
 
-  <div class="card fluid bg-primary-reverse p-3 text-3xl border-left-3 border-0">
-    <b class="text-4xl">Creating
-      <p-chip class="text-black-alpha-90 p-2 font-italic">new</p-chip>
-      email:</b>
+<ng-template #progressSpinner>
+  <div class="grid fluid h-screen">
+    <p-progressSpinner class="mx-auto my-auto"></p-progressSpinner>
   </div>
+</ng-template>
 
-  <div class="dialog-body mt-3">
-    <!--Email form-->
-    <form [formGroup]="emailForm" (ngSubmit)="onSendEmail()">
 
-      <div formGroupName="recipients">
-        <div class="fluid p-3 bg-primary-reverse border-left-3 border-0">
-          <div class="mb-2 ml-1"><i class="pi pi-user"></i> Recipients:</div>
+<ng-template #content>
+  <div class="text-xl p-fluid">
 
-          <p-tabView>
+    <p-divider align="center">
+      <span class="p-tag text-xl">InfoMail</span>
+    </p-divider>
 
-            <p-tabPanel header="TO">
-              <p-scrollPanel class="select-all" [style]="{width: '100%', height: '90px'}">
-                <p-chips styleClass="p-3"
-                         (onAdd)="validateRecipients('recipientsTO')"
-                         formControlName="recipientsTO"
-                ></p-chips>
-              </p-scrollPanel>
-            </p-tabPanel>
+    <div class="card fluid bg-primary-reverse p-3 text-3xl border-left-3 border-0">
+      <b class="text-4xl">Creating
+        <p-chip class="text-black-alpha-90 p-2 font-italic">new</p-chip>
+        email:</b>
+    </div>
 
-            <p-tabPanel header="CC">
-              <p-scrollPanel class="select-all" [style]="{width: '100%', height: '90px'}">
-                <p-chips styleClass="p-3"
-                         (onAdd)="validateRecipients('recipientsCC')"
-                         formControlName="recipientsCC"
-                         email></p-chips>
-              </p-scrollPanel>
-            </p-tabPanel>
+    <div class="dialog-body mt-3">
+      <!--Email form-->
+      <form [formGroup]="emailForm" (ngSubmit)="onSendEmail()">
 
-            <p-tabPanel header="BCC">
-              <p-scrollPanel class="select-all" [style]="{width: '100%', height: '90px'}">
-                <p-chips styleClass="p-3"
-                         (onAdd)="validateRecipients('recipientsBCC')"
-                         formControlName="recipientsBCC"
-                         email></p-chips>
-              </p-scrollPanel>
-            </p-tabPanel>
+        <div formGroupName="recipients">
+          <div class="fluid p-3 bg-primary-reverse border-left-3 border-0">
+            <div class="mb-2 ml-1"><i class="pi pi-user"></i> Recipients:</div>
 
-          </p-tabView>
-        </div>
-      </div>
+            <p-tabView>
 
-      <div class="form-group mt-4" *ngIf="showTemplatesOptions">
-        <h4>Use existed template?:</h4>
-        <p-inputSwitch (onChange)="useExistedTemplate()"
-                       formControlName="id"></p-inputSwitch>
-        <app-schedule-form *ngIf="useExistedTemplate()"
-                           (formGroupEE)="emailForm.setControl('emailSchedule', $event)"></app-schedule-form>
-      </div>
+              <p-tabPanel header="TO">
+                <p-scrollPanel class="select-all" [style]="{width: '100%', height: '90px'}">
+                  <p-chips styleClass="p-3"
+                           (onAdd)="validateRecipients('recipientsTO')"
+                           formControlName="recipientsTO"
+                  ></p-chips>
+                </p-scrollPanel>
+              </p-tabPanel>
 
-      <div formGroupName="emailTemplate" class="mt-4">
-        <div class="form-group">
-          <h4>Email subject:</h4>
-          <textarea rows="2" cols="80" pInputTextarea formControlName="subject"></textarea>
-        </div>
+              <p-tabPanel header="CC">
+                <p-scrollPanel class="select-all" [style]="{width: '100%', height: '90px'}">
+                  <p-chips styleClass="p-3"
+                           (onAdd)="validateRecipients('recipientsCC')"
+                           formControlName="recipientsCC"
+                           email></p-chips>
+                </p-scrollPanel>
+              </p-tabPanel>
 
-        <div class="form-group">
-          <h4>Email body:</h4>
-          <div class="p-field mt-2 bg-primary-reverse border-left-3 border-0">
-            <div class="p-7">
-              <div class="text-lg text-white default-background">
-                <angular-editor id="template-body" formControlName="body" placeholder="Enter text...">
-                </angular-editor>
-              </div>
-            </div>
-            <!--      <p>Value: {{emailWithTemplate.template.body}}</p>-->
+              <p-tabPanel header="BCC">
+                <p-scrollPanel class="select-all" [style]="{width: '100%', height: '90px'}">
+                  <p-chips styleClass="p-3"
+                           (onAdd)="validateRecipients('recipientsBCC')"
+                           formControlName="recipientsBCC"
+                           email></p-chips>
+                </p-scrollPanel>
+              </p-tabPanel>
+
+            </p-tabView>
           </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <h4>Enable schedule settings:</h4>
-        <p-inputSwitch (onChange)="switchShowScheduleForm()"
-                       formControlName="isSendNotNow"></p-inputSwitch>
-        <app-schedule-form *ngIf="isShowScheduleForm()"
-                           (formGroupEE)="emailForm.setControl('emailSchedule', $event)"></app-schedule-form>
-      </div>
+        <div class="form-group mt-4" *ngIf="showTemplatesOptions">
+          <h4>Use existed template?:</h4>
+          <p-inputSwitch [(ngModel)]="usedExistedTemplate" class="block mb-4"
+                         [ngModelOptions]="{standalone: true}"></p-inputSwitch>
 
-      <!--Email form buttons -->
-      <div class="modal-footer mt-4 text-xl">
-        <p-button label="Send" type="submit"></p-button>
-      </div>
+          <p-dropdown [options]="templatesAsOptions" [disabled]="isSelectNotEnabled"
+                      (onChange)="changeTemplate(selectedTemplate.id)"
+                      *ngIf="usedExistedTemplate" class="block w-20rem"
+                      [(ngModel)]="selectedTemplate" [ngModelOptions]="{standalone: true}"
+                      optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+                      placeholder="Select a template">
 
-    </form>
+            <ng-template pTemplate="selectedItem">
+              <div class="block" *ngIf="selectedTemplate">
+                <div>{{selectedTemplate.name}}</div>
+              </div>
+            </ng-template>
+
+            <ng-template let-template pTemplate="item">
+              <div class="block">
+                <div>{{template.name}}</div>
+              </div>
+            </ng-template>
+
+          </p-dropdown>
+        </div>
+
+
+        <div formGroupName="emailTemplate" class="mt-4">
+          <div class="form-group">
+            <h4>Email subject:</h4>
+            <textarea rows="2" cols="80" pInputTextarea formControlName="subject"></textarea>
+          </div>
+
+          <div class="form-group">
+            <h4>Email body:</h4>
+            <div class="p-field mt-2 bg-primary-reverse border-left-3 border-0">
+              <div class="p-7">
+                <div class="text-lg text-white default-background">
+                  <angular-editor id="template-body" formControlName="body" placeholder="Enter text...">
+                  </angular-editor>
+                </div>
+              </div>
+              <!--      <p>Value: {{emailWithTemplate.template.body}}</p>-->
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <h4>Enable schedule settings:</h4>
+          <p-inputSwitch (onChange)="switchShowScheduleForm()"
+                         formControlName="isSendNotNow"></p-inputSwitch>
+          <app-schedule-form *ngIf="isShowScheduleForm()"
+                             (formGroupEE)="emailForm.setControl('emailSchedule', $event)"></app-schedule-form>
+        </div>
+
+        <!--Email form buttons -->
+        <div class="modal-footer mt-4 text-xl">
+          <p-button label="Send" type="submit"></p-button>
+        </div>
+
+      </form>
+    </div>
   </div>
-</div>
+</ng-template>

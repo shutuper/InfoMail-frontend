@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
 import {EmailTemplate, TemplateAsOption} from "../model/email";
 import {Observable} from "rxjs";
+import {Template} from "@angular/compiler/src/render3/r3_ast";
 
 @Injectable({providedIn: 'root'})
 export class UserEmailTemplateService {
@@ -36,6 +37,10 @@ export class UserEmailTemplateService {
 
   getAllAsOptions() {
     return this.http.get<TemplateAsOption[]>('/api/v1/usertemplates/options');
+  }
+
+  getBodyAndSubjectById(id: number){
+    return this.http.get<Template>(`/api/v1/usertemplates/${id}/dto`);
   }
 
   getTemplateBySharingId(sharingId: string): Observable<EmailTemplate> {
