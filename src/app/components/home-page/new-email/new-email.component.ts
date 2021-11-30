@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {EmailService} from "../../../service/email.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Email, EmailSchedule, Recipient, RecipientType} from "../../../model/email";
+import {Email, EmailSchedule, Recipient, RecipientType, TemplateAsOption} from "../../../model/email";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
+import {UserEmailTemplateService} from "../../../service/user-email-template.service";
 
 @Component({
   selector: 'app-new-email',
@@ -12,6 +13,9 @@ import {PopupMessageService} from "../../../service/utils/popup-message.service"
 export class NewEmailComponent implements OnInit {
 
   emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  usedExistedTemplate = false;
+  showTemplatesOptions = false;
+  templatesAsOptions: TemplateAsOption[] = [] as TemplateAsOption[];
 
   recipientsTO: string[] = [];
   recipientsCC: string[] = [];
@@ -19,6 +23,7 @@ export class NewEmailComponent implements OnInit {
 
   emailForm: FormGroup = new FormGroup({
     emailTemplate: new FormGroup({
+      id: new FormControl(''),
       body: new FormControl(''),
       subject: new FormControl('')
     }),
@@ -30,11 +35,32 @@ export class NewEmailComponent implements OnInit {
     isSendNotNow: new FormControl(false)
   });
 
-  constructor(private emailService: EmailService, private popupMessageService: PopupMessageService) {
+  constructor(private emailService: EmailService,
+              private popupMessageService: PopupMessageService,
+              private userEmailTemplateService: UserEmailTemplateService) {
   }
+
+  ngOnInit(): void {
+    this.usedExistedTemplate = false;
+    this.userEmailTemplateService.getAllAsOptions().subscribe({
+      next: (templates) => {
+        this.templatesAsOptions = templates.sort(
+          (a, b) => b.id - a.id); // desc order by id
+        this.showTemplatesOptions = true;
+      },
+      error: () => {
+        this.showTemplatesOptions = false;
+      }
+    })
+  }
+
 
   switchShowScheduleForm() {
     this.emailForm.patchValue({isSendNowControl: !this.isShowScheduleForm()});
+  }
+
+  useExistedTemplate() {
+    this.usedExistedTemplate = !this.usedExistedTemplate;
   }
 
   isShowScheduleForm(): boolean {
@@ -69,12 +95,12 @@ export class NewEmailComponent implements OnInit {
   }
 
   public parseEmailSchedule(): EmailSchedule {
-    if(!this.emailForm.controls['emailSchedule'] || this.emailForm.controls['isSendNotNow'].value === null) {
-      return { sendNow: true } as EmailSchedule;
+    if (!this.emailForm.controls['emailSchedule'] || this.emailForm.controls['isSendNotNow'].value === null) {
+      return {sendNow: true} as EmailSchedule;
     }
 
     const emailScheduleControl = this.emailForm.controls['emailSchedule'].value;
-    const isSendNow: boolean = ! this.emailForm.controls['isSendNotNow'].value;
+    const isSendNow: boolean = !this.emailForm.controls['isSendNotNow'].value;
 
     return {
       sendNow: isSendNow,
@@ -91,7 +117,7 @@ export class NewEmailComponent implements OnInit {
     const emailTemplate = this.emailForm.controls['emailTemplate'].value;
     const emailSchedule = this.parseEmailSchedule();
 
-    const email:Email = {
+    const email: Email = {
       emailTemplate: {
         body: emailTemplate.body,
         subject: emailTemplate.subject
@@ -100,26 +126,23 @@ export class NewEmailComponent implements OnInit {
       recipients: [] as Recipient[]
     } as Email;
 
-    const recipientsToControl:string[] = this.emailForm.controls['recipients'].value['recipientsTO'];
+    const recipientsToControl: string[] = this.emailForm.controls['recipients'].value['recipientsTO'];
     const recipientsTO = this.convertToRecipients(recipientsToControl, RecipientType.TO);
     email.recipients.push(...recipientsTO);
 
-    let recipientsCcControl:string[] = this.emailForm.controls['recipients'].value['recipientsCC'];
+    let recipientsCcControl: string[] = this.emailForm.controls['recipients'].value['recipientsCC'];
     const recipientsCC = this.convertToRecipients(recipientsCcControl, RecipientType.CC);
     email.recipients.push(...recipientsCC);
 
-    let recipientsBccControl:string[] = this.emailForm.controls['recipients'].value['recipientsBCC'];
+    let recipientsBccControl: string[] = this.emailForm.controls['recipients'].value['recipientsBCC'];
     const recipientsBCC = this.convertToRecipients(recipientsBccControl, RecipientType.BCC);
     email.recipients.push(...recipientsBCC);
 
     return email;
   }
 
-  ngOnInit(): void {
-  }
-
   validateRecipients(controleName: string) {
-    let recipients:string[] = this.emailForm.controls['recipients'].value[controleName];
+    let recipients: string[] = this.emailForm.controls['recipients'].value[controleName];
     console.log("validateRecipients recipients: ", recipients);
 
     let len = recipients.length;
@@ -128,9 +151,11 @@ export class NewEmailComponent implements OnInit {
       this.popupMessageService.showFailed('Email is not valid!');
     }
 
-    this.emailForm.patchValue({recipients: {
-      [controleName]: recipients
-    }});
+    this.emailForm.patchValue({
+      recipients: {
+        [controleName]: recipients
+      }
+    });
   }
 
 }

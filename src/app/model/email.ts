@@ -63,4 +63,8 @@ export enum RepeatType {
   EVERY_YEAR
 }
 
+export interface TemplateAsOption {
+  id: number;
+  name: string;
+}
 

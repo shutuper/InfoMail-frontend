@@ -15,7 +15,7 @@
     <form [formGroup]="emailForm" (ngSubmit)="onSendEmail()">
 
       <div formGroupName="recipients">
-        <div class="fluid p-3 bg-primary-reverse">
+        <div class="fluid p-3 bg-primary-reverse border-left-3 border-0">
           <div class="mb-2 ml-1"><i class="pi pi-user"></i> Recipients:</div>
 
           <p-tabView>
@@ -51,7 +51,15 @@
         </div>
       </div>
 
-      <div formGroupName="emailTemplate">
+      <div class="form-group mt-4" *ngIf="showTemplatesOptions">
+        <h4>Use existed template?:</h4>
+        <p-inputSwitch (onChange)="useExistedTemplate()"
+                       formControlName="id"></p-inputSwitch>
+        <app-schedule-form *ngIf="useExistedTemplate()"
+                           (formGroupEE)="emailForm.setControl('emailSchedule', $event)"></app-schedule-form>
+      </div>
+
+      <div formGroupName="emailTemplate" class="mt-4">
         <div class="form-group">
           <h4>Email subject:</h4>
           <textarea rows="2" cols="80" pInputTextarea formControlName="subject"></textarea>
@@ -59,7 +67,7 @@
 
         <div class="form-group">
           <h4>Email body:</h4>
-          <div class="p-field mt-4 bg-primary-reverse border-left-3 border-0">
+          <div class="p-field mt-2 bg-primary-reverse border-left-3 border-0">
             <div class="p-7">
               <div class="text-lg text-white default-background">
                 <angular-editor id="template-body" formControlName="body" placeholder="Enter text...">

@@ -1,21 +1,22 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
-import {EmailTemplate} from "../model/email";
+import {EmailTemplate, TemplateAsOption} from "../model/email";
 import {Observable} from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class UserEmailTemplateService {
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) {
+  }
 
   addTemplateLol(): void {
 
     const time: Date = new Date()
 
     const template: EmailTemplate = {
-      name: "Name_" + time.getHours() + + time.getMinutes(),
-      subject: "Subject_" + time.getHours() + + time.getMinutes(),
-      body: "Body_" + time.getHours() + + time.getMinutes()
+      name: "Name_" + time.getHours() + +time.getMinutes(),
+      subject: "Subject_" + time.getHours() + +time.getMinutes(),
+      body: "Body_" + time.getHours() + +time.getMinutes()
     } as EmailTemplate
     this.http
       .post<HttpResponse<any>>(`/api/v1/usertemplates`, template).subscribe();
@@ -25,10 +26,16 @@ export class UserEmailTemplateService {
     return this.http.post<EmailTemplate>(`/api/v1/usertemplates`, template);
   }
 
+
   getTemplatesLol(): void {
     this.http
       .get<EmailTemplate[]>(`/api/v1/usertemplates`).subscribe({
-      next:(res) => res.forEach((e) => console.log(e))});
+      next: (res) => res.forEach((e) => console.log(e))
+    });
+  }
+
+  getAllAsOptions() {
+    return this.http.get<TemplateAsOption[]>('/api/v1/usertemplates/options');
   }
 
   getTemplateBySharingId(sharingId: string): Observable<EmailTemplate> {
