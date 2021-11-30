@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HistoryService} from "../../../../service/history.service";
 import {EmailWithTemplate, ExecutedEmail, Recipient, RecipientType} from "../../../../model/email";
 import {ConfirmationService} from "primeng/api";
+import {AngularEditorConfig} from "@kolkov/angular-editor";
 
 @Component({
   selector: 'app-email-view',
@@ -16,6 +17,12 @@ export class EmailViewComponent implements OnInit {
   recipientsTO: string | undefined = undefined;
   recipientsCC: string | undefined = undefined;
   recipientsBCC: string | undefined = undefined;
+
+  editorConfig: AngularEditorConfig = {
+    showToolbar: false,
+    editable: false,
+    minHeight: '200px'
+  }
 
   showContent = false;
 
