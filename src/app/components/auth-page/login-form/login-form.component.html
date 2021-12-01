@@ -1,39 +1,35 @@
-<div class="p-4 w-full">
-  <label for="reg-form" class="block text-4xl p-2">Login</label>
-  <small id="server-message" [hidden]="! isShowServerMessage" class="p-error font-bold text-sm  mt-2 pl-2">
-    {{serverMessage}}</small>
+<div class="p-4">
+  <div class="p-fluid">
+    <label for="reg-form" class="block text-4xl">Login</label>
+    <small id="server-message" [hidden]="! isShowServerMessage" class="p-error font-bold text-sm  mt-2">{{serverMessage}}</small>
+  </div>
   <form id="reg-form" [formGroup]="form" class="font-bold text-2xl text-primary" (ngSubmit)="onSubmit()">
-    <div id="form-cont-email" class="mt-2 p-2">
-      <label for="email" class="block w-100 bg-primary">Email</label>
+    <div class="mt-2 p-fluid">
+      <label for="email" class="block text-500 w-100 mb-2">Email:</label>
       <input id="email" formControlName="email" type="text"
-             [ngClass]="{
-          'input w-full mt-2': true,
-          'ng-invalid ng-dirty': showValidity('email')}"
-             aria-describedby="email-help"
              required email pInputText>
+      <br [hidden]="!showValidity('email')">
       <small id="email-help"
              [hidden]="!showValidity('email')"
-             class="p-error text-sm  mt-2">Email is not correct</small>
+             class="p-error text-sm mt-2">Email is not correct</small>
     </div>
-    <div id="form-cont-password" class="mt-2 p-2">
-      <label for="password" class="block w-100 bg-primary mb-2">Password:</label>
+    <div class="mt-2 p-field">
+      <label for="password" class="block text-500 w-100 mb-2">Password:</label>
       <p-password id="password" type="password" formControlName="password"
                   [feedback]="false"
                   [toggleMask]="true"
-                  [ngClass]="{'w-full mt-2': true,
-                     'ng-invalid ng-dirty': showValidity('password')}"
                   required maxlength="24" minlength="8"
-                  aria-describedby="password-help"
       ></p-password>
       <br [hidden]="!showValidity('password')">
       <small id="password-help"
              [hidden]="!showValidity('password')"  class="p-error text-sm  mt-2">Password is not correct min length - 8, max - 24</small>
     </div>
-    <button id="sign-up-button"
-            pButton pRipple label="Sign In" type="submit"
-            [disabled]="form.invalid"
-            icon="pi pi-user"
-            class="w-full mt-4">
-    </button>
+    <div class="mt-2 p-fluid">
+      <button id="sign-up-button"
+              pButton pRipple label="Sign In" type="submit"
+              [disabled]="form.invalid"
+              icon="pi pi-user">
+      </button>
+    </div>
   </form>
 </div>
