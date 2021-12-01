@@ -19,16 +19,21 @@ html, body {
 
 .angular-editor-toolbar {
   background-color: transparent !important;
-  border: 1px solid #1e1e1e !important;
+  border: 2px solid #383838 !important;
   padding: 0.4rem 0.2rem 0 0.2rem !important;
+  text-align: center !important;
+}
+
+.angular-editor-textarea {
+  border: 2px solid #383838 !important;
 }
 
 .angular-editor-button {
   background-color: #ffd545 !important;
-  border: 1px solid #000 !important;
+  border: 1px solid #383838 !important;
 }
 
 .ae-font .ae-picker-label {
   background-color: #ffd545 !important;
-  border: 2px solid #000 !important;
+  border: 2px solid #383838 !important;
 }

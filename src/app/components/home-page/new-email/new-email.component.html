@@ -62,53 +62,58 @@
           </div>
         </div>
 
-        <div class="form-group mt-4" *ngIf="showTemplatesOptions">
-          <h4>Use existed template?:</h4>
-          <p-inputSwitch [(ngModel)]="usedExistedTemplate" class="block mb-4"
-                         [ngModelOptions]="{standalone: true}"></p-inputSwitch>
+        <div class="grid mt-1 p-3">
 
-          <p-dropdown [options]="templatesAsOptions" [disabled]="isSelectNotEnabled"
-                      (onChange)="changeTemplate(selectedTemplate.id)"
-                      *ngIf="usedExistedTemplate" class="block w-20rem"
-                      [(ngModel)]="selectedTemplate" [ngModelOptions]="{standalone: true}"
-                      optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
-                      placeholder="Select a template">
-
-            <ng-template pTemplate="selectedItem">
-              <div class="block" *ngIf="selectedTemplate">
-                <div>{{selectedTemplate.name}}</div>
-              </div>
-            </ng-template>
-
-            <ng-template let-template pTemplate="item">
-              <div class="block">
-                <div>{{template.name}}</div>
-              </div>
-            </ng-template>
-
-          </p-dropdown>
-        </div>
-
-
-        <div formGroupName="emailTemplate" class="mt-4">
-          <div class="form-group">
-            <h4>Email subject:</h4>
-            <textarea rows="2" cols="80" pInputTextarea formControlName="subject"></textarea>
-          </div>
-
-          <div class="form-group">
-            <h4>Email body:</h4>
-            <div class="p-field mt-2 bg-primary-reverse border-left-3 border-0">
-              <div class="p-7">
-                <div class="text-lg text-white default-background">
-                  <angular-editor id="template-body" formControlName="body" placeholder="Enter text...">
-                  </angular-editor>
-                </div>
-              </div>
-              <!--      <p>Value: {{emailWithTemplate.template.body}}</p>-->
+          <div formGroupName="emailTemplate" class="col-7">
+            <div class="form-group">
+              <h4>Email subject:</h4>
+              <textarea rows="2" cols="80" pInputTextarea formControlName="subject"></textarea>
             </div>
           </div>
+
+          <div class="form-group col-5" *ngIf="showTemplatesOptions">
+            <span class="inline-block flex"><h4 class="inline-flex p-float-label">Use existed template?:</h4>
+            <p-inputSwitch [(ngModel)]="usedExistedTemplate" class="p-4 mt-1"
+                           [ngModelOptions]="{standalone: true}"></p-inputSwitch></span>
+
+            <p-dropdown [options]="templatesAsOptions" [disabled]="isSelectNotEnabled"
+                        (onChange)="changeTemplate(selectedTemplate.id)"
+                        *ngIf="usedExistedTemplate" class="mt-3"
+                        [(ngModel)]="selectedTemplate" [ngModelOptions]="{standalone: true}"
+                        optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+                        placeholder="Select a template">
+
+              <ng-template pTemplate="selectedItem">
+                <div *ngIf="selectedTemplate">
+                  <div>{{selectedTemplate.name}}</div>
+                </div>
+              </ng-template>
+
+              <ng-template let-template pTemplate="item">
+                <div>
+                  <div>{{template.name}}</div>
+                </div>
+              </ng-template>
+
+            </p-dropdown>
+          </div>
+
         </div>
+
+        <div class="form-group mt-5" formGroupName="emailTemplate">
+          <div class="p-field mt-2 pt-1 bg-primary-reverse border-left-3 border-0">
+            <div class="ml-4 mt-3 text-2xl font-bold">Email body:</div>
+            <div class="px-7 pb-3 mt-4">
+              <div class="text-lg text-white default-background">
+                <angular-editor id="template-body" [config]="editorConfig" class="input" formControlName="body"
+                                placeholder="Enter text...">
+                </angular-editor>
+              </div>
+            </div>
+            <!--      <p>Value: {{emailWithTemplate.template.body}}</p>-->
+          </div>
+        </div>
+
 
         <div class="form-group">
           <h4>Enable schedule settings:</h4>

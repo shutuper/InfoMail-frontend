@@ -4,6 +4,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Email, EmailSchedule, EmailTemplate, Recipient, RecipientType, TemplateAsOption} from "../../../model/email";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
 import {UserEmailTemplateService} from "../../../service/user-email-template.service";
+import {AngularEditorConfig} from "@kolkov/angular-editor";
 
 @Component({
   selector: 'app-new-email',
@@ -24,10 +25,15 @@ export class NewEmailComponent implements OnInit {
   subject: string = {} as string;
   body: string = {} as string;
 
-
   recipientsTO: string[] = [];
   recipientsCC: string[] = [];
   recipientsBCC: string[] = [];
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    minHeight: '200px',
+    toolbarHiddenButtons: [['insertImage', 'insertVideo']]
+  }
 
 
   emailForm: FormGroup = new FormGroup({
@@ -49,7 +55,7 @@ export class NewEmailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.beginLoading()
+    this.beginLoading();
     this.initialize();
     this.emailForm.reset();
     this.userEmailTemplateService.getAllAsOptions().subscribe({
