@@ -38,11 +38,11 @@ export class NewEmailComponent implements OnInit {
 
   emailForm: FormGroup = new FormGroup({
     emailTemplate: new FormGroup({
-      body: new FormControl(''),
-      subject: new FormControl('')
+      body: new FormControl('', Validators.required),
+      subject: new FormControl('', Validators.required)
     }),
     recipients: new FormGroup({
-      recipientsTO: new FormControl([], [Validators.email]),
+      recipientsTO: new FormControl([], [Validators.email, Validators.required]),
       recipientsCC: new FormControl([], Validators.email),
       recipientsBCC: new FormControl([], Validators.email)
     }),
