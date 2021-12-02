@@ -80,7 +80,7 @@
 
             <p-dropdown [options]="templatesAsOptions" [disabled]="isSelectNotEnabled"
                         (onChange)="changeTemplate(selectedTemplate.id)"
-                        *ngIf="usedExistedTemplate" class="mt-3"
+                        *ngIf="usedExistedTemplate" class=""
                         [(ngModel)]="selectedTemplate" [ngModelOptions]="{standalone: true}"
                         optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
                         placeholder="Select a template">

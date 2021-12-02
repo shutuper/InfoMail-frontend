@@ -67,7 +67,6 @@ export interface TemplateAsOption {
   id: number;
   name: string;
 }
-
 export interface RepeatTypeAsOption {
   name:string;
   repeatType: RepeatType;

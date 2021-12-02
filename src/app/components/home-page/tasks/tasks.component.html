@@ -1,1 +1,108 @@
-<p>tasks works!</p>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<p-scrollTop></p-scrollTop>
+
+<div class="card">
+
+  <p-table #dt [value]="tasks" [rows]="numberOfRows" [paginator]="true"
+           [lazy]="true" (onLazyLoad)="loadTasks($event)" [totalRecords]="totalNumberOfRows"
+           [(selection)]="selectedTasks" styleClass="p-datatable-striped" [rowHover]="true"
+           dataKey="id" [loading]="loading" [showCurrentPageReport]="true"
+           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+    <!--  Table captions  -->
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0 text-3xl">Scheduled tasks:</h5>
+
+        <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"
+                [disabled]="!selectedTasks || !selectedTasks.length"></button>
+      </div>
+    </ng-template>
+
+    <!--  Table header  -->
+    <ng-template pTemplate="header">
+      <tr class="w-100">
+
+        <th class="w-3rem">
+          <p-checkbox [(ngModel)]="isChecked" [binary]="true" (onChange)="selectOrUnselectAllEmails()"></p-checkbox>
+        </th>
+
+        <th class="w-25rem">Subject
+        </th>
+
+        <th pSortableColumn="state">State
+          <p-sortIcon field="state"></p-sortIcon>
+        </th>
+
+        <th pSortableColumn="startAt">Start at
+          <p-sortIcon field="startAt"></p-sortIcon>
+        </th>
+
+        <th>Description</th>
+
+        <th pSortableColumn="endAt">End at
+          <p-sortIcon field="endAt"></p-sortIcon>
+        </th>
+
+        <th></th> <!-- Column for delete/repeat buttons -->
+
+      </tr>
+    </ng-template>
+
+    <!--    Table body-->
+    <ng-template pTemplate="body" let-task let-index="index">
+      <tr>
+
+        <td>
+          <p-tableCheckbox [value]="task"></p-tableCheckbox>
+        </td>
+        <!--        (click)="openEmailView(email.id)"-->
+        <td>
+          <button pButton pRipple type="button" (click)="task(task.jobName)"
+                  class="p-button-text">{{sliceLongString(task.subject, maxSubjectLength)}}</button>
+        </td>
+
+        <td>
+          <p-tag styleClass="mr-2" [severity]="task.state!=='FINISHED'?'primary':'danger'">{{task.state}}</p-tag>
+        </td>
+
+        <td>{{task.startAt ? (task.startAt | date : 'yy-MM-dd HH:mm') : '—'}}</td>
+
+        <td>
+          {{task.description ? sliceLongString(task.description, maxSubjectLength) : '—'}}
+        </td>
+
+        <td>{{task.endAt ? (task.endAt | date : 'yy-MM-dd HH:mm') : '—'}}</td>
+
+        <td>
+          <div class="flex justify-content-end">
+            <button *ngIf="task.state === 'PAUSED'" pButton pRipple icon="pi pi-play"
+                    class="p-button-rounded p-button-warning  mr-2">
+            </button>
+
+            <button *ngIf="task.state !== 'PAUSED' && task.state !== 'COMPLITED' && task.state !== 'FINISHED'" pButton
+                    pRipple icon="pi pi-pause"
+                    class="p-button-rounded p-button-warning  mr-2">
+            </button>
+
+            <!--            (click)="retry(email.id,index)"-->
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger">
+
+            </button>
+            <!--            (click)="deleteEmailById(email.id)"-->
+          </div>
+        </td>
+
+      </tr>
+    </ng-template>
+
+    <!--     Summary at the bottom of the table-->
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{totalNumberOfRows ? totalNumberOfRows : 0}} emails.
+      </div>
+    </ng-template>
+
+  </p-table>
+</div>

@@ -43,7 +43,7 @@ export class HistoryComponent implements OnInit {
     return (str.length >= maxLength) ? str.slice(0, maxLength - 1).concat('...') : str;
   }
 
-  retry(emailId: number, index: number) {
+  resend(emailId: number, index: number) {
     this.beginLoading();
     this.historyService.retryFailed(emailId).subscribe({
       next: (email: ExecutedEmail) => {

@@ -3,7 +3,6 @@
 
 <p-scrollTop></p-scrollTop>
 
-<router-outlet></router-outlet>
 
 <div class="card">
 
@@ -68,9 +67,11 @@
 
         <td>
           <div class="flex justify-content-end">
+
             <button *ngIf="! email.status" pButton pRipple icon="pi pi-sync"
                     class="p-button-rounded p-button-warning  mr-2"
-                    (click)="retry(email.id,index)"></button>
+                    (click)="resend(email.id,index)"></button>
+
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
                     (click)="deleteEmailById(email.id)"></button>
           </div>
