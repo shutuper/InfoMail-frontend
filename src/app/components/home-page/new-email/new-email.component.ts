@@ -35,6 +35,8 @@ export class NewEmailComponent implements OnInit {
     toolbarHiddenButtons: [['insertImage', 'insertVideo']]
   }
 
+  //for emailSchedule
+  isSendNotNow = true;
 
   emailForm: FormGroup = new FormGroup({
     emailTemplate: new FormGroup({
@@ -45,8 +47,7 @@ export class NewEmailComponent implements OnInit {
       recipientsTO: new FormControl([], [Validators.email, Validators.required]),
       recipientsCC: new FormControl([], Validators.email),
       recipientsBCC: new FormControl([], Validators.email)
-    }),
-    isSendNotNow: new FormControl(false)
+    })
   });
 
   constructor(private emailService: EmailService,
@@ -105,18 +106,6 @@ export class NewEmailComponent implements OnInit {
     this.isSelectNotEnabled = true;
   }
 
-  switchShowScheduleForm() {
-    this.emailForm.patchValue({isSendNowControl: !this.isShowScheduleForm()});
-  }
-
-  useExistedTemplate() {
-    return this.usedExistedTemplate = !this.usedExistedTemplate;
-  }
-
-  isShowScheduleForm(): boolean {
-    let isSendNotNow = this.emailForm.controls['isSendNotNow'].value
-    return (isSendNotNow === null) ? false : isSendNotNow;
-  }
 
   public onSendEmail(): void {
     this.beginLoading()
@@ -154,12 +143,12 @@ export class NewEmailComponent implements OnInit {
   }
 
   public parseEmailSchedule(): EmailSchedule {
-    if (!this.emailForm.controls['emailSchedule'] || this.emailForm.controls['isSendNotNow'].value === null) {
+    if (!this.emailForm.controls['emailSchedule'] || this.isSendNotNow) {
       return {sendNow: true} as EmailSchedule;
     }
 
     const emailScheduleControl = this.emailForm.controls['emailSchedule'].value;
-    const isSendNow: boolean = !this.emailForm.controls['isSendNotNow'].value;
+    const isSendNow: boolean = ! this.isSendNotNow;
 
     return {
       sendNow: isSendNow,
