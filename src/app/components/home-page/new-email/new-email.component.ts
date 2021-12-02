@@ -87,6 +87,7 @@ export class NewEmailComponent implements OnInit {
     this.recipientsTO = [];
     this.recipientsCC = [];
     this.recipientsBCC = [];
+    this.isSendNotNow = false;
 
   }
 
