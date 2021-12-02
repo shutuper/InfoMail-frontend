@@ -36,7 +36,7 @@ export class NewEmailComponent implements OnInit {
   }
 
   //for emailSchedule
-  isSendNotNow = true;
+  isSendNotNow = false;
 
   emailForm: FormGroup = new FormGroup({
     emailTemplate: new FormGroup({
@@ -143,19 +143,19 @@ export class NewEmailComponent implements OnInit {
   }
 
   public parseEmailSchedule(): EmailSchedule {
-    if (!this.emailForm.controls['emailSchedule'] || this.isSendNotNow) {
+    const isSendNow: boolean = ! this.isSendNotNow;
+
+    if (!this.emailForm.controls['emailSchedule'] || isSendNow) {
       return {sendNow: true} as EmailSchedule;
     }
-
     const emailScheduleControl = this.emailForm.controls['emailSchedule'].value;
-    const isSendNow: boolean = ! this.isSendNotNow;
 
     return {
       sendNow: isSendNow,
 
       sendDateTime: emailScheduleControl.sendDateTime,
       endDate: emailScheduleControl.endDate,
-      repeatAt: emailScheduleControl.repeatAt,
+      repeatAt: emailScheduleControl.repeatTypeAsOption.repeatType,
     } as EmailSchedule
 
   }
@@ -250,5 +250,10 @@ export class NewEmailComponent implements OnInit {
       }, complete: () => this.enableSelect()
 
     })
+  }
+
+  onChangeSchedulerSwitch() {
+    if(this.isSendNotNow) this.emailForm.get('emailSchedule')?.enable();
+    else this.emailForm.get('emailSchedule')?.disable();
   }
 }

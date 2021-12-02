@@ -68,3 +68,8 @@ export interface TemplateAsOption {
   name: string;
 }
 
+export interface RepeatTypeAsOption {
+  name:string;
+  repeatType: RepeatType;
+}
+

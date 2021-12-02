@@ -1,17 +1,32 @@
-<form [formGroup]="scheduleForm">
+<form [formGroup]="form">
   <div class="p-field grid">
-    <div class="col-4">
-      <div class="p-field mb-3">
-        <label for="sendDateTime">Send date:</label>
-        <p-calendar id="sendDateTime" formControlName="sendDateTime" [showTime]="true" [showIcon]="true"></p-calendar>
+    <div class="col-3 p-field mb-3">
+      <label for="sendDateTime">Start date:</label>
+      <p-calendar id="sendDateTime" formControlName="sendDateTime"
+                  [showTime]="true" [showIcon]="true"></p-calendar>
+      <div *ngIf="showValidity('sendDateTime')">
+        <div *ngIf="this.sendDateTime?.errors?.['timeIsOver']">
+          <small class="p-error">Shouldn't be earlier than 5 minutes!</small>
+        </div>
       </div>
-      <div class="p-field mb-3">
-        <label for="repeat-types">Repeat:</label>
-        <p-dropdown id="repeat-types" (onChange)="whenRepeatTypeChange()" [options]="repeatTypeLabels" formControlName="repeatTypeLabel" placeholder="Select repeat type" optionLabel="name"></p-dropdown>
+      <div *ngIf="sendDateTime?.errors?.['required']">
+        <small class="p-error">Required value!</small>
       </div>
-      <div class="p-field mb-3">
-        <label for="endDate">End date:</label>
-        <p-calendar id="endDate" formControlName="endDate" [showIcon]="true"></p-calendar>
+    </div>
+    <div class="col-3 p-field mb-3">
+      <label for="repeat-types">Repeat:</label>
+      <p-dropdown id="repeat-types" (onChange)="whenRepeatTypeChange()" [options]="repeatTypeAsOptions" formControlName="repeatTypeAsOption" placeholder="Select repeat type" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="col-3 p-field mb-3" *ngIf="! isTypesSame(repeatType, 0)">
+      <label for="endDate">End date:</label>
+      <p-calendar id="endDate" formControlName="endDate" [showIcon]="true"></p-calendar>
+      <div *ngIf="showValidity('endDate')">
+        <div *ngIf="endDate?.errors?.['dayIsOver']">
+          <small class="p-error">Shouldn't be earlier than today!</small>
+        </div>
+      </div>
+      <div *ngIf="endDate?.errors?.['required']">
+        <small class="p-error">Required value!</small>
       </div>
     </div>
   </div>

@@ -124,13 +124,15 @@
 
         <!--SCHEDULING-->
         <div class="form-group">
-          <h4>Enable schedule settings:</h4>
-
-          <p-inputSwitch [(ngModel)]="isSendNotNow"
-                         [ngModelOptions]="{standalone: true}"></p-inputSwitch>
-
-          <app-schedule-form *ngIf="isSendNotNow"
-                             (formGroupEE)="emailForm.setControl('emailSchedule', $event)"></app-schedule-form>
+          <span class="inline-block flex">
+            <h4 class="inline-flex p-float-label">Enable schedule settings:</h4>
+            <p-inputSwitch
+              (onChange)="onChangeSchedulerSwitch()"
+              [(ngModel)]="isSendNotNow" class="p-4 mt-1"
+              [ngModelOptions]="{standalone: true}"></p-inputSwitch>
+          </span>
+          <app-schedule-form
+            *ngIf="isSendNotNow" (formGroupEE)="emailForm.setControl('emailSchedule', $event)"></app-schedule-form>
         </div>
 
 
