@@ -24,4 +24,11 @@ export class PopupMessageService {
     });
   }
 
+  showInfo(message: string){
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Confirmed',
+      detail: message
+    });
+  }
 }
