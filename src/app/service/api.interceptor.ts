@@ -23,7 +23,7 @@ export class ApiInterceptor implements HttpInterceptor {
         error: (err: HttpErrorResponse) => {
           console.log("intercept errr", err)
           if (err.status > 500 && err.status != 504) this.openErrorPage("Can't connect to server");
-          if (err.status === 504) this.popupMessageService.showInfo('Server is temporarily unavailable, please try again later');
+          if (err.status === 504) this.popupMessageService.showWarning('Server is temporarily unavailable, please try again later');
           if (err.status === 404) this.openErrorPage("Can't find page");
           if (err.status === 401 || err.status === 403) this.logout();
         }

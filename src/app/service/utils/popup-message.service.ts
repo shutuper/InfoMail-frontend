@@ -24,10 +24,10 @@ export class PopupMessageService {
     });
   }
 
-  showInfo(message: string){
+  showWarning(message: string){
     this.messageService.add({
-      severity: 'info',
-      summary: 'Confirmed',
+      severity: 'warn',
+      summary: 'Warning',
       detail: message
     });
   }
