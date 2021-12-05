@@ -4,7 +4,7 @@ export interface ScheduledTask {
   startAt: Date;
   description: string;
   endAt: Date;
-  status: string;
+  state: string;
   subject: string;
 }
 

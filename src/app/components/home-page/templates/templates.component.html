@@ -27,7 +27,8 @@
     <ng-template pTemplate="header">
       <tr>
         <th class="w-3rem">
-          <p-checkbox [(ngModel)]="isChecked" [binary]="true" (onChange)="selectOrUnselectAllTemplates()"></p-checkbox>
+          <!--          <p-checkbox [(ngModel)]="isChecked" [binary]="true" (onChange)="selectOrUnselectAllTemplates()"></p-checkbox>-->
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
         <th pSortableColumn="name" class="w-18rem">Name
           <p-sortIcon field="name"></p-sortIcon>

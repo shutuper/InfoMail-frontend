@@ -38,7 +38,7 @@ export class HistoryService {
         'Content-Type': 'application/json',
       }),
       body: {
-        ids
+        ids: ids
       }
     };
     return this.httpClient.delete('/api/v1/history', options);

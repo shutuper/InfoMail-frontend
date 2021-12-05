@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {ExecutedEmail} from "../model/email";
 import {PaginatedScheduledTasks, ScheduledTask} from "../model/scheduled-tasks";
 
@@ -7,6 +7,11 @@ import {PaginatedScheduledTasks, ScheduledTask} from "../model/scheduled-tasks";
   providedIn: 'root'
 })
 export class ScheduledTaskService {
+
+  resource = '/api/v1/tasks';
+  jsonHeader = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
 
   constructor(private httpClient: HttpClient) {
   }
@@ -26,8 +31,42 @@ export class ScheduledTaskService {
       .set('page', page).set('rows', rows)
       .set('sortField', sortField).set('sortOrder', sortOrder);
 
-    return this.httpClient.get<PaginatedScheduledTasks>("/api/v1/tasks", {params: emailsPagination});
+    return this.httpClient.get<PaginatedScheduledTasks>(this.resource, {params: emailsPagination});
   }
 
+
+  pauseJobByName(jobName: string) {
+    return this.httpClient.patch(`${this.resource}/pause/${jobName}`, null);
+  }
+
+  pauseAllUserJobs() {
+    return this.httpClient.patch(`${this.resource}/pauseAll`, null);
+  }
+
+  resumeJobByName(jobName: string) {
+    return this.httpClient.patch(`${this.resource}/resume/${jobName}`, null);
+  }
+
+  resumeAllUserJobs() {
+    return this.httpClient.patch(`${this.resource}/resumeAll`, null);
+  }
+
+  deleteJobByName(jobName: string) {
+    return this.httpClient.delete(`${this.resource}/${jobName}`);
+  }
+
+  deleteAllJobsByNamesIn(jobNames: string[]) {
+    return this.httpClient.delete(this.resource, this.generateHttpOptions(jobNames));
+  }
+
+
+  generateHttpOptions(body: any) {
+    return {
+      headers: this.jsonHeader,
+      body: {
+        jobNames: body
+      }
+    };
+  }
 
 }
