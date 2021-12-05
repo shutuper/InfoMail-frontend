@@ -26,6 +26,7 @@ html, body {
 
 .angular-editor-textarea {
   border: 2px solid #383838 !important;
+  overflow-wrap: break-word !important;
 }
 
 .angular-editor-button {
