@@ -71,10 +71,10 @@
         <td>{{task.startAt ? (task.startAt | date : 'yy-MM-dd HH:mm') : '—'}}</td>
 
         <td>
-          {{task.description ? sliceLongString(task.description, maxSubjectLength) : '—'}}
+          {{task.description ? sliceLongString(task.description, maxSubjectLength) : 'One repeat'}}
         </td>
 
-        <td>{{task.endAt ? (task.endAt | date : 'yy-MM-dd HH:mm') : '—'}}</td>
+        <td>{{(task.endAt && task.description) ? (task.endAt | date : 'yy-MM-dd HH:mm') : '—'}}</td>
 
         <td>
           <div class="flex justify-content-end" *ngIf="task.state !== 'COMPLETED'">

@@ -58,8 +58,8 @@
       </div>
       <div class="grid">
         <div class="col-2"><p>{{task.startAt ? (task.startAt | date : 'HH:mm yyyy-MM-dd') : '—'}}</p></div>
-        <div class="col-2"><p>{{task.endAt ? (task.endAt | date : 'HH:mm yyyy-MM-dd') : '—'}}</p></div>
-        <div class="col-4"><p>{{task.description ? sliceLongString(task.description, maxSubjectLength) : '—'}}</p></div>
+        <div class="col-2"><p>{{(task.endAt && task.description) ? (task.endAt | date : 'HH:mm yyyy-MM-dd') : '—'}}</p></div>
+        <div class="col-4"><p>{{task.description ? sliceLongString(task.description, maxSubjectLength) : 'One repeat'}}</p></div>
         <div class="col-1 flex justify-content-center align-content-center">
           <div class="flex align-items-center justify-content-center">
             <p-tag [severity]="task.state!=='PAUSED'?'primary':'danger'">{{task.state}}</p-tag>
