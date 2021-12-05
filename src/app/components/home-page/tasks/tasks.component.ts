@@ -186,4 +186,7 @@ export class TasksComponent implements OnInit {
     }
   }
 
+  openTaskView(jobName: string) {
+    this.router.navigate([jobName], {relativeTo: this.route});
+  }
 }

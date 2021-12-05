@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {CheckboxControlValueAccessor, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AppComponent} from './app.component';
 import {EmailFormComponent} from "./components/emailForm/email-form.component";
 import {ButtonModule} from "primeng/button";
@@ -29,7 +29,7 @@ import {AuthGuard} from "./service/auth-guard.service";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {InputNumberModule} from "primeng/inputnumber";
 import {RadioButtonModule} from "primeng/radiobutton";
-import {TableCheckbox, TableHeaderCheckbox, TableModule, TableService} from "primeng/table";
+import {TableModule, TableService} from "primeng/table";
 import {FileUploadModule} from "primeng/fileupload";
 import {ToolbarModule} from "primeng/toolbar";
 import {ToastModule} from "primeng/toast";
@@ -37,7 +37,7 @@ import {TagModule} from "primeng/tag";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {HistoryService} from "./service/history.service";
 import {MultiSelectModule} from "primeng/multiselect";
-import {Checkbox, CheckboxModule} from "primeng/checkbox";
+import {CheckboxModule} from "primeng/checkbox";
 import {MenuComponent} from './components/home-page/menu/menu.component';
 import {HistoryComponent} from './components/home-page/history/history.component';
 import {TasksComponent} from './components/home-page/tasks/tasks.component';
@@ -63,7 +63,8 @@ import {ChipModule} from "primeng/chip";
 import {ScheduleFormComponent} from './components/home-page/new-email/schedule-form/schedule-form.component';
 import {SelectButtonModule} from "primeng/selectbutton";
 import {DropdownModule} from "primeng/dropdown";
-import {AngularEditorModule} from '@kolkov/angular-editor';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { TaskViewComponent } from './components/home-page/tasks/task-view/task-view.component';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import {AngularEditorModule} from '@kolkov/angular-editor';
     SharedTemplatePageComponent,
     EmailViewComponent,
     NewEmailComponent,
-    ScheduleFormComponent
+    ScheduleFormComponent,
+    TaskViewComponent
   ],
   imports: [
     BrowserModule,

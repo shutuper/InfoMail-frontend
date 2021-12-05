@@ -14,6 +14,7 @@ import {RegistrationMessageComponent} from "./components/auth-page/registration-
 import {SharedTemplatePageComponent} from "./components/sharing-template-page/shared-template-page.component";
 import {EmailViewComponent} from "./components/home-page/history/email-view/email-view.component";
 import {NewEmailComponent} from "./components/home-page/new-email/new-email.component";
+import {TaskViewComponent} from "./components/home-page/tasks/task-view/task-view.component";
 
 
 const routes: Routes = [
@@ -36,8 +37,8 @@ const routes: Routes = [
       {path: '', pathMatch: 'full', redirectTo: 'history'},
       {
         path: 'tasks', children: [
-          {path: '', component: TasksComponent}
-          // {path: ':jobName', component: TaskViewComponent}
+          {path: '', component: TasksComponent},
+          {path: ':jobName', component: TaskViewComponent}
         ]
       },
       {

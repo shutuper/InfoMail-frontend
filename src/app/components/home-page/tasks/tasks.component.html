@@ -4,10 +4,10 @@
 
 <div class="card">
 
-  <p-table #dt1 [value]="tasks" [(selection)]="selectedTasks" [rows]="numberOfRows" [paginator]="true"
+  <p-table #dt [value]="tasks" [rows]="numberOfRows" [paginator]="true"
            [lazy]="true" (onLazyLoad)="loadTasks($event)" [totalRecords]="totalNumberOfRows"
-           styleClass="p-datatable-striped" [rowHover]="true"
-           dataKey="jobName" [loading]="loading" [showCurrentPageReport]="true"
+           [(selection)]="selectedTasks" styleClass="p-datatable-striped" [rowHover]="true"
+           dataKey="id" [loading]="loading" [showCurrentPageReport]="true"
            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
 
     <!--  Table captions  -->
@@ -15,8 +15,7 @@
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0 text-3xl">Scheduled tasks:</h5>
 
-        <button pButton pRipple [label]="'Delete'" (click)="deleteSelectedTasks()" icon="pi pi-trash"
-                class="p-button-danger"
+        <button pButton pRipple [label]="'Delete'" icon="pi pi-trash" class="p-button-danger"
                 [disabled]="!selectedTasks || !selectedTasks.length"></button>
       </div>
     </ng-template>
@@ -61,7 +60,7 @@
         </td>
 
         <td>
-          <button pButton pRipple type="button"
+          <button pButton pRipple type="button" (click)="openTaskView(task.jobName)"
                   class="p-button-text">{{sliceLongString(task.subject, maxSubjectLength)}}</button>
         </td>
 

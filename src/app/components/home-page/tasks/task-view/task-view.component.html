@@ -1,0 +1,148 @@
+<ng-template *ngIf="showContent; then content else progressSpinner"></ng-template>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<p-scrollTop></p-scrollTop>
+
+
+<ng-template #progressSpinner>
+  <div class="grid fluid h-screen">
+    <p-progressSpinner class="mx-auto my-auto"></p-progressSpinner>
+  </div>
+</ng-template>
+
+
+<ng-template #content>
+  <div class="text-xl p-fluid">
+
+
+    <p-divider align="left">
+      <span class="p-tag text-2xl pr-8 pl-8" icon="pi pi-book" label="Subject" pButton pRipple></span>
+    </p-divider>
+    <div class="card fluid text-white bg-primary-reverse p-4 text-2xl border-left-3 border-0">
+      {{task.subject}}
+    </div>
+
+
+    <p-divider align="center">
+      <span class="p-tag text-lg pr-8 pl-8" icon="pi pi-clock" label="Schedule settings" pButton pRipple></span>
+    </p-divider>
+
+<!--    <table>-->
+
+<!--      <div class="border-bottom-2">-->
+<!--        <tr class="text-white">-->
+<!--          <th class="px-4">Start at</th>-->
+<!--          <th class="px-4">Description</th>-->
+<!--          <th class="px-4">End at</th>-->
+<!--          <th class="px-4"></th> &lt;!&ndash; Column for delete/repeat buttons &ndash;&gt;-->
+<!--        </tr>-->
+<!--      </div>-->
+
+<!--      <tr class="text-white">-->
+<!--        <td class="px-4">{{task.startAt ? (task.startAt | date : 'yy-MM-dd HH:mm') : '—'}}</td>-->
+<!--        <td class="px-4">{{task.description ? sliceLongString(task.description, maxSubjectLength) : '—'}}</td>-->
+<!--        <td class="px-4">{{task.endAt ? (task.endAt | date : 'yy-MM-dd HH:mm') : '—'}}</td>-->
+<!--        <td class="px-4"></td>-->
+<!--      </tr>-->
+<!--    </table>-->
+
+
+    <div class="px-2 text-700 text-center">
+      <div class="grid font-bold border-bottom-2 border-50">
+        <div class="col-2"><label>Start at</label></div>
+        <div class="col-2"><label>End at</label></div>
+        <div class="col-4"><label>Description</label></div>
+        <div class="col-4"></div>
+      </div>
+      <div class="grid">
+        <div class="col-2"><p>{{task.startAt ? (task.startAt | date : 'HH:mm yyyy-MM-dd') : '—'}}</p></div>
+        <div class="col-2"><p>{{task.endAt ? (task.endAt | date : 'HH:mm yyyy-MM-dd') : '—'}}</p></div>
+        <div class="col-4"><p>{{task.description ? sliceLongString(task.description, maxSubjectLength) : '—'}}</p></div>
+        <div class="col-4">
+          <div class="flex justify-content-end">
+            <button *ngIf="task.status === 'PAUSED'"
+                    pButton pRipple icon="pi pi-play"
+                    (click)="resume()"
+                    class="p-button-rounded p-button-warning  mr-2">
+            </button>
+
+            <button *ngIf="task.status !== 'PAUSED' && task.status !== 'COMPLITED' && task.status !== 'FINISHED'"
+                    pButton pRipple icon="pi pi-pause"
+                    (click)="pause()"
+                    class="p-button-rounded p-button-warning  mr-2">
+            </button>
+
+            <button pButton pRipple icon="pi pi-trash"
+                    (click)="delete()"
+                    class="p-button-rounded p-button-danger">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <p-divider align="right">
+      <span class="p-tag text-xl pr-7 pl-7" icon="pi pi-user" pButton pRipple label="Recipients"></span>
+    </p-divider>
+    <div class="fluid p-3 bg-primary-reverse border-left-3 border-0">
+      <p-tabView>
+
+        <p-tabPanel header="TO" *ngIf="recipientsTO">
+          <p-scrollPanel class="select-all" [style]="{width: '100%', height: '75px'}">
+            {{recipientsTO}}
+          </p-scrollPanel>
+        </p-tabPanel>
+
+        <p-tabPanel header="CC" *ngIf="recipientsCC">
+          <p-scrollPanel class="select-all" [style]="{width: '100%', height: '75px'}">
+            {{recipientsCC}}
+          </p-scrollPanel>
+        </p-tabPanel>
+
+        <p-tabPanel header="BCC" *ngIf="recipientsBCC">
+          <p-scrollPanel class="select-all" [style]="{width: '100%', height: '75px'}">
+            {{recipientsBCC}}
+          </p-scrollPanel>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+
+
+    <p-divider align="center">
+      <span class="p-tag text-2xl pr-8 pl-8" icon="pi pi-at" label="Email" pButton pRipple></span>
+    </p-divider>
+    <div class="p-field mt-4 bg-primary-reverse border-left-3 border-0">
+      <div class="p-7">
+        <div class="text-lg text-white default-background">
+          <angular-editor id="template-body" [config]="editorConfig"
+                          [ngModel]="task.body"></angular-editor>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="grid fluid justify-content-center mt-4">
+      <span class="p-buttonset">
+        <button pButton type="button" routerLink="/tasks" label="Return"
+                icon="pi pi-sign-in" class="p-button-rounded mr-2"></button>
+
+        <button pButton type="button" class="p-button-danger" (click)="delete()"
+                label="Delete" icon="pi pi-trash" class="mr-2"></button>
+
+        <button pButton *ngIf="task.status === 'PAUSED'" (click)="resume()"
+                label="Resume" icon="pi pi-play"
+                class="p-button-rounded p-button-warning mr-2"></button>
+
+        <button pButton icon="pi pi-pause" label="Pause" (click)="pause()"
+                *ngIf="task.status !== 'PAUSED' && task.status !== 'COMPLITED' && task.status !== 'FINISHED'"
+                class="p-button-rounded p-button-warning mr-2"></button>
+      </span>
+    </div>
+
+
+  </div>
+</ng-template>
