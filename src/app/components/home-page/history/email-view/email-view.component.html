@@ -75,10 +75,10 @@
 
     <div class="grid fluid justify-content-center mt-4">
       <span class="p-buttonset">
-        <button pButton type="button" routerLink="/history" label="Return"
+        <button class="mr-2" pButton type="button" routerLink="/history" label="Return"
                 icon="pi pi-sign-in"></button>
 
-        <button pButton type="button" class="p-button-danger" (click)="deleteCurrentEmail()"
+        <button class="mr-2" pButton type="button" class="p-button-danger" (click)="deleteCurrentEmail()"
                 label="Delete" icon="pi pi-trash"></button>
 
         <button *ngIf="! emailWithTemplate.email.status" pButton type="button" (click)="retry()"
