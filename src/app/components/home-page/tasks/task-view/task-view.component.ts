@@ -24,6 +24,12 @@ export class TaskViewComponent implements OnInit {
   recipientsBCC: string | undefined = undefined;
   maxSubjectLength = 40;
 
+  confirmationHeader = 'Confirm';
+  confirmationIcon = 'pi pi-exclamation-triangle';
+
+  statusPaused = 'PAUSED';
+  statusResumed = 'RESUMED';
+
   editorConfig: AngularEditorConfig = {
     showToolbar: false,
     editable: false,
@@ -75,42 +81,52 @@ export class TaskViewComponent implements OnInit {
     this.showContent = true;
   }
 
-  deleteCurrentEmail() {
+  pauseTask() {
+    this.beginLoading();
+    this.taskService.pauseJobByName(this.jobName).subscribe({
+      next: () => {
+        this.popupMessageService.showSuccess('Task is paused now!');
+        this.task.state = this.statusPaused;
+      }, error: () => this.popupMessageService.showFailed('Task is not paused!'),
+      complete: () => this.finishLoading()
+    });
+  }
+
+  resumeTask() {
+    this.beginLoading();
+    this.taskService.resumeJobByName(this.jobName).subscribe({
+      next: () => {
+        this.popupMessageService.showSuccess('Task is resumed now!');
+        this.task.state = this.statusResumed;
+      }, error: () => this.popupMessageService.showFailed('Task is not resumed!'),
+      complete: () => this.finishLoading()
+    });
+  }
+
+
+  deleteTask() {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this task?!',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
+      header: this.confirmationHeader,
+      icon: this.confirmationIcon,
       accept: () => {
-        this.beginLoading();
-        this.popupMessageService.showSuccess('Task is deleted!');
-        this.finishLoading();
+        this.deleteTaskByName(this.jobName);
       }
     });
   }
 
-  delete() {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this task?!',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.beginLoading();
+  deleteTaskByName(jobName: string) {
+    this.beginLoading();
+    this.taskService.deleteJobByName(jobName).subscribe({
+      next: () => {
         this.popupMessageService.showSuccess('Task is deleted!');
-        this.finishLoading();
-      }
+        this.router.navigateByUrl('/tasks');
+      },
+      error: () => {
+        this.popupMessageService.showFailed('Task is not deleted!');
+      },
+      complete: () => this.finishLoading()
     });
-  }
-
-  pause() {
-    this.beginLoading();
-    this.popupMessageService.showSuccess('Task execution paused!');
-    this.finishLoading();
-  }
-
-  resume() {
-    this.beginLoading();
-    this.popupMessageService.showSuccess('Task execution continues!');
-    this.finishLoading();
   }
 
   sliceLongString(str: string, maxLength: number) {

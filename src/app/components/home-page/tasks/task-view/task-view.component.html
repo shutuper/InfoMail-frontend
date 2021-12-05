@@ -53,28 +53,35 @@
         <div class="col-2"><label>Start at</label></div>
         <div class="col-2"><label>End at</label></div>
         <div class="col-4"><label>Description</label></div>
-        <div class="col-4"></div>
+        <div class="col-1"><label>State</label></div>
+        <div class="col-3"></div>
       </div>
       <div class="grid">
         <div class="col-2"><p>{{task.startAt ? (task.startAt | date : 'HH:mm yyyy-MM-dd') : '—'}}</p></div>
         <div class="col-2"><p>{{task.endAt ? (task.endAt | date : 'HH:mm yyyy-MM-dd') : '—'}}</p></div>
         <div class="col-4"><p>{{task.description ? sliceLongString(task.description, maxSubjectLength) : '—'}}</p></div>
-        <div class="col-4">
-          <div class="flex justify-content-end">
-            <button *ngIf="task.status === 'PAUSED'"
-                    pButton pRipple icon="pi pi-play"
-                    (click)="resume()"
-                    class="p-button-rounded p-button-warning  mr-2">
-            </button>
+        <div class="col-1 flex justify-content-center align-content-center">
+          <div class="flex align-items-center justify-content-center">
+            <p-tag [severity]="task.state!=='PAUSED'?'primary':'danger'">{{task.state}}</p-tag>
+          </div>
+        </div>
+        <div class="col-3 flex justify-content-end align-content-center">
+          <div class="flex align-items-center justify-content-center" *ngIf="task.state !== 'COMPLETED'">
+            <div *ngIf="task.state === 'PAUSED'" class="mr-2">
+              <button pButton pRipple icon="pi pi-play" (click)="resumeTask()"
+                      class="p-button-rounded p-button-warning">
+              </button>
+            </div>
 
-            <button *ngIf="task.status !== 'PAUSED' && task.status !== 'COMPLITED' && task.status !== 'FINISHED'"
-                    pButton pRipple icon="pi pi-pause"
-                    (click)="pause()"
-                    class="p-button-rounded p-button-warning  mr-2">
-            </button>
+            <div *ngIf="task.state !== 'PAUSED'" class="mr-2">
+              <button pButton
+                      pRipple icon="pi pi-pause" (click)="pauseTask()"
+                      class="p-button-rounded p-button-warning">
+              </button>
+            </div>
 
             <button pButton pRipple icon="pi pi-trash"
-                    (click)="delete()"
+                    (click)="deleteTask()"
                     class="p-button-rounded p-button-danger">
             </button>
           </div>
@@ -130,16 +137,24 @@
         <button pButton type="button" routerLink="/tasks" label="Return"
                 icon="pi pi-sign-in" class="p-button-rounded mr-2"></button>
 
-        <button pButton type="button" class="p-button-danger" (click)="delete()"
-                label="Delete" icon="pi pi-trash" class="mr-2"></button>
+        <div *ngIf="task.state === 'PAUSED'" class="mr-2">
+          <button pButton pRipple icon="pi pi-play" (click)="resumeTask()" label="Resume"
+                  class="p-button-rounded p-button-warning">
+          </button>
+        </div>
 
-        <button pButton *ngIf="task.status === 'PAUSED'" (click)="resume()"
-                label="Resume" icon="pi pi-play"
-                class="p-button-rounded p-button-warning mr-2"></button>
+        <div *ngIf="task.state !== 'PAUSED'" class="mr-2">
+          <button pButton
+                  pRipple icon="pi pi-pause" (click)="pauseTask()" label="Pause"
+                  class="p-button-rounded p-button-warning">
+          </button>
+        </div>
 
-        <button pButton icon="pi pi-pause" label="Pause" (click)="pause()"
-                *ngIf="task.status !== 'PAUSED' && task.status !== 'COMPLITED' && task.status !== 'FINISHED'"
-                class="p-button-rounded p-button-warning mr-2"></button>
+        <button pButton pRipple icon="pi pi-trash" label="Delete"
+                (click)="deleteTask()"
+                class="p-button-rounded p-button-danger">
+        </button>
+
       </span>
     </div>
 

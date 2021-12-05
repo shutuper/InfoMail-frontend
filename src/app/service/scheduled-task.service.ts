@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {PaginatedScheduledTasks, ScheduledTaskFull} from "../model/scheduled-tasks";
-import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -70,7 +69,7 @@ export class ScheduledTaskService {
     };
   }
   getTaskByJobName(jobName: string): Observable<ScheduledTaskFull> {
-    return this.httpClient.get<ScheduledTaskFull>(`/api/v1/tasks/${jobName}/dto`);
+    return this.httpClient.get<ScheduledTaskFull>(`${this.resource}/${jobName}/dto`);
   }
 
 
