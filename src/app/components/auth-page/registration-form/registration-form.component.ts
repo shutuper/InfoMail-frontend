@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {User} from "../../../model/user";
 import {RegistrationService} from "../../../service/registration.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {PopupMessageService} from "../../../service/utils/popup-message.service";
 
 @Component({
   selector: 'app-registration-form',
@@ -12,22 +13,35 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class RegistrationFormComponent implements OnInit {
 
-  isShowServerMessage: boolean = false;
-  serverMessage: string = '';
-
   private FORM_NOT_VALID: string = 'The form fields are not valid!';
 
+  showContent = true;
+
   form: FormGroup = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
-    password2: new FormControl(''),
+    email: new FormControl('', [
+      Validators.email,
+      Validators.required
+    ]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(24),
+      Validators.minLength(8)
+    ]),
+    password2: new FormControl('', [Validators.required]),
   })
 
-  constructor(private regService: RegistrationService, private router: Router) {
+  constructor(
+    private regService: RegistrationService,
+    private popupMessageService: PopupMessageService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
   }
+
+  get email() { return this.form.get('email'); }
+  get password() { return this.form.get('password'); }
+  get password2() { return this.form.get('password2'); }
 
   onSubmit() {
     console.log("Submitted", this.form);
@@ -44,6 +58,28 @@ export class RegistrationFormComponent implements OnInit {
     return this.form.controls[controleName].invalid && this.form.controls[controleName].dirty;
   }
 
+  beginLoading() {
+    this.showContent = false;
+  }
+
+  finishLoading() {
+    this.showContent = true;
+  }
+
+  // passwordsMismatch(secondPasswordControlName: string): ValidatorFn {
+  //   return (control: AbstractControl): ValidationErrors | null => {
+  //     const secondPasswordControl = this.form?.controls[secondPasswordControlName];
+  //
+  //     if(! secondPasswordControl) return {passwordMismatch: true};
+  //     const password2: string = secondPasswordControl.value;
+  //
+  //     if(!control.value) return {passwordMismatch: true};
+  //     const password: string = control.value;
+  //
+  //     return (password == password2) ? null: {passwordMismatch: true};
+  //   };
+  // }
+
   isPasswordMismatch(): boolean {
     const password: string = this.form.controls['password'].value;
     const password2: string = this.form.controls['password2'].value;
@@ -51,22 +87,24 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   public toRegister(userCredentials: User) {
+    this.beginLoading();
     this.regService.toRegister(userCredentials).subscribe({
       next: (res) => {
         console.log('toRegister res', res);
-        if(res.message != 'success') this.showServerMessage(res.message);
-        this.openRegMessagePage();
+        if(res.message == 'success') {
+          this.openRegMessagePage();
+        } else {
+          this.popupMessageService.showFailed(res.message)
+        }
+        this.finishLoading()
       },
       error: (err: HttpErrorResponse) => {
         console.log("Error when toRegister", err);
-        if(err.status == 400) this.showServerMessage(this.FORM_NOT_VALID)
-      }
-    });
-  }
+        if(err.status == 400) this.popupMessageService.showFailed(this.FORM_NOT_VALID)
 
-  showServerMessage(message: string) {
-    this.serverMessage = message;
-    this.isShowServerMessage = true;
+        this.finishLoading()
+      },
+    });
   }
 
   private openRegMessagePage() {

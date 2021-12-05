@@ -1,45 +1,59 @@
-<div class="p-4">
-  <div class="p-fluid">
-    <label for="reg-form" class="block text-4xl">Registration</label>
-    <small id="server-message" [hidden]="! isShowServerMessage" class="p-error font-bold text-sm  mt-2">{{serverMessage}}</small>
+<ng-template *ngIf="showContent; then content else progressSpinner"></ng-template>
+
+<ng-template #progressSpinner>
+  <div class="grid fluid h-screen">
+    <p-progressSpinner class="mx-auto my-auto"></p-progressSpinner>
   </div>
+</ng-template>
+
+<ng-template #content>
+<div class="p-4">
+  <label for="reg-form" class="block text-4xl">Registration</label>
   <form id="reg-form" [formGroup]="form" class="font-bold text-2xl text-primary" (ngSubmit)="onSubmit()">
     <div class="mt-2 p-fluid">
       <label for="email" class="block text-600 w-100 mb-2">Email:</label>
-      <input id="email" formControlName="email" type="text"
-             required email pInputText>
-      <br [hidden]="!showValidity('email')">
-      <small id="email-help"
-             [hidden]="!showValidity('email')"
-             class="p-error text-sm mt-2">Email is not correct</small>
+      <input id="email" formControlName="email"
+             type="text" pInputText>
+      <div *ngIf="showValidity('email')">
+        <div *ngIf="email?.errors?.['email']">
+          <small class="p-error text-sm mt-2">Email is not correct!</small>
+        </div>
+      </div>
     </div>
     <div class="mt-2 p-field">
       <label for="password" class="block text-600 w-100 mb-2">Password:</label>
       <p-password id="password" type="password" formControlName="password"
                   [feedback]="false"
                   [toggleMask]="true"
-                  required maxlength="24" minlength="8"
       ></p-password>
-      <br [hidden]="!showValidity('password')">
-      <small [hidden]="!showValidity('password')"  class="p-error text-sm  mt-2">Password is not correct min length - 8, max - 24</small>
+      <div *ngIf="showValidity('password')">
+        <div *ngIf="password?.errors?.['minlength'] || password?.errors?.['maxLength']">
+          <small class="p-error text-sm mt-2">Password is not correct min length - 8, max - 24!</small>
+        </div>
+      </div>
     </div>
+
     <div class="mt-2 p-field">
       <label class="block text-600 w-100 mb-2">Confirm password:</label>
       <p-password type="password" formControlName="password2"
                   [feedback]="false"
                   [toggleMask]="true"
-                  required
       ></p-password>
+
     </div>
     <div *ngIf="isPasswordMismatch()" class="p-fluid">
-      <small class="p-error text-sm">Password mismatch</small>
+      <small class="p-error text-sm">Passwords mismatch!</small>
     </div>
+
     <div class="mt-2 p-fluid">
       <button id="sign-up-button"
               pButton pRipple label="Sign up" type="submit"
-              [disabled]="form.invalid"
+              [disabled]="form.invalid || isPasswordMismatch()"
               icon="pi pi-user">
       </button>
     </div>
   </form>
 </div>
+</ng-template>
+
+
