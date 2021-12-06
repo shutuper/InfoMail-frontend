@@ -1,5 +1,9 @@
 <div class="p-4 w-full">
-  <div class="p-success text-3xl font-medium mb-3">{{SUCCESS_TITLE}}</div>
-  <div class="font-medium text-500 mb-3">{{MAIL_SEND_MESSAGE}}</div>
+  <div class="mb-3 border-bottom-2" [ngClass]="messageHeaderClass">
+    <i class="mr-1" [ngClass]="messageIcon" style="font-size: 1.5rem" id="icon"></i>
+    <label class="text-3xl font-medium" for="icon">{{messageHeader}}</label>
+  </div>
+
+  <div class="font-medium text-500 mb-3">{{messageBody}}</div>
 </div>
 
