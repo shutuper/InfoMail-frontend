@@ -89,20 +89,14 @@ export class RegistrationFormComponent implements OnInit {
   public toRegister(userCredentials: User) {
     this.beginLoading();
     this.regService.toRegister(userCredentials).subscribe({
-      next: (res) => {
-        console.log('toRegister res', res);
-        if(res.message == 'success') {
-          this.openRegMessagePage();
-        } else {
-          this.popupMessageService.showFailed(res.message)
-        }
-        this.finishLoading()
+      next: () => {
+        this.openRegMessagePage()
+        this.finishLoading();
       },
       error: (err: HttpErrorResponse) => {
         console.log("Error when toRegister", err);
-        if(err.status == 400) this.popupMessageService.showFailed(this.FORM_NOT_VALID)
-
-        this.finishLoading()
+        this.popupMessageService.showFailed(err.error);
+        this.finishLoading();
       },
     });
   }
