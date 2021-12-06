@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {RegistrationService} from "../../../service/registration.service";
+import {RegistrationService} from "../../../../service/registration.service";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({

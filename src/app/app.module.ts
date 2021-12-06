@@ -45,7 +45,7 @@ import {TemplatesComponent} from './components/home-page/templates/templates.com
 import {AuthPageComponent} from './components/auth-page/auth-page.component';
 import {RegistrationFormComponent} from './components/auth-page/registration-form/registration-form.component';
 import {RegistrationService} from "./service/registration.service";
-import {RegistrationMessageComponent} from './components/auth-page/registration-message/registration-message.component';
+import {RegistrationMessageComponent} from './components/auth-page/registration-form/registration-message/registration-message.component';
 import {PopupMessageService} from "./service/utils/popup-message.service";
 import {TemplateViewComponent} from './components/home-page/template-view/template-view.component';
 import {UserEmailTemplateService} from "./service/user-email-template.service";

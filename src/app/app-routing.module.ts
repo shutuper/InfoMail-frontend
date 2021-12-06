@@ -10,7 +10,7 @@ import {TemplatesComponent} from "./components/home-page/templates/templates.com
 import {AuthPageComponent} from "./components/auth-page/auth-page.component";
 import {LoginFormComponent} from "./components/auth-page/login-form/login-form.component";
 import {RegistrationFormComponent} from "./components/auth-page/registration-form/registration-form.component";
-import {RegistrationMessageComponent} from "./components/auth-page/registration-message/registration-message.component";
+import {RegistrationMessageComponent} from "./components/auth-page/registration-form/registration-message/registration-message.component";
 import {SharedTemplatePageComponent} from "./components/sharing-template-page/shared-template-page.component";
 import {EmailViewComponent} from "./components/home-page/history/email-view/email-view.component";
 import {NewEmailComponent} from "./components/home-page/new-email/new-email.component";
