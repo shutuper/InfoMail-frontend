@@ -25,10 +25,13 @@ const routes: Routes = [
     children: [
       {path: '', pathMatch: 'full', redirectTo: 'login'},
       {path: 'login', component: LoginFormComponent},
-      {path: 'registration', component: RegistrationFormComponent},
-      {path: 'registration/confirm', component: RegistrationMessageComponent},
-      {path: 'registration/reject', component: RegistrationMessageComponent},
-      {path: 'registration/message', component: RegistrationMessageComponent},
+      {path: 'registration', children: [
+          {path: '', component: RegistrationFormComponent},
+          {path: 'confirm', component: RegistrationMessageComponent},
+          {path: 'reject', component: RegistrationMessageComponent},
+          {path: 'message', component: RegistrationMessageComponent},
+        ]
+      },
     ]
   },
   {
