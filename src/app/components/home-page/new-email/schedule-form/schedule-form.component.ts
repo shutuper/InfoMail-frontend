@@ -21,6 +21,9 @@ export class ScheduleFormComponent implements OnInit {
     {name: "Every year", repeatType: RepeatType.EVERY_YEAR},
   ]
 
+  MIN_DATE_SendDateTime = this.dateAdd(new Date(), 'minute', 4);
+  MIN_DATE_EndDate = this.dateAdd(new Date(), 'minute', 10);
+
   form: FormGroup = new FormGroup({
     sendDateTime: new FormControl(
       this.dateAdd(new Date(), 'minute', 10),

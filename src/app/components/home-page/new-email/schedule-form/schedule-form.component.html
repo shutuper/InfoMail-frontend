@@ -3,7 +3,7 @@
     <div class="col-3 p-field mb-3">
       <label for="sendDateTime">Send date:</label>
       <p-calendar id="sendDateTime" formControlName="sendDateTime"
-                  [showTime]="true" [showIcon]="true"></p-calendar>
+                  [showTime]="true" [showIcon]="true" [minDate]="MIN_DATE_SendDateTime"></p-calendar>
       <div *ngIf="showValidity('sendDateTime')">
         <div *ngIf="this.sendDateTime?.errors?.['timeIsOver']">
           <small class="p-error">Shouldn't be earlier than 5 minutes!</small>
@@ -19,7 +19,7 @@
     </div>
     <div class="col-3 p-field mb-3" *ngIf="! isTypesSame(repeatType, 0)">
       <label for="endDate">End date:</label>
-      <p-calendar id="endDate" formControlName="endDate" [showIcon]="true"></p-calendar>
+      <p-calendar id="endDate" formControlName="endDate" [showIcon]="true" [minDate]="MIN_DATE_EndDate"></p-calendar>
       <div *ngIf="showValidity('endDate')">
         <div *ngIf="endDate?.errors?.['dayIsOver']">
           <small class="p-error">Shouldn't be earlier than today!</small>
