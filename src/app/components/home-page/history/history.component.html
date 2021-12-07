@@ -27,8 +27,9 @@
       <tr class="w-100">
 
         <th class="w-3rem">
-          <p-checkbox [(ngModel)]="isChecked" [binary]="true" (onChange)="selectOrUnselectAllEmails()"></p-checkbox>
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
+
 
         <th class="w-30rem">Email subject</th>
 
@@ -46,7 +47,7 @@
     </ng-template>
 
     <!--    Table body-->
-    <ng-template pTemplate="body" let-email let-index="index">
+    <ng-template pTemplate="body" let-email>
       <tr>
 
         <td>
@@ -70,7 +71,7 @@
 
             <button *ngIf="! email.status" pButton pRipple icon="pi pi-sync"
                     class="p-button-rounded p-button-warning  mr-2"
-                    (click)="resend(email.id,index)"></button>
+                    (click)="resend(email.id)"></button>
 
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
                     (click)="deleteEmailById(email.id)"></button>
