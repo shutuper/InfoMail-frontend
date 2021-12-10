@@ -113,6 +113,12 @@ export class NewEmailComponent implements OnInit {
     this.beginLoading()
     console.log('emailForm', this.emailForm.value);
 
+    if(this.emailForm.invalid) {
+      this.popupMessageService.showWarning('Form Invalid, please fill out the form!');
+      this.finishLoading();
+      return;
+    }
+
     const email: Email = this.parseForm();
     console.log('parsed email', email);
 
