@@ -1,21 +1,31 @@
+<ng-template *ngIf="showContent; then content else progressSpinner"></ng-template>
+
+<ng-template #progressSpinner>
+  <div class="grid fluid h-screen">
+    <p-progressSpinner class="mx-auto my-auto"></p-progressSpinner>
+  </div>
+</ng-template>
+
+<ng-template #content>
 <main class="bg-primary-reverse">
-  <div class="fluid h-screen grid">
+    <div class="fluid h-screen grid">
 
-    <div id="navbar" class="col-2 surface-100 m-0 p-1">
-    </div>
+      <div id="navbar" class="col-2 surface-100 m-0 p-1">
+      </div>
 
-    <div id="content" class="border-top-3 col-7 p-4 default-background">
-      <div class="p-4 w-full">
-        <label for="reg-form" class="block text-4xl p-2">Shared Template</label>
-        <p-card id="reg-form">
-          <app-template-view [(template)]="sharedTemplate" [allowSharing]="true"></app-template-view>
-          <ng-template pTemplate="footer">
-            <button pButton pRipple type="button" icon="pi pi-file" (click)="saveTemplate()" label="Add to templates" class="p-button-raised"></button>
-          </ng-template>
-        </p-card>
+      <div id="content" class="border-top-3 col-7 p-4 default-background">
+        <div class="p-4 w-full">
+          <label for="reg-form" class="block text-4xl p-2">Shared Template</label>
+          <p-card id="reg-form">
+            <app-template-view [(template)]="sharedTemplate" [allowSharing]="true"></app-template-view>
+            <ng-template pTemplate="footer">
+              <button pButton pRipple type="button" icon="pi pi-file" (click)="saveTemplate()" label="Add to templates" class="p-button-raised"></button>
+            </ng-template>
+          </p-card>
+        </div>
+
       </div>
 
     </div>
-
-  </div>
-</main>
+  </main>
+</ng-template>

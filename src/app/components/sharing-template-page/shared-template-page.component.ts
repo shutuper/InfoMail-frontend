@@ -14,6 +14,8 @@ export class SharedTemplatePageComponent implements OnInit {
   sharedTemplate: EmailTemplate = {} as EmailTemplate;
   SHARING_LINK: string = "http://localhost:4200/shared-templates/";
 
+  showContent = false;
+
   constructor(
     private templateService: UserEmailTemplateService,
     private popupMessageService: PopupMessageService,
@@ -22,12 +24,9 @@ export class SharedTemplatePageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let sharingId: string = '';
-    this.route
-      .params.subscribe(params => sharingId = params['sharingId']);
-
+    const sharingId: string = this.route.snapshot.params['sharingId'];
     console.log("sharingId", sharingId);
-    if(sharingId != undefined) this.getTemplateBySharingId(sharingId);
+    this.getTemplateBySharingId(sharingId);
   }
 
   getTemplateBySharingId(sharingId: string) {
@@ -35,11 +34,13 @@ export class SharedTemplatePageComponent implements OnInit {
     this.templateService.getTemplateBySharingId(sharingId).subscribe({
       next: (template) => {
         if(template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
-
         this.sharedTemplate = {...template};
-        this.sharedTemplate = {...template};
+        this.finishLoading();
       },
-      error:() => this.popupMessageService.showFailed("Couldn't load template!")
+      error:() => {
+        this.popupMessageService.showFailed("Couldn't load template!");
+        this.openMyTemplates();
+      }
     });
   }
 
@@ -63,4 +64,9 @@ export class SharedTemplatePageComponent implements OnInit {
     console.log("Navigate to My templates page");
     this.router.navigate(['templates']);
   }
+
+  finishLoading() {
+    this.showContent = true;
+  }
+
 }
