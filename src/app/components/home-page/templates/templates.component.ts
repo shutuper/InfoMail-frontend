@@ -3,6 +3,7 @@ import {EmailTemplate} from "../../../model/email";
 import {UserEmailTemplateService} from "../../../service/user-email-template.service";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
 import {ConfirmationService, LazyLoadEvent} from "primeng/api";
+import {TemplateViewMod} from "../template-view2/template-view2.component";
 
 @Component({
   selector: 'app-templates',
@@ -12,7 +13,6 @@ import {ConfirmationService, LazyLoadEvent} from "primeng/api";
 export class TemplatesComponent implements OnInit {
   //vars for table
   templates: EmailTemplate[] = [];
-  template!: EmailTemplate;
   selectedTemplates: EmailTemplate[] = [];
   loading: boolean = true;    // show loading before templates loaded
   numberOfRows = 10;
@@ -27,11 +27,8 @@ export class TemplatesComponent implements OnInit {
   dialogHeader: string = '';
 
   //vars for template view
-  isEditMod: boolean = false;
-  editTemplate: EmailTemplate = {} as EmailTemplate;
-  editTemplateCopy: EmailTemplate = {} as EmailTemplate;
-
-  SHARING_LINK: string = "http://localhost:4200/shared-templates/";
+  mode: TemplateViewMod = TemplateViewMod.READ;
+  templateId: number = -1;
 
   constructor(
     private templateService: UserEmailTemplateService,
@@ -100,50 +97,34 @@ export class TemplatesComponent implements OnInit {
     }
   }
 
-  getTemplateById(id: number) {
-    console.log('getTemplateById', id)
-    this.templateService.getTemplateById(id).subscribe({
-      next: (template) => {
-        if (template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
-
-        this.editTemplate = {...template};
-        this.editTemplateCopy = {...template};
-
-        this.updateBufferValue(template);
-      },
-      error: () => this.popupMessageService.showFailed("Couldn't load template!")
-    });
-  }
-
-  setFullLink(sharingId: string) {
-    return this.SHARING_LINK + sharingId;
-  }
-
   openEditTemplateDialog(template: EmailTemplate) {
     console.log('openViewTemplateDialog')
-    this.getTemplateById(template.id);
-    this.isEditMod = true;
+
+    this.mode = TemplateViewMod.EDIT;
+    this.templateId = template.id;
+
     this.dialogHeader = 'Edit template';
     this.isShowTemplateDialog = true;
-    console.log("editTemplate: ", template);
   }
 
   openNewTemplateDialog() {
     console.log('openViewTemplateDialog')
-    this.editTemplate = {} as EmailTemplate;
-    this.editTemplateCopy = {} as EmailTemplate;
-    this.isEditMod = true;
+
+    this.mode = TemplateViewMod.NEW;
+    this.templateId = -1;
+
     this.dialogHeader = 'Create new template';
     this.isShowTemplateDialog = true;
   }
 
   openViewTemplateDialog(template: EmailTemplate) {
     console.log('openViewTemplateDialog')
-    this.getTemplateById(template.id);
-    this.isEditMod = false;
+
+    this.mode = TemplateViewMod.READ;
+    this.templateId = template.id;
+
     this.isShowTemplateDialog = true;
     this.dialogHeader = 'Email template';
-    console.log("showTemplate: ", template);
   }
 
   sliceText(text: string, maxLength: number): string {
@@ -208,73 +189,16 @@ export class TemplatesComponent implements OnInit {
 
   }
 
-  saveTemplate(): void {
-    if (!this.isValidTemplate()) {
-      this.popupMessageService.showFailed('Template invalid!');
-      return;
-    }
-
-    if (this.editTemplate.id) return this.updateTemplate();
-
-    console.log("saveTemplate", this.editTemplate);
-
+  closeTemplateDialog(): void {
     this.beginLoading();
-    this.templateService.saveTemplate(this.editTemplate).subscribe({
-      next: (template) => {
-        this.totalRecords++;
-        this.isChecked = false;
-        this.selectedTemplates = [];
-        this.getCurrentTemplatePage(0, this.numberOfRows, this.sortField, this.sortOrder);
 
-        this.isShowTemplateDialog = false;
+    this.isChecked = false;
+    this.selectedTemplates = [];
+    this.setTotalNumberOfRows();
+    this.getCurrentTemplatePage(0, this.numberOfRows, this.sortField, this.sortOrder);
 
-        this.finishLoading();
-        this.popupMessageService.showSuccess('Template successfully saved!');
-      },
-      error: () => {
-        this.finishLoading();
-        this.popupMessageService.showFailed('Template is not saved!');
-      }
-    });
-  }
+    this.isShowTemplateDialog = false;
 
-  isValidTemplate(): boolean {
-    if (this.editTemplate.name === undefined || this.editTemplate.name === '') return false;
-    if (this.editTemplate.subject === undefined || this.editTemplate.subject === '') return false;
-    return !(this.editTemplate.body === undefined || this.editTemplate.body === '');
-
-  };
-
-  updateTemplate() {
-    console.log("updateTemplate", this.editTemplate);
-
-    this.templateService.saveTemplate(this.editTemplate).subscribe({
-      next: (template) => {
-        this.updateBufferValue(template);
-
-        this.isShowTemplateDialog = false;
-        this.popupMessageService.showSuccess('Template successfully updated!');
-      },
-      error: () => this.popupMessageService.showFailed('Template is not updated!')
-    });
-
-  }
-
-  updateBufferValue(template: EmailTemplate) {
-    this.templates.map((oldTemplate, index) => {
-      if (oldTemplate.id == template.id) {
-        this.templates[index] = template;
-      }
-    });
-  }
-
-  restoreTemplate() {
-    console.log('restoreTemplate')
-    this.editTemplate = {...this.editTemplateCopy};
-
-    console.log('this.editTemplate', this.editTemplate)
-    console.log('this.editTemplateCopy', this.editTemplateCopy)
-
-    console.log("template restored")
+    this.finishLoading();
   }
 }

@@ -1,6 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
+import {EmailTemplate} from "../../../model/email";
+import {UserEmailTemplateService} from "../../../service/user-email-template.service";
+import {PopupMessageService} from "../../../service/utils/popup-message.service";
 
 @Component({
   selector: 'app-template-view2',
@@ -9,10 +12,16 @@ import {AngularEditorConfig} from "@kolkov/angular-editor";
 })
 export class TemplateView2Component implements OnInit {
 
+  @Output()
+  onSubmit: EventEmitter<any> = new EventEmitter<any>()
 
+  loading: boolean = false;    // show loading
   private _mode: TemplateViewMod = TemplateViewMod.NEW;
   private _templateId: number = -1;
   private _sharingId: string = '';
+  private templateCopy: EmailTemplate = {} as EmailTemplate;
+
+  SHARING_LINK: string = "http://localhost:4200/shared-templates/";
 
   get templateId(): number {
     return this._templateId;
@@ -22,6 +31,8 @@ export class TemplateView2Component implements OnInit {
   set templateId(value: number) {
     this._templateId = value;
     console.log('templateId changes to :', value)
+    if(value == -1) return;
+    else this.setTemplateById(value);
   }
 
   get sharingId(): string {
@@ -74,6 +85,8 @@ export class TemplateView2Component implements OnInit {
   }
 
   constructor(
+    private templateService: UserEmailTemplateService,
+    private popupMessageService: PopupMessageService,
   ) { }
 
   ngOnInit(): void {
@@ -81,7 +94,23 @@ export class TemplateView2Component implements OnInit {
 
 
   copySharingLink() {
+    const sharingLink: string = this.form.value.sharingLink;
+    if(sharingLink == '' ) return;
 
+    console.log('sharingLink', sharingLink)
+
+    const listener = (e: ClipboardEvent) => {
+      // @ts-ignore
+      e.clipboardData.setData('text/plain', (sharingLink));
+      e.preventDefault();
+    };
+
+    document.addEventListener('copy', listener);
+    document.execCommand('copy');
+    document.removeEventListener('copy', listener);
+
+    this.popupMessageService.showSuccess('Sharing link copied to clipboard!');
+    console.log("share link copied to clipboard");
   }
 
   whenModeChange(mode: TemplateViewMod) {
@@ -108,10 +137,6 @@ export class TemplateView2Component implements OnInit {
     return this.form.controls[controleName].invalid && this.form.controls[controleName].dirty;
   }
 
-  onSubmit() {
-
-  }
-
   isEditMode():boolean {
     return this.mode == TemplateViewMod.EDIT;
   }
@@ -125,15 +150,88 @@ export class TemplateView2Component implements OnInit {
   }
 
   restoreTemplate() {
+    console.log('restoreTemplate')
+    this.form.patchValue({...this.templateCopy});
+  }
 
+  setTemplateById(id: number) {
+    console.log('getTemplateById', id)
+    this.beginLoading();
+    this.templateService.getTemplateById(id).subscribe({
+      next: (template) => {
+        if (template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
+
+        this.templateCopy = {...template};
+        this.form.patchValue({...template});
+      },
+      error: () => {
+        this.popupMessageService.showFailed("Couldn't load template!");
+        this.onSubmit.emit();
+      },
+      complete: () => this.finishLoading()
+    });
+  }
+
+  setFullLink(sharingId: string) {
+    return this.SHARING_LINK + sharingId;
   }
 
   updateTemplate() {
+    if (this.form.invalid) {
+      this.popupMessageService.showFailed('Template invalid!');
+      return;
+    }
 
+    const template: EmailTemplate = this.parseForm();
+    template.id = this.templateId;
+
+    this.beginLoading();
+    this.templateService.saveTemplate(template).subscribe({
+      next: () => {
+        this.onSubmit.emit();
+        this.form.reset();
+        this.popupMessageService.showSuccess('Template successfully updated!');
+      },
+      error: () => this.popupMessageService.showFailed('Template is not updated!'),
+      complete: () => this.finishLoading()
+    });
   }
 
-  saveTemplate() {
+  saveTemplate():void {
+    if (this.form.invalid) {
+      this.popupMessageService.showFailed('Template invalid!');
+      return;
+    }
 
+    const template: EmailTemplate = this.parseForm();
+
+    this.beginLoading();
+    this.templateService.saveTemplate(template).subscribe({
+      next: () => {
+        this.onSubmit.emit();
+        this.form.reset();
+        this.popupMessageService.showSuccess('Template successfully saved!');
+      },
+      error: () => this.popupMessageService.showFailed('Template is not saved!'),
+      complete: () => this.finishLoading()
+    });
+  }
+
+  private parseForm(): EmailTemplate {
+    const emailTemplate = this.form.value;
+    return {
+      name: emailTemplate.name,
+      body: emailTemplate.body,
+      subject: emailTemplate.subject
+    } as EmailTemplate;
+  }
+
+  private beginLoading() {
+    this.loading = true;
+  }
+
+  private finishLoading() {
+    this.loading = false;
   }
 }
 

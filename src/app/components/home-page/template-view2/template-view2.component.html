@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form">
   <div class="p-fluid">
 
     <div class="p-field grid" *ngIf="isReadMode()">
@@ -71,12 +71,12 @@
                 (click)="restoreTemplate()"></button>
       </div>
       <div class="col-2" *ngIf="isEditMode()">
-        <button pButton label="Update" icon="pi pi-check" class="p-button-text"
+        <button pButton label="Update" [disabled]="form.invalid" icon="pi pi-check" class="p-button-text"
                 (click)="updateTemplate()"></button>
       </div>
 
       <div class="col-2" *ngIf="isCreateNewMode()">
-        <button pButton label="Save" icon="pi pi-check" class="p-button-text"
+        <button pButton label="Save" [disabled]="form.invalid" icon="pi pi-check" class="p-button-text"
                 (click)="saveTemplate()"></button>
       </div>
     </div>

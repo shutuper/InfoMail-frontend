@@ -64,19 +64,12 @@
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 
 <!--Template dialog-->
-<p-dialog [(visible)]="isShowTemplateDialog" [style]="{width: '950px'}" header="{{dialogHeader}}" [modal]="true"
-          styleClass="p-fluid">
+<p-dialog [(visible)]="isShowTemplateDialog" [style]="{width: '80%'}" header="{{dialogHeader}}" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-    <app-template-view [showEmptyName]="true" [allowSharing]="! isEditMod" [allowEdit]="isEditMod"
-                       [(template)]="editTemplate"></app-template-view>
-  </ng-template>
-
-  <ng-template pTemplate="footer">
-    <div *ngIf="isEditMod">
-      <button pButton pRipple label="Restore" icon="pi pi-times" class="p-button-text"
-              (click)="restoreTemplate()"></button>
-      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTemplate()"></button>
-    </div>
+    <app-template-view2
+      [mode]="mode"
+      [templateId]="templateId"
+      (onSubmit)="closeTemplateDialog()"></app-template-view2>
   </ng-template>
 </p-dialog>
 
