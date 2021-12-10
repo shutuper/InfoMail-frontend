@@ -82,24 +82,20 @@ export class TaskViewComponent implements OnInit {
   }
 
   pauseTask() {
-    this.beginLoading();
     this.taskService.pauseJobByName(this.jobName).subscribe({
       next: () => {
-        this.popupMessageService.showSuccess('Task is paused now!');
+        this.popupMessageService.showWarning('Task is paused now!');
         this.task.state = this.statusPaused;
       }, error: () => this.popupMessageService.showFailed('Task is not paused!'),
-      complete: () => this.finishLoading()
     });
   }
 
   resumeTask() {
-    this.beginLoading();
     this.taskService.resumeJobByName(this.jobName).subscribe({
       next: () => {
         this.popupMessageService.showSuccess('Task is resumed now!');
         this.task.state = this.statusResumed;
       }, error: () => this.popupMessageService.showFailed('Task is not resumed!'),
-      complete: () => this.finishLoading()
     });
   }
 
