@@ -65,6 +65,7 @@ import {SelectButtonModule} from "primeng/selectbutton";
 import {DropdownModule} from "primeng/dropdown";
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { TaskViewComponent } from './components/home-page/tasks/task-view/task-view.component';
+import { TemplateView2Component } from './components/home-page/template-view2/template-view2.component';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { TaskViewComponent } from './components/home-page/tasks/task-view/task-v
     EmailViewComponent,
     NewEmailComponent,
     ScheduleFormComponent,
-    TaskViewComponent
+    TaskViewComponent,
+    TemplateView2Component
   ],
   imports: [
     BrowserModule,
