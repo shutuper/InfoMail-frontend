@@ -28,6 +28,7 @@ export class NewEmailComponent implements OnInit {
   recipientsTO: string[] = [];
   recipientsCC: string[] = [];
   recipientsBCC: string[] = [];
+  allRecipients: string[] = [];
 
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -87,8 +88,8 @@ export class NewEmailComponent implements OnInit {
     this.recipientsTO = [];
     this.recipientsCC = [];
     this.recipientsBCC = [];
+    this.allRecipients = [];
     this.isSendNotNow = false;
-
   }
 
   beginLoading() {
@@ -213,7 +214,9 @@ export class NewEmailComponent implements OnInit {
     console.log("validateRecipients recipients: ", recipients);
 
     let len = recipients.length;
-    if (!recipients[len - 1].match(this.emailRegex)) {
+    let lastEmail = recipients[len - 1];
+
+    if (!lastEmail.match(this.emailRegex) || this.isRecipientAlreadyAdded(lastEmail)) {
       recipients = recipients.slice(0, len - 1);
       this.popupMessageService.showFailed('Email is not valid!');
     }
@@ -223,6 +226,15 @@ export class NewEmailComponent implements OnInit {
         [controlName]: recipients
       }
     });
+    this.allRecipients.push(lastEmail);
+  }
+
+  isRecipientAlreadyAdded(email: string) {
+    const result = this.allRecipients.includes(email);
+    if (result)
+      console.log("Email %s is already entered", email);
+
+    return result;
   }
 
   changeTemplate(selectedId: number) {
@@ -256,5 +268,9 @@ export class NewEmailComponent implements OnInit {
   onChangeSchedulerSwitch() {
     if (this.isSendNotNow) this.emailForm.get('emailSchedule')?.enable();
     else this.emailForm.get('emailSchedule')?.disable();
+  }
+
+  removeFromAllRecipients(email: string) {
+    this.allRecipients = this.allRecipients.filter(em => em !== email);
   }
 }

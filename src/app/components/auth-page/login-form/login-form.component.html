@@ -1,35 +1,50 @@
 <div class="p-4">
+
+  <!--login form header-->
   <div class="p-fluid">
     <label for="reg-form" class="block text-4xl">Login</label>
-    <small id="server-message" [hidden]="! isShowServerMessage" class="p-error font-bold text-sm  mt-2">{{serverMessage}}</small>
+    <small id="server-message" [hidden]="! isShowServerMessage"
+           class="p-error font-bold text-sm  mt-2">{{serverMessage}}</small>
   </div>
-  <form id="reg-form" [formGroup]="form" class="font-bold text-2xl text-primary" (ngSubmit)="onSubmit()">
+
+
+  <!--  Login form-->
+  <form id="reg-form" [formGroup]="form" class="font-bold text-2xl text-primary" (ngSubmit)="submitLoginForm()">
+
+    <!--email-->
     <div class="mt-2 p-fluid">
       <label for="email" class="block text-600 w-100 mb-2">Email:</label>
       <input id="email" formControlName="email" type="text"
              required email pInputText>
-      <br [hidden]="!showValidity('email')">
+
+      <!--if email is not valid-->
+      <br [hidden]="!isControlValid('email')">
       <small id="email-help"
-             [hidden]="!showValidity('email')"
+             [hidden]="!isControlValid('email')"
              class="p-error text-sm mt-2">Email is not correct</small>
     </div>
+
+    <!--password-->
     <div class="mt-2 p-field">
       <label for="password" class="block text-600 w-100 mb-2">Password:</label>
       <p-password id="password" type="password" formControlName="password"
                   [feedback]="false"
                   [toggleMask]="true"
-                  required maxlength="24" minlength="8"
-      ></p-password>
-      <br [hidden]="!showValidity('password')">
+                  required maxlength="24" minlength="8"></p-password>
+
+      <!--if password is not valid-->
+      <br [hidden]="!isControlValid('password')">
       <small id="password-help"
-             [hidden]="!showValidity('password')"  class="p-error text-sm  mt-2">Password is not correct min length - 8, max - 24</small>
+             [hidden]="!isControlValid('password')"
+             class="p-error text-sm  mt-2">Password is not correct min length - 8, max - 24</small>
     </div>
+
+    <!--form confirmation button-->
     <div class="mt-2 p-fluid">
       <button id="sign-up-button"
-              pButton pRipple label="Sign In" type="submit"
-              [disabled]="form.invalid"
-              icon="pi pi-user">
+              pButton pRipple label="Sign In" type="submit" [disabled]="form.invalid" icon="pi pi-user">
       </button>
     </div>
+
   </form>
 </div>

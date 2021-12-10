@@ -36,6 +36,7 @@
               <p-tabPanel header="TO">
                 <p-scrollPanel class="select-all" [style]="{width: '100%', height: '90px'}">
                   <p-chips styleClass="p-3"
+                           (onRemove)="removeFromAllRecipients($event.value)"
                            (onAdd)="validateRecipients('recipientsTO')"
                            formControlName="recipientsTO"
                   ></p-chips>
