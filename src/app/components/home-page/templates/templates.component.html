@@ -66,11 +66,11 @@
 <!--Template dialog-->
 <p-dialog [(visible)]="isShowTemplateDialog" [style]="{width: '80%'}" header="{{dialogHeader}}" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-    <app-template-view2
+    <app-template-view
       [mode]="mode"
       [templateId]="templateId"
       (onSuccess)="closeTemplateDialog()"
-      (onError)="closeTemplateDialog()"></app-template-view2>
+      (onError)="closeTemplateDialog()"></app-template-view>
   </ng-template>
 </p-dialog>
 

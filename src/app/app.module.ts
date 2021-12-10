@@ -47,7 +47,6 @@ import {RegistrationFormComponent} from './components/auth-page/registration-for
 import {RegistrationService} from "./service/registration.service";
 import {RegistrationMessageComponent} from './components/auth-page/registration-form/registration-message/registration-message.component';
 import {PopupMessageService} from "./service/utils/popup-message.service";
-import {TemplateViewComponent} from './components/home-page/template-view/template-view.component';
 import {UserEmailTemplateService} from "./service/user-email-template.service";
 import {EmailTemplateService} from "./service/email-template.service";
 import {SharedTemplatePageComponent} from './components/sharing-template-page/shared-template-page.component';
@@ -63,9 +62,9 @@ import {ChipModule} from "primeng/chip";
 import {ScheduleFormComponent} from './components/home-page/new-email/schedule-form/schedule-form.component';
 import {SelectButtonModule} from "primeng/selectbutton";
 import {DropdownModule} from "primeng/dropdown";
-import { AngularEditorModule } from '@kolkov/angular-editor';
-import { TaskViewComponent } from './components/home-page/tasks/task-view/task-view.component';
-import { TemplateView2Component } from './components/home-page/template-view2/template-view2.component';
+import {AngularEditorModule} from '@kolkov/angular-editor';
+import {TaskViewComponent} from './components/home-page/tasks/task-view/task-view.component';
+import {TemplateViewComponent} from './components/home-page/template-view/template-view.component';
 
 
 @NgModule({
@@ -84,13 +83,12 @@ import { TemplateView2Component } from './components/home-page/template-view2/te
     AuthPageComponent,
     RegistrationFormComponent,
     RegistrationMessageComponent,
-    TemplateViewComponent,
     SharedTemplatePageComponent,
     EmailViewComponent,
     NewEmailComponent,
     ScheduleFormComponent,
     TaskViewComponent,
-    TemplateView2Component
+    TemplateViewComponent
   ],
   imports: [
     BrowserModule,
