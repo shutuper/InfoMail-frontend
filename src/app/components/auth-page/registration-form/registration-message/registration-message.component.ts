@@ -80,7 +80,11 @@ export class RegistrationMessageComponent implements OnInit {
     const token: string = this.getToken();
     this.beginLoading();
     this.regService.rejectToken(token).subscribe({
-        next: () => this.showInfo(this.MESSAGE_REJECT_TOKEN_SUCCESS),
+        next: (res) => {
+          let message: string =
+            (res.body) ? res.body : this.MESSAGE_REJECT_TOKEN_SUCCESS
+          this.showInfo(message)
+        },
         error: (err: HttpErrorResponse) => this.showError(err.error),
         complete: () => this.finishLoading()
       }

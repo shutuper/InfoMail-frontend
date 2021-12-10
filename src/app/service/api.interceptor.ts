@@ -47,7 +47,6 @@ export class ApiInterceptor implements HttpInterceptor {
               this.popupMessageService.showWarning('Server is temporarily unavailable, please try again later');
               break;
             }
-            default: this.openErrorPage("Can't find page");
           }
 
         }

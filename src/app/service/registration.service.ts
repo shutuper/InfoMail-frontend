@@ -18,7 +18,7 @@ export class RegistrationService {
     return this.http.get<HttpResponse<any>>(`/api/v1/registration/confirm?token=${token}`);
   }
 
-  public rejectToken(token: string): Observable<HttpResponse<any>> {
-    return this.http.get<HttpResponse<any>>(`/api/v1/registration/reject?token=${token}`);
+  public rejectToken(token: string): Observable<HttpResponse<string>> {
+    return this.http.get<HttpResponse<string>>(`/api/v1/registration/reject?token=${token}`);
   }
 }
