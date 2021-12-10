@@ -216,9 +216,12 @@ export class NewEmailComponent implements OnInit {
     let len = recipients.length;
     let lastEmail = recipients[len - 1];
 
-    if (!lastEmail.match(this.emailRegex) || this.isRecipientAlreadyAdded(lastEmail)) {
+    if (!lastEmail.match(this.emailRegex)) {
       recipients = recipients.slice(0, len - 1);
       this.popupMessageService.showFailed('Email is not valid!');
+    } else if (this.isRecipientAlreadyAdded(lastEmail)) {
+      recipients = recipients.slice(0, len - 1);
+      this.popupMessageService.showFailed('Email is already added!');
     }
 
     this.emailForm.patchValue({
