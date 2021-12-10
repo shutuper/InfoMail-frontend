@@ -69,7 +69,8 @@
     <app-template-view2
       [mode]="mode"
       [templateId]="templateId"
-      (onSubmit)="closeTemplateDialog()"></app-template-view2>
+      (onSuccess)="closeTemplateDialog()"
+      (onError)="closeTemplateDialog()"></app-template-view2>
   </ng-template>
 </p-dialog>
 

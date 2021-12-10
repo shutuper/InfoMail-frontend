@@ -47,6 +47,10 @@ export class UserEmailTemplateService {
     return this.http.get<EmailTemplate>(`/api/v1/usertemplates/shared/${sharingId}`);
   }
 
+  saveTemplateBySharingId(sharingId: string): Observable<any> {
+    return this.http.post<any>(`/api/v1/usertemplates/shared/`, sharingId);
+  }
+
   saveSharedTemplate(template: EmailTemplate): Observable<any> {
     return this.http.post(`/api/v1/usertemplates/shared/`, template);
   }

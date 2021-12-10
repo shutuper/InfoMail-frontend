@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {EmailTemplate} from "../../model/email";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserEmailTemplateService} from "../../service/user-email-template.service";
 import {PopupMessageService} from "../../service/utils/popup-message.service";
@@ -11,10 +10,7 @@ import {PopupMessageService} from "../../service/utils/popup-message.service";
 })
 export class SharedTemplatePageComponent implements OnInit {
 
-  sharedTemplate: EmailTemplate = {} as EmailTemplate;
-  SHARING_LINK: string = "http://localhost:4200/shared-templates/";
-
-  showContent = false;
+  sharingId: string = "";
 
   constructor(
     private templateService: UserEmailTemplateService,
@@ -24,49 +20,24 @@ export class SharedTemplatePageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const sharingId: string = this.route.snapshot.params['sharingId'];
-    console.log("sharingId", sharingId);
-    this.getTemplateBySharingId(sharingId);
-  }
-
-  getTemplateBySharingId(sharingId: string) {
-    console.log('getTemplateBySharingId', sharingId)
-    this.templateService.getTemplateBySharingId(sharingId).subscribe({
-      next: (template) => {
-        if(template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
-        this.sharedTemplate = {...template};
-        this.finishLoading();
-      },
-      error:() => {
-        this.popupMessageService.showFailed("Couldn't load template!");
-        this.openMyTemplates();
-      }
-    });
-  }
-
-  setFullLink(sharingId: string) {
-    return this.SHARING_LINK + sharingId;
+    this.sharingId = this.route.snapshot.params['sharingId'];
+    console.log("sharingId", this.sharingId);
   }
 
   saveTemplate() {
-    console.log("saveTemplate", this.sharedTemplate);
+    console.log("saveTemplateBySharingId", this.sharingId);
 
-    this.templateService.saveSharedTemplate(this.sharedTemplate).subscribe({
+    this.templateService.saveTemplateBySharingId(this.sharingId).subscribe({
       next: () => {
         this.popupMessageService.showSuccess('Template successfully added!');
-        this.openMyTemplates();
       },
       error: () => this.popupMessageService.showFailed('Template is not added!')
     });
   }
 
-  private openMyTemplates() {
+  openMyTemplates() {
     console.log("Navigate to My templates page");
     this.router.navigate(['templates']);
-  }
-
-  finishLoading() {
-    this.showContent = true;
   }
 
 }

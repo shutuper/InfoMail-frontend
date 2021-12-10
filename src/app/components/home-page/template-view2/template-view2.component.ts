@@ -13,10 +13,13 @@ import {PopupMessageService} from "../../../service/utils/popup-message.service"
 export class TemplateView2Component implements OnInit {
 
   @Output()
-  onSubmit: EventEmitter<any> = new EventEmitter<any>()
+  onSuccess: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  onError: EventEmitter<any> = new EventEmitter<any>();
 
   loading: boolean = false;    // show loading
-  private _mode: TemplateViewMod = TemplateViewMod.NEW;
+  private _mode: TemplateViewMod = TemplateViewMod.READ;
   private _templateId: number = -1;
   private _sharingId: string = '';
   private templateCopy: EmailTemplate = {} as EmailTemplate;
@@ -43,6 +46,8 @@ export class TemplateView2Component implements OnInit {
   set sharingId(value: string) {
     this._sharingId = value;
     console.log('sharingId changes to :', value)
+    if(value == '') return;
+    else this.setTemplateBySharingId(value);
   }
 
   get mode(): TemplateViewMod {
@@ -90,6 +95,7 @@ export class TemplateView2Component implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.whenModeChange(this.mode)
   }
 
 
@@ -155,7 +161,7 @@ export class TemplateView2Component implements OnInit {
   }
 
   setTemplateById(id: number) {
-    console.log('getTemplateById', id)
+    console.log('setTemplateById', id)
     this.beginLoading();
     this.templateService.getTemplateById(id).subscribe({
       next: (template) => {
@@ -166,7 +172,23 @@ export class TemplateView2Component implements OnInit {
       },
       error: () => {
         this.popupMessageService.showFailed("Couldn't load template!");
-        this.onSubmit.emit();
+        this.onError.emit();
+      },
+      complete: () => this.finishLoading()
+    });
+  }
+
+  private setTemplateBySharingId(sharingId: string) {
+    console.log('setTemplateBySharingId', sharingId);
+    this.beginLoading();
+    this.templateService.getTemplateBySharingId(sharingId).subscribe({
+      next: (template) => {
+        if (template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
+        this.form.patchValue({...template});
+      },
+      error:() => {
+        this.popupMessageService.showFailed("Couldn't load template!");
+        this.onError.emit();
       },
       complete: () => this.finishLoading()
     });
@@ -188,7 +210,7 @@ export class TemplateView2Component implements OnInit {
     this.beginLoading();
     this.templateService.saveTemplate(template).subscribe({
       next: () => {
-        this.onSubmit.emit();
+        this.onSuccess.emit();
         this.form.reset();
         this.popupMessageService.showSuccess('Template successfully updated!');
       },
@@ -208,7 +230,7 @@ export class TemplateView2Component implements OnInit {
     this.beginLoading();
     this.templateService.saveTemplate(template).subscribe({
       next: () => {
-        this.onSubmit.emit();
+        this.onSuccess.emit();
         this.form.reset();
         this.popupMessageService.showSuccess('Template successfully saved!');
       },
