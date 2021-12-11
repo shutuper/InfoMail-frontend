@@ -13,19 +13,13 @@ import {SharedEmailTemplateService} from "../../../service/shared-email-template
 })
 export class TemplateViewComponent implements OnInit {
 
-  @Output()
-  onSuccess: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
-  onError: EventEmitter<any> = new EventEmitter<any>();
-
   loading: boolean = false;    // show loading
+  SHARING_LINK: string = "http://localhost:4200/shared-templates/";
+  private templateCopy: EmailTemplate = {} as EmailTemplate;
+
   private _mode: TemplateViewMod = TemplateViewMod.READ;
   private _templateId: number = -1;
   private _sharingId: string = '';
-  private templateCopy: EmailTemplate = {} as EmailTemplate;
-
-  SHARING_LINK: string = "http://localhost:4200/shared-templates/";
 
   get templateId(): number {
     return this._templateId;
@@ -62,6 +56,12 @@ export class TemplateViewComponent implements OnInit {
     this.whenModeChange(value);
   }
 
+  @Output()
+  onSuccess: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  onError: EventEmitter<any> = new EventEmitter<any>();
+
   form: FormGroup = new FormGroup({
     userEmail: new FormControl(''),
     sharingLink: new FormControl(''),
@@ -82,7 +82,6 @@ export class TemplateViewComponent implements OnInit {
     minHeight: '200px',
     placeholder: "Template body"
   }
-
   readConfig: AngularEditorConfig = {
     showToolbar: false,
     editable: false,
@@ -98,27 +97,6 @@ export class TemplateViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.whenModeChange(this.mode)
-  }
-
-
-  copySharingLink() {
-    const sharingLink: string = this.form.value.sharingLink;
-    if(sharingLink == '' ) return;
-
-    console.log('sharingLink', sharingLink)
-
-    const listener = (e: ClipboardEvent) => {
-      // @ts-ignore
-      e.clipboardData.setData('text/plain', (sharingLink));
-      e.preventDefault();
-    };
-
-    document.addEventListener('copy', listener);
-    document.execCommand('copy');
-    document.removeEventListener('copy', listener);
-
-    this.popupMessageService.showSuccess('Sharing link copied to clipboard!');
-    console.log("share link copied to clipboard");
   }
 
   whenModeChange(mode: TemplateViewMod) {
@@ -141,10 +119,6 @@ export class TemplateViewComponent implements OnInit {
     }
   }
 
-  showValidity(controleName: string): boolean {
-    return this.form.controls[controleName].invalid && this.form.controls[controleName].dirty;
-  }
-
   isEditMode():boolean {
     return this.mode == TemplateViewMod.EDIT;
   }
@@ -160,44 +134,6 @@ export class TemplateViewComponent implements OnInit {
   restoreTemplate() {
     console.log('restoreTemplate')
     this.form.patchValue({...this.templateCopy});
-  }
-
-  setTemplateById(id: number) {
-    console.log('setTemplateById', id)
-    this.beginLoading();
-    this.templateService.getTemplateById(id).subscribe({
-      next: (template) => {
-        if (template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
-
-        this.templateCopy = {...template};
-        this.form.patchValue({...template});
-      },
-      error: () => {
-        this.popupMessageService.showFailed("Couldn't load template!");
-        this.onError.emit();
-      },
-      complete: () => this.finishLoading()
-    });
-  }
-
-  private setTemplateBySharingId(sharingId: string) {
-    console.log('setTemplateBySharingId', sharingId);
-    this.beginLoading();
-    this.sharedEmailTemplateService.getTemplateBySharingId(sharingId).subscribe({
-      next: (template) => {
-        if (template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
-        this.form.patchValue({...template});
-      },
-      error:() => {
-        this.popupMessageService.showFailed("Couldn't load template!");
-        this.onError.emit();
-      },
-      complete: () => this.finishLoading()
-    });
-  }
-
-  setFullLink(sharingId: string) {
-    return this.SHARING_LINK + sharingId;
   }
 
   updateTemplate() {
@@ -241,6 +177,30 @@ export class TemplateViewComponent implements OnInit {
     });
   }
 
+  copySharingLink() {
+    const sharingLink: string = this.form.value.sharingLink;
+    if(sharingLink == '' ) return;
+
+    console.log('sharingLink', sharingLink)
+
+    const listener = (e: ClipboardEvent) => {
+      // @ts-ignore
+      e.clipboardData.setData('text/plain', (sharingLink));
+      e.preventDefault();
+    };
+
+    document.addEventListener('copy', listener);
+    document.execCommand('copy');
+    document.removeEventListener('copy', listener);
+
+    this.popupMessageService.showSuccess('Sharing link copied to clipboard!');
+    console.log("share link copied to clipboard");
+  }
+
+  showValidity(controleName: string): boolean {
+    return this.form.controls[controleName].invalid && this.form.controls[controleName].dirty;
+  }
+
   private parseForm(): EmailTemplate {
     const emailTemplate = this.form.value;
     return {
@@ -248,6 +208,44 @@ export class TemplateViewComponent implements OnInit {
       body: emailTemplate.body,
       subject: emailTemplate.subject
     } as EmailTemplate;
+  }
+
+  private setTemplateById(id: number) {
+    console.log('setTemplateById', id)
+    this.beginLoading();
+    this.templateService.getTemplateById(id).subscribe({
+      next: (template) => {
+        if (template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
+
+        this.templateCopy = {...template};
+        this.form.patchValue({...template});
+      },
+      error: () => {
+        this.popupMessageService.showFailed("Couldn't load template!");
+        this.onError.emit();
+      },
+      complete: () => this.finishLoading()
+    });
+  }
+
+  private setTemplateBySharingId(sharingId: string) {
+    console.log('setTemplateBySharingId', sharingId);
+    this.beginLoading();
+    this.sharedEmailTemplateService.getTemplateBySharingId(sharingId).subscribe({
+      next: (template) => {
+        if (template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
+        this.form.patchValue({...template});
+      },
+      error:() => {
+        this.popupMessageService.showFailed("Couldn't load template!");
+        this.onError.emit();
+      },
+      complete: () => this.finishLoading()
+    });
+  }
+
+  private setFullLink(sharingId: string) {
+    return this.SHARING_LINK + sharingId;
   }
 
   private beginLoading() {
