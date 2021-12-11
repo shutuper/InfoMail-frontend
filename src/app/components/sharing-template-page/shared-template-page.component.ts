@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {UserEmailTemplateService} from "../../service/user-email-template.service";
 import {PopupMessageService} from "../../service/utils/popup-message.service";
+import {SharedEmailTemplateService} from "../../service/shared-email-template.service";
 
 @Component({
   selector: 'app-sharing-template-page',
@@ -13,7 +13,7 @@ export class SharedTemplatePageComponent implements OnInit {
   sharingId: string = "";
 
   constructor(
-    private templateService: UserEmailTemplateService,
+    private templateService: SharedEmailTemplateService,
     private popupMessageService: PopupMessageService,
     private route: ActivatedRoute,
     private router: Router

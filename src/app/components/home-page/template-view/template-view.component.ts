@@ -4,6 +4,7 @@ import {AngularEditorConfig} from "@kolkov/angular-editor";
 import {EmailTemplate} from "../../../model/email";
 import {UserEmailTemplateService} from "../../../service/user-email-template.service";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
+import {SharedEmailTemplateService} from "../../../service/shared-email-template.service";
 
 @Component({
   selector: 'app-template-view',
@@ -90,6 +91,7 @@ export class TemplateViewComponent implements OnInit {
   }
 
   constructor(
+    private sharedEmailTemplateService: SharedEmailTemplateService,
     private templateService: UserEmailTemplateService,
     private popupMessageService: PopupMessageService,
   ) { }
@@ -181,7 +183,7 @@ export class TemplateViewComponent implements OnInit {
   private setTemplateBySharingId(sharingId: string) {
     console.log('setTemplateBySharingId', sharingId);
     this.beginLoading();
-    this.templateService.getTemplateBySharingId(sharingId).subscribe({
+    this.sharedEmailTemplateService.getTemplateBySharingId(sharingId).subscribe({
       next: (template) => {
         if (template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
         this.form.patchValue({...template});

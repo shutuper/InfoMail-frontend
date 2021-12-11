@@ -65,6 +65,7 @@ import {DropdownModule} from "primeng/dropdown";
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import {TaskViewComponent} from './components/home-page/tasks/task-view/task-view.component';
 import {TemplateViewComponent} from './components/home-page/template-view/template-view.component';
+import {SharedEmailTemplateService} from "./service/shared-email-template.service";
 
 
 @NgModule({
@@ -141,6 +142,7 @@ import {TemplateViewComponent} from './components/home-page/template-view/templa
     PopupMessageService,
     UserEmailTemplateService,
     EmailTemplateService,
+    SharedEmailTemplateService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
