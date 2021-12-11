@@ -1,8 +1,8 @@
 <ng-template id="monospace" ngFor let-section [ngForOf]="sections">
 
   <div pRipple (click)="goTo(section.url)"
-       class="flex active:border-yellow-700 p-button hover:text-primary bg-primary-reverse
-        align-items-center font-medium text-xl h-3rem default-background text-white border-round mt-3 m-2">
+       class="flex active:border-yellow-400 p-button hover:text-primary bg-primary-reverse
+        align-items-center font-medium text-xl h-3rem text-white border-0 border-none border-left-3 shadow-4 mt-3 m-2">
     <i class="pi pi-angle-right"></i> {{section.name}}
   </div>
 
