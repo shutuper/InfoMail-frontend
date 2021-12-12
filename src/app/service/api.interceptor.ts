@@ -16,13 +16,13 @@ export class ApiInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     //put Authorization Token
     const authReq = req.clone({
-      headers: req.headers.set('Authorization', this.authService.getAuthToken()),
+      headers: req.headers.set('Authorization', this.authService.getAuthToken())
     });
     return next.handle(authReq).pipe(
       tap({
         error: (err: HttpErrorResponse) => {
-          console.log("intercept errr", err)
-          if (! err.status)
+          console.log("intercept error", err)
+          if (!err.status)
             this.openErrorPage("Can't connect to server");
           const statusCode: number = err.status;
 
