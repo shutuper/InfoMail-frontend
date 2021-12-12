@@ -4,6 +4,7 @@ import {Observable, tap} from "rxjs";
 import {AuthenticationService} from "./authentication.service";
 import {Router} from "@angular/router";
 import {PopupMessageService} from "./utils/popup-message.service";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
@@ -16,6 +17,7 @@ export class ApiInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     //put Authorization Token
     const authReq = req.clone({
+      url: environment.API_URL + this.getValidUrl(req.url),
       headers: req.headers.set('Authorization', this.authService.getAuthToken())
     });
     return next.handle(authReq).pipe(
@@ -75,4 +77,9 @@ export class ApiInterceptor implements HttpInterceptor {
     console.log("Navigate to Error page");
     this.router.navigate(['error']);
   }
+
+  getValidUrl(url: string) {
+    return url.startsWith("/") ? url : "/".concat(url);
+  }
+
 }
