@@ -90,6 +90,7 @@ export class NewEmailComponent implements OnInit {
     this.recipientsBCC = [];
     this.allRecipients = [];
     this.isSendNotNow = false;
+    this.emailForm.get('emailSchedule')?.disable()
   }
 
   beginLoading() {
