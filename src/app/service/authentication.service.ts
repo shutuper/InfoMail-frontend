@@ -35,7 +35,7 @@ export class AuthenticationService {
     return this.http.get<boolean>('/api/v1/users').pipe(tap(res => {
       let mes = res ? this.permitted : this.forbidden;
       console.log(mes);
-      if (!res) this.router.navigateByUrl('welcome');
+      if (!res) this.router.navigateByUrl('auth');
     }));
   }
 
