@@ -11,6 +11,6 @@ export class EmailService {
 
   public sendEmail(email: Email): Observable<Email> {
     return this.http
-      .post<Email>(`/api/v1/emails/`, email);
+      .post<Email>(`/api/v1/emails`, email);
   }
 }

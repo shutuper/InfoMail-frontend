@@ -268,7 +268,6 @@ export class NewEmailComponent implements OnInit {
       },
       error: () => {
         this.popupMessageService.showFailed("Selected email isn't loaded!");
-
       }, complete: () => this.enableSelect()
 
     })
