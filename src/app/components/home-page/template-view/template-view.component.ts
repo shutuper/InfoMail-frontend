@@ -14,7 +14,7 @@ import {SharedEmailTemplateService} from "../../../service/shared-email-template
 export class TemplateViewComponent implements OnInit {
 
   loading: boolean = false;    // show loading
-  SHARING_LINK: string = "http://localhost:4200/shared-templates/";
+  SHARING_LINK: string = "http://195.250.62.211:8027/#/shared-templates/";
   private templateCopy: EmailTemplate = {} as EmailTemplate;
 
   private _mode: TemplateViewMod = TemplateViewMod.READ;
