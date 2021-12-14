@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  API_URL: 'http://195.250.62.211:8028'
+  API_URL: 'http://localhost:8028',  // product api url
+  FRONT_URL: 'http://localhost:4200' // product front url
 };

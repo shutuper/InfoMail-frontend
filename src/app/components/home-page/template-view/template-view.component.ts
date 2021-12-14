@@ -5,6 +5,7 @@ import {EmailTemplate} from "../../../model/email";
 import {UserEmailTemplateService} from "../../../service/user-email-template.service";
 import {PopupMessageService} from "../../../service/utils/popup-message.service";
 import {SharedEmailTemplateService} from "../../../service/shared-email-template.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-template-view',
@@ -14,7 +15,7 @@ import {SharedEmailTemplateService} from "../../../service/shared-email-template
 export class TemplateViewComponent implements OnInit {
 
   loading: boolean = false;    // show loading
-  SHARING_LINK: string = "http://195.250.62.211:8027/#/shared-templates/";
+  SHARING_LINK: string = environment.FRONT_URL + "/#/shared-templates/";
   private templateCopy: EmailTemplate = {} as EmailTemplate;
 
   private _mode: TemplateViewMod = TemplateViewMod.READ;
