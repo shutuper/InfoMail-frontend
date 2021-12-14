@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {EmailTemplate, TemplateAsOption} from "../model/email";
+import {EmailTemplate, TemplateAsOption} from "../models/email";
 import {Observable} from "rxjs";
 
 @Injectable({providedIn: 'root'})

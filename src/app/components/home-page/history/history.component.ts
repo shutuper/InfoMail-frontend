@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ConfirmationService, LazyLoadEvent} from "primeng/api";
-import {HistoryService} from "../../../service/history.service";
-import {ExecutedEmail} from "../../../model/email";
-import {PopupMessageService} from "../../../service/utils/popup-message.service";
+import {HistoryService} from "../../../services/history.service";
+import {ExecutedEmail} from "../../../models/email";
+import {PopupMessageService} from "../../../services/utils/popup-message.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -57,12 +57,13 @@ export class HistoryComponent implements OnInit {
       next: (email: ExecutedEmail) => {
         // @ts-ignore
         this.emails.find(em => em.id === emailId).status = email.status;
+        this.finishLoading();
         this.popupMessageService.showSuccess("Successfully resent!");
       },
       error: () => {
+        this.finishLoading();
         this.popupMessageService.showFailed("Resending failed!");
-      },
-      complete: () => this.finishLoading()
+      }
     });
   }
 

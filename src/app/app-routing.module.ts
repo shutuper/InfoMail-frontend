@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {WelcomePageComponent} from "./components/welcome-page/welcome-page.component";
 import {HomePageComponent} from "./components/home-page/home-page.component";
 import {ErrorPageComponent} from "./components/error-page/error-page.component";
-import {AuthGuard} from "./service/auth-guard.service";
+import {AuthGuard} from "./services/auth-guard.service";
 import {TasksComponent} from "./components/home-page/tasks/tasks.component";
 import {HistoryComponent} from "./components/home-page/history/history.component";
 import {TemplatesComponent} from "./components/home-page/templates/templates.component";

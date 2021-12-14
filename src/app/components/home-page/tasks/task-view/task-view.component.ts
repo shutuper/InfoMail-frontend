@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {EmailWithTemplate, Recipient} from "../../../../model/email";
+import {Component, OnInit} from '@angular/core';
+import {EmailWithTemplate, Recipient} from "../../../../models/email";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
-import {PopupMessageService} from "../../../../service/utils/popup-message.service";
-import {HistoryService} from "../../../../service/history.service";
+import {PopupMessageService} from "../../../../services/utils/popup-message.service";
+import {HistoryService} from "../../../../services/history.service";
 import {ConfirmationService} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ScheduledTaskFull} from "../../../../model/scheduled-tasks";
-import {ScheduledTaskService} from "../../../../service/scheduled-task.service";
+import {ScheduledTaskFull} from "../../../../models/scheduled-tasks";
+import {ScheduledTaskService} from "../../../../services/scheduled-task.service";
 
 @Component({
   selector: 'app-task-view',

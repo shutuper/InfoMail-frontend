@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NgForm} from "@angular/forms";
-import {Email, Recipient, RecipientType, RepeatType} from "../../model/email";
-import {EmailService} from "../../service/email.service";
+import {Email, Recipient, RecipientType, RepeatType} from "../../models/email";
+import {EmailService} from "../../services/email.service";
 
 @Component({
   selector: 'app-email-form',

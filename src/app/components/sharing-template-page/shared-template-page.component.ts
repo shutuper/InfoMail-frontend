@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {PopupMessageService} from "../../service/utils/popup-message.service";
-import {SharedEmailTemplateService} from "../../service/shared-email-template.service";
+import {PopupMessageService} from "../../services/utils/popup-message.service";
+import {SharedEmailTemplateService} from "../../services/shared-email-template.service";
 
 @Component({
   selector: 'app-sharing-template-page',

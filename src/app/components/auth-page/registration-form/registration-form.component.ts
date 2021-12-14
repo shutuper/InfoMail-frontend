@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {User} from "../../../model/user";
-import {RegistrationService} from "../../../service/registration.service";
+import {User} from "../../../models/user";
+import {RegistrationService} from "../../../services/registration.service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {PopupMessageService} from "../../../service/utils/popup-message.service";
+import {PopupMessageService} from "../../../services/utils/popup-message.service";
 
 @Component({
   selector: 'app-registration-form',

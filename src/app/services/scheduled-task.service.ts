@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {PaginatedScheduledTasks, ScheduledTaskFull} from "../model/scheduled-tasks";
+import {PaginatedScheduledTasks, ScheduledTaskFull} from "../models/scheduled-tasks";
 import {Observable} from "rxjs";
 
 @Injectable({

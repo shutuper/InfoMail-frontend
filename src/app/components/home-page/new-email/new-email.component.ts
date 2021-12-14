@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {EmailService} from "../../../service/email.service";
+import {EmailService} from "../../../services/email.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Email, EmailSchedule, EmailTemplate, Recipient, RecipientType, TemplateAsOption} from "../../../model/email";
-import {PopupMessageService} from "../../../service/utils/popup-message.service";
-import {UserEmailTemplateService} from "../../../service/user-email-template.service";
+import {Email, EmailSchedule, EmailTemplate, Recipient, RecipientType, TemplateAsOption} from "../../../models/email";
+import {PopupMessageService} from "../../../services/utils/popup-message.service";
+import {UserEmailTemplateService} from "../../../services/user-email-template.service";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
 
 @Component({

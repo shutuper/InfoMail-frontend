@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {PopupMessageService} from "../../../../service/utils/popup-message.service";
+import {PopupMessageService} from "../../../../services/utils/popup-message.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {HistoryService} from "../../../../service/history.service";
-import {EmailWithTemplate, ExecutedEmail, Recipient, RecipientType} from "../../../../model/email";
+import {HistoryService} from "../../../../services/history.service";
+import {EmailWithTemplate, Recipient} from "../../../../models/email";
 import {ConfirmationService} from "primeng/api";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
 

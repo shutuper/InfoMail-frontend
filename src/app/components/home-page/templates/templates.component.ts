@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {EmailTemplate} from "../../../model/email";
-import {UserEmailTemplateService} from "../../../service/user-email-template.service";
-import {PopupMessageService} from "../../../service/utils/popup-message.service";
+import {EmailTemplate} from "../../../models/email";
+import {UserEmailTemplateService} from "../../../services/user-email-template.service";
+import {PopupMessageService} from "../../../services/utils/popup-message.service";
 import {ConfirmationService, LazyLoadEvent} from "primeng/api";
 import {TemplateViewMod} from "../template-view/template-view.component";
 

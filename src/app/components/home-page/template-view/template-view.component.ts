@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
-import {EmailTemplate} from "../../../model/email";
-import {UserEmailTemplateService} from "../../../service/user-email-template.service";
-import {PopupMessageService} from "../../../service/utils/popup-message.service";
-import {SharedEmailTemplateService} from "../../../service/shared-email-template.service";
+import {EmailTemplate} from "../../../models/email";
+import {UserEmailTemplateService} from "../../../services/user-email-template.service";
+import {PopupMessageService} from "../../../services/utils/popup-message.service";
+import {SharedEmailTemplateService} from "../../../services/shared-email-template.service";
 import {environment} from "../../../../environments/environment";
 
 @Component({

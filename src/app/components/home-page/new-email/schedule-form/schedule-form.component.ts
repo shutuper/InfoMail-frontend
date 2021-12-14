@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {RepeatType, RepeatTypeAsOption} from "../../../../model/email";
+import {RepeatType, RepeatTypeAsOption} from "../../../../models/email";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
 
 @Component({

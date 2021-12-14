@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {PopupMessageService} from "../../../service/utils/popup-message.service";
+import {PopupMessageService} from "../../../services/utils/popup-message.service";
 import {ConfirmationService, LazyLoadEvent} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ScheduledTaskService} from "../../../service/scheduled-task.service";
-import {PaginatedScheduledTasks, ScheduledTask} from "../../../model/scheduled-tasks";
-import {TableCheckbox, TableHeaderCheckbox} from "primeng/table";
+import {ScheduledTaskService} from "../../../services/scheduled-task.service";
+import {PaginatedScheduledTasks, ScheduledTask} from "../../../models/scheduled-tasks";
 
 @Component({
   selector: 'app-tasks',
