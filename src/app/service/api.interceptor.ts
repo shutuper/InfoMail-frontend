@@ -37,10 +37,6 @@ export class ApiInterceptor implements HttpInterceptor {
               this.openErrorPage("Can't find page");
               break;
             }
-            case 500 | 501 | 502: {
-              this.openErrorPage("Internal Server Error");
-              break;
-            }
             case 503: {
               this.openErrorPage("Can't connect to server");
               break;
