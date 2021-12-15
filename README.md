@@ -3,8 +3,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.1.
 
-## Back-end part of the project
-Here is the back-end part of our project: [infomail-back](https://github.com/shutuper/InfoMail).
+### Project presentation
+[infomail-presentation  ](https://docs.google.com/presentation/d/1b3__UhovdmZHmPkEundb0FxifjXbJPbz/edit?usp=sharing&ouid=100645824107772636818&rtpof=true&sd=true)
+
+### Back-end part of the project
+[infomail-back](https://github.com/shutuper/InfoMail).
 
 ## Development server
 
