@@ -12,13 +12,13 @@
 
       <div class="p-field grid" *ngIf="isReadMode()">
         <div class="col-4">
-          <label for="template-owner" class="p-2">Creator</label>
+          <label for="template-owner" class="p-2 text-xl block">Creator</label>
           <input type="text" pInputText id="template-owner"
                  placeholder="Template owner"
                  formControlName="userEmail">
         </div>
         <div class="col-offset-2 col-6">
-          <label for="sharingLink" class="p-2">Sharing link</label>
+          <label for="sharingLink" class="p-2 text-xl block">Sharing link</label>
           <div class="p-inputgroup">
             <input type="text" pInputText id="sharingLink"
                    placeholder="Template sharingLink"
@@ -29,7 +29,7 @@
       </div>
 
       <div class="p-field mt-2">
-        <label for="template-name" class="p-2">Name</label>
+        <label for="template-name" class="p-2 text-xl block">Name</label>
         <input type="text" id="template-name"
                pInputText
                placeholder="Template name"
@@ -41,7 +41,7 @@
       </div>
 
       <div class="p-field mt-2">
-        <label for="template-subject" class="p-2">Subject</label>
+        <label for="template-subject" class="p-2 text-xl block">Subject</label>
         <input type="text" id="template-subject"
                pInputText
                placeholder="Template subject"
@@ -53,7 +53,7 @@
       </div>
 
       <div class="p-field mt-2">
-        <label class="p-2">Body</label>
+        <label class="p-2 text-xl block">Body</label>
         <div *ngIf="isReadMode(); then read else edit"></div>
 
         <ng-template #read>

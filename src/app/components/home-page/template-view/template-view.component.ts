@@ -30,7 +30,7 @@ export class TemplateViewComponent implements OnInit {
   set templateId(value: number) {
     this._templateId = value;
     console.log('templateId changes to :', value)
-    if(value == -1) return;
+    if (value == -1) return;
     else this.setTemplateById(value);
   }
 
@@ -42,7 +42,7 @@ export class TemplateViewComponent implements OnInit {
   set sharingId(value: string) {
     this._sharingId = value;
     console.log('sharingId changes to :', value)
-    if(value == '') return;
+    if (value == '') return;
     else this.setTemplateBySharingId(value);
   }
 
@@ -71,11 +71,25 @@ export class TemplateViewComponent implements OnInit {
     subject: new FormControl('', [Validators.required]),
   });
 
-  get userEmail() { return this.form.get('userEmail'); }
-  get sharingLink() { return this.form.get('sharingLink'); }
-  get name() { return this.form.get('name'); }
-  get body() { return this.form.get('body'); }
-  get subject() { return this.form.get('subject'); }
+  get userEmail() {
+    return this.form.get('userEmail');
+  }
+
+  get sharingLink() {
+    return this.form.get('sharingLink');
+  }
+
+  get name() {
+    return this.form.get('name');
+  }
+
+  get body() {
+    return this.form.get('body');
+  }
+
+  get subject() {
+    return this.form.get('subject');
+  }
 
   editConfig: AngularEditorConfig = {
     showToolbar: true,
@@ -94,7 +108,8 @@ export class TemplateViewComponent implements OnInit {
     private sharedEmailTemplateService: SharedEmailTemplateService,
     private templateService: UserEmailTemplateService,
     private popupMessageService: PopupMessageService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.whenModeChange(this.mode)
@@ -120,15 +135,15 @@ export class TemplateViewComponent implements OnInit {
     }
   }
 
-  isEditMode():boolean {
+  isEditMode(): boolean {
     return this.mode == TemplateViewMod.EDIT;
   }
 
-  isReadMode():boolean {
+  isReadMode(): boolean {
     return this.mode == TemplateViewMod.READ;
   }
 
-  isCreateNewMode():boolean {
+  isCreateNewMode(): boolean {
     return this.mode == TemplateViewMod.NEW;
   }
 
@@ -158,7 +173,7 @@ export class TemplateViewComponent implements OnInit {
     });
   }
 
-  saveTemplate():void {
+  saveTemplate(): void {
     if (this.form.invalid) {
       this.popupMessageService.showFailed('Template invalid!');
       return;
@@ -180,7 +195,7 @@ export class TemplateViewComponent implements OnInit {
 
   copySharingLink() {
     const sharingLink: string = this.form.value.sharingLink;
-    if(sharingLink == '' ) return;
+    if (sharingLink == '') return;
 
     console.log('sharingLink', sharingLink)
 
@@ -237,7 +252,7 @@ export class TemplateViewComponent implements OnInit {
         if (template.sharingLink) template.sharingLink = this.setFullLink(template.sharingLink);
         this.form.patchValue({...template});
       },
-      error:() => {
+      error: () => {
         this.popupMessageService.showFailed("Couldn't load template!");
         this.onError.emit();
       },

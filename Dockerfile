@@ -11,12 +11,13 @@ RUN npm install --force && npm run build
 
 # Use official nginx image as the base image
 FROM nginx:latest
-# Set the working directory to nginx asset directory
-WORKDIR /usr/share/nginx/html
+
 # Remove defoult nginx static assets
-RUN rm -rf ./*
+RUN rm -rf /usr/share/nginx/html/*
 # Copy the static assets from builder stage
-COPY --from=builder /app/dist/infomail-frontend .
+COPY --from=builder /app/dist/infomail-frontend /usr/share/nginx/html
+
+WORKDIR /usr/share/nginx/html
 # Contatiners run nginx with global directives and daemon off
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
